@@ -1,0 +1,25 @@
+{
+   "type": "postgres",
+   "host": "192.168.101.197",
+   "port": 5433,
+   "username": "diplom",
+   "password": "diplom",
+   "database": "diplom",
+   "migrationsTableName": "migrations",
+   "synchronize": false,
+   "logging": false,
+   "entities": [
+      "src/entity/**/*.ts"
+   ],
+   "migrations": [
+      "src/migration/**/*.ts"
+   ],
+   "subscribers": [
+      "src/subscriber/**/*.ts"
+   ],
+   "cli": {
+      "entitiesDir": "src/entity",
+      "migrationsDir": "src/migration",
+      "subscribersDir": "src/subscriber"
+   }
+}

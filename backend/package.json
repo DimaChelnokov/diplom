@@ -2,7 +2,7 @@
    "name": "diplom-backend",
    "version": "0.0.1",
    "description": "",
-   "author": "",
+   "author": "Dmitriy Chelnokov",
    "license": "MIT",
    "scripts": {
       "prebuild": "rimraf dist",

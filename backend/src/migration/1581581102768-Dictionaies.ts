@@ -2,11 +2,10 @@ import {MigrationInterface, QueryRunner} from "typeorm";
 
 // npm install -g ts-node
 // ts-node ./node_modules/typeorm/cli.js migration:run
+// ts-node ./node_modules/typeorm/cli.js migration:revert
 export class Dictionaies1581581102768 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
-        await queryRunner.query(`insert into event_types(id, name) values(1, 'Авторизация')`);
-
         await queryRunner.query(`insert into user_roles(id, name) values(1, 'Преподаватель')`);
         await queryRunner.query(`insert into user_roles(id, name) values(2, 'Студент')`);
 
@@ -48,7 +47,6 @@ export class Dictionaies1581581102768 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {
-        await queryRunner.query(`delete from event_types`);
         await queryRunner.query(`delete from user_roles`);
         await queryRunner.query(`delete from detail_statuses`);
         await queryRunner.query(`delete from grade_kinds`);

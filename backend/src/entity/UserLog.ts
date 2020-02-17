@@ -17,4 +17,7 @@ export class user_log {
 
     @Column()
     event_date: Date;
+
+    @Column({ nullable: true })
+    details: string;
 }

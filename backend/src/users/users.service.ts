@@ -28,7 +28,7 @@ export class UsersService {
         connection.close();
         return list;
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
 

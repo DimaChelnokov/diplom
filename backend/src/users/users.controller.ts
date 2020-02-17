@@ -8,20 +8,20 @@ export class UsersController {
     constructor(private service: UsersService) {}
 
     @Get()
-    async findAll(@Res() res): Promise<any[]> {
-        const users = await this.service.findAll();
-        return res.status(HttpStatus.OK).json(users);
+    async findAll(@Res() res): Promise<User[]> {
+        const x = await this.service.findAll();
+        return res.status(HttpStatus.OK).json(x);
     }
 
     @Get(':id')
-    async findOne(@Res() res, @Param('id') id): Promise<any> {
-        const user = await this.service.findOne(id);
-        return res.status(HttpStatus.OK).json(user);
+    async findOne(@Res() res, @Param('id') id): Promise<User> {
+        const x = await this.service.findOne(id);
+        return res.status(HttpStatus.OK).json(x);
     }
 
     @Post()
-    create(@Body() user: User) {
-        this.service.create(user);
-        return user;
+    async create(@Body() x: User): Promise<User> {
+        this.service.create(x);
+        return x;
     }
 }

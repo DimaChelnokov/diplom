@@ -10,13 +10,6 @@ export class tasks {
 
     @Index()
     @Column({ nullable: false })
-    group_id: number;
-    @ManyToOne(type => groups)
-    @JoinColumn({ name: "group_id" })
-    group: groups;
-
-    @Index()
-    @Column({ nullable: false })
     created_by: number;
     @ManyToOne(type => users)
     @JoinColumn({ name: "created_by" })
@@ -39,10 +32,4 @@ export class tasks {
 
     @Column()
     created: Date;
-
-    @Column({ nullable: true })
-    scheduled: Date;
-    
-    @Column({ nullable: true })
-    planned: Date;
 }

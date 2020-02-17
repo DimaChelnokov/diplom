@@ -38,8 +38,5 @@ export class task_grade {
     note: string;
 
     @Column()
-    graded: Date;
-
-    @Column({ nullable: true })
     changed: Date;
 }

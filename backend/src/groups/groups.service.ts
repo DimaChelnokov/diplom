@@ -76,4 +76,51 @@ export class GroupsService {
             console.error(error);
           }
     }
+
+    async update(x: GroupType): Promise<GroupType> {
+        try {
+            let r = x;
+            const connection = await createConnection();
+            try {
+                if (x.id) {
+                    r = await this.findOne(x.id);
+                    await connection.getRepository(groups)
+                    .createQueryBuilder("groups")
+                    .update(groups)
+                    .set({ 
+                        name: x.name, 
+                        date_to: x.deleted
+                    })
+                    .where("groups.id = :id", {id: x.id})
+                    .execute();
+                    r.name = x.name;
+                    r.deleted = x.deleted;
+                    connection.close();
+                    return r;
+                } else {
+                    let y = await connection.getRepository(groups)
+                    .createQueryBuilder("groups")
+                    .insert()
+                    .into(groups)
+                    .values({
+                        name: x.name, 
+                        date_from: new Date()
+                    })
+                    .returning('*')
+                    .execute();
+                    console.log(y);
+                    r.id = y.generatedMaps[0].id.toString();
+                    connection.close();
+                    return r;
+                }
+            } catch (error) {
+//                connection.close();
+                console.error(error);
+            }
+//            connection.close();
+//            return r;
+        } catch (error) {
+            console.error(error);
+        }
+    }
 }

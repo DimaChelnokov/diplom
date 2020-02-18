@@ -15,19 +15,27 @@ export class GroupsController {
 
     @Get(':id')
     async findOne(@Res() res, @Param('id') id): Promise<GroupType> {
-        const x = await this.service.findOne(id);
-        return res.status(HttpStatus.OK).json(x);
+        try {
+            const x = await this.service.findOne(id);
+            return res.status(HttpStatus.OK).json(x);
+        } catch (error) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error);
+        }
+    }
+
+    @Post()
+    async create(@Res() res, @Body() x: GroupType): Promise<GroupType> {
+        try {
+            const r = await this.service.update(x);
+            return res.status(HttpStatus.OK).json(r);
+        } catch (error) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(error);
+        }
     }
 
     @Delete(':id')
     async delete(@Res() res, @Param('id') id): Promise<GroupType> {
         const x = await this.service.delete(id);
         return res.status(HttpStatus.OK).json(x);
-    }
-
-    @Post()
-    async create(@Body() x: GroupType): Promise<GroupType> {
-        this.service.update(x);
-        return x;
     }
 }

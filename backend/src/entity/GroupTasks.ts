@@ -22,7 +22,4 @@ export class group_tasks {
 
     @Column()
     created: Date;
-
-    @Column()
-    scheduled: Date;
 }

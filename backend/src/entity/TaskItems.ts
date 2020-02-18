@@ -25,7 +25,4 @@ export class task_items {
 
     @Column()
     is_correct: boolean;
-
-    @Column()
-    order_num: number;
 }

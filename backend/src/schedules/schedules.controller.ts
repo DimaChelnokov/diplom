@@ -1,14 +1,14 @@
 import { Controller, Get, Res, HttpStatus } from '@nestjs/common';
-import { ItemtypesService } from './itemtypes.service';
-import { ItemtypeType } from '../interfaces/itemtype.interface';
+import { ScheduleType } from '../interfaces/schedule.interface';
+import { SchedulesService } from './schedules.service';
 
-@Controller('itemtypes')
-export class ItemtypesController {
+@Controller('schedules')
+export class SchedulesController {
 
-    constructor(private service: ItemtypesService) {}
+    constructor(private service: SchedulesService) {}
 
     @Get()
-    async findAll(@Res() res): Promise<ItemtypeType[]> {
+    async findAll(@Res() res): Promise<ScheduleType[]> {
         try {
             const x = await this.service.findAll();
             return res.status(HttpStatus.OK).json(x);

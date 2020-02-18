@@ -30,7 +30,4 @@ export class grade_rules {
 
     @Column()
     total_num: number;
-
-    @Column()
-    order_num: number;
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, HttpStatus } from '@nestjs/common';
 import {createConnection} from "typeorm";
 import { TemplateType } from '../interfaces/template.interface';
 import { task_templates } from '../entity/TaskTemplates';
@@ -6,7 +6,6 @@ import { task_templates } from '../entity/TaskTemplates';
 @Injectable()
 export class TemplatesService {
     async findAll(): Promise<TemplateType[]> {
-      try {
         const connection = await createConnection();
         try {
           const u = await connection.manager.find(task_templates);
@@ -22,9 +21,10 @@ export class TemplatesService {
         } catch (error) {
           connection.close();
           console.error(error);
-        }
-      } catch (error) {
-        console.error(error);
+          throw new InternalServerErrorException({
+            status: HttpStatus.BAD_REQUEST,
+            error: error
+        });
       }
-}
+    }
 }

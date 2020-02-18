@@ -19,7 +19,4 @@ export class template_items {
     @ManyToOne(type => item_types)
     @JoinColumn({ name: "type_id" })
     itemType: item_types;
-
-    @Column()
-    order_num: number;
 }

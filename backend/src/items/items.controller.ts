@@ -1,14 +1,14 @@
-import { Controller, Get, Res, HttpStatus, Param, Delete, Post, Body, Put } from '@nestjs/common';
-import { GroupsService } from './groups.service';
-import { GroupType } from '../interfaces/group.interface';
+import { Controller, Get, Res, HttpStatus, Param, Post, Body, Delete } from '@nestjs/common';
+import { ItemsService } from './items.service';
+import { ItemType } from '../interfaces/item.interface';
 
-@Controller('groups')
-export class GroupsController {
+@Controller('items')
+export class ItemsController {
 
-    constructor(private service: GroupsService) {}
+    constructor(private service: ItemsService) {}
 
     @Get()
-    async findAll(@Res() res): Promise<GroupType[]> {
+    async findAll(@Res() res): Promise<ItemType[]> {
         try {
             const x = await this.service.findAll();
             return res.status(HttpStatus.OK).json(x);
@@ -18,9 +18,9 @@ export class GroupsController {
     }
 
     @Get(':id')
-    async findOne(@Res() res, @Param('id') id): Promise<GroupType> {
+    async findTopic(@Res() res, @Param('id') id): Promise<ItemType[]> {
         try {
-            const x = await this.service.findOne(id);
+            const x = await this.service.findTopics(id);
             return res.status(HttpStatus.OK).json(x);
         } catch (e) {
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
@@ -28,9 +28,9 @@ export class GroupsController {
     }
 
     @Post()
-    async create(@Res() res, @Body() x: GroupType): Promise<GroupType> {
+    async create(@Res() res, @Body() x: ItemType): Promise<ItemType> {
         try {
-            const r = await this.service.update(x);
+            const r = await this.service.create(x);
             return res.status(HttpStatus.OK).json(r);
         } catch (e) {
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
@@ -38,7 +38,7 @@ export class GroupsController {
     }
 
     @Delete(':id')
-    async delete(@Res() res, @Param('id') id): Promise<GroupType> {
+    async delete(@Res() res, @Param('id') id): Promise<ItemType> {
         try {
             const x = await this.service.delete(id);
             return res.status(HttpStatus.OK).json(x);

@@ -19,7 +19,4 @@ export class task_topics {
     @ManyToOne(type => task_templates)
     @JoinColumn({ name: "template_id" })
     template: task_templates;
-
-    @Column()
-    order_num: number;
 }

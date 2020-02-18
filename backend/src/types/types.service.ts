@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, HttpStatus } from '@nestjs/common';
 import {createConnection} from "typeorm";
 import { Type } from '../interfaces/type.interface';
 import { task_types } from '../entity/TaskTypes';
@@ -6,7 +6,6 @@ import { task_types } from '../entity/TaskTypes';
 @Injectable()
 export class TypesService {
     async findAll(): Promise<Type[]> {
-      try {
         const connection = await createConnection();
         try {
           const u = await connection.manager.find(task_types);
@@ -21,9 +20,10 @@ export class TypesService {
         } catch(error) {
           connection.close();
           console.error(error);
+          throw new InternalServerErrorException({
+            status: HttpStatus.BAD_REQUEST,
+            error: error
+          });
         }
-      } catch (error) {
-        console.error(error);
-      }
     }
 }

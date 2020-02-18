@@ -1,4 +1,4 @@
-import { Controller, Get, Res, HttpStatus, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Res, HttpStatus, Param, Delete, Post, Body, Put } from '@nestjs/common';
 import { GroupsService } from './groups.service';
 import { GroupType } from '../interfaces/group.interface';
 
@@ -23,5 +23,11 @@ export class GroupsController {
     async delete(@Res() res, @Param('id') id): Promise<GroupType> {
         const x = await this.service.delete(id);
         return res.status(HttpStatus.OK).json(x);
+    }
+
+    @Post()
+    async create(@Body() x: GroupType): Promise<GroupType> {
+        this.service.update(x);
+        return x;
     }
 }

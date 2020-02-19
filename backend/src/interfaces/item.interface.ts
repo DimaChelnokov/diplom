@@ -1,7 +1,19 @@
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+
 export class ItemType {
-    id: string;
-    topic_id: string;
-    item_id: string;
+
+    @ApiPropertyOptional()
+    id: number;
+
+    @ApiProperty()
+    topic_id: number;
+
+    @ApiProperty()
+    item_id: number;
+
+    @ApiProperty()
     text: string;
-    is_correct: string;
+
+    @ApiProperty()
+    is_correct: boolean;
 }

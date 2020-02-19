@@ -1,6 +1,7 @@
 import { Controller, Get, Res, HttpStatus, Param, Delete, Post, Body, Put } from '@nestjs/common';
 import { GroupsService } from './groups.service';
 import { GroupType } from '../interfaces/group.interface';
+import { ApiBody, ApiOkResponse, ApiInternalServerErrorResponse, ApiParam } from '@nestjs/swagger';
 
 @Controller('groups')
 export class GroupsController {
@@ -8,6 +9,8 @@ export class GroupsController {
     constructor(private service: GroupsService) {}
 
     @Get()
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findAll(@Res() res): Promise<GroupType[]> {
         try {
             const x = await this.service.findAll();
@@ -18,6 +21,9 @@ export class GroupsController {
     }
 
     @Get(':id')
+    @ApiParam({ name: 'id', type: 'number', description: 'Group ID', required: true})
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findOne(@Res() res, @Param('id') id): Promise<GroupType> {
         try {
             const x = await this.service.findOne(id);
@@ -28,6 +34,9 @@ export class GroupsController {
     }
 
     @Post()
+    @ApiBody({ type: [GroupType] })
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async create(@Res() res, @Body() x: GroupType): Promise<GroupType> {
         try {
             const r = await this.service.update(x);
@@ -38,6 +47,9 @@ export class GroupsController {
     }
 
     @Delete(':id')
+    @ApiParam({ name: 'id', type: 'number', description: 'Group ID', required: true})
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async delete(@Res() res, @Param('id') id): Promise<GroupType> {
         try {
             const x = await this.service.delete(id);

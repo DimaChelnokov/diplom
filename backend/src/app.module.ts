@@ -11,10 +11,11 @@ import { TopicsModule } from './topics/topics.module';
 import { ItemsModule } from './items/items.module';
 import { TasksModule } from './tasks/tasks.module';
 import { SchedulesModule } from './schedules/schedules.module';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   controllers: [AppController],
   providers: [AppService],
-  imports: [UsersModule, GroupsModule, TypesModule, ItemtypesModule, GradesModule, TemplatesModule, TopicsModule, ItemsModule, TasksModule, SchedulesModule],
+  imports: [UsersModule, GroupsModule, TypesModule, ItemtypesModule, GradesModule, TemplatesModule, TopicsModule, ItemsModule, TasksModule, SchedulesModule, DatabaseModule],
 })
 export class AppModule {}

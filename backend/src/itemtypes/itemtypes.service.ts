@@ -11,7 +11,7 @@ export class ItemtypesService {
           const u = await connection.manager.find(item_types);
           let list: ItemtypeType[] = u.map(x => {
               let it = new ItemtypeType();
-              it.id = x.id.toString();
+              it.id = x.id;
               it.name = x.name;
               return it;
           });

@@ -1,6 +1,7 @@
 import { Controller, Get, Res, HttpStatus, Param, Post, Body, Delete } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { TaskType } from '../interfaces/task.interface';
+import { ApiBody, ApiOkResponse, ApiInternalServerErrorResponse, ApiParam } from '@nestjs/swagger';
 
 @Controller('tasks')
 export class TasksController {
@@ -8,6 +9,8 @@ export class TasksController {
     constructor(private service: TasksService) {}
 
     @Get()
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findAll(@Res() res): Promise<TaskType[]> {
         try {
             const x = await this.service.findAll();
@@ -18,6 +21,9 @@ export class TasksController {
     }
 
     @Get(':id')
+    @ApiParam({ name: 'id', type: 'number', description: 'Task ID', required: true})
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findOne(@Res() res, @Param('id') id): Promise<TaskType> {
         try {
             const x = await this.service.findOne(id);
@@ -28,6 +34,9 @@ export class TasksController {
     }
 
     @Post()
+    @ApiBody({ type: [TaskType] })
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async create(@Res() res, @Body() x: TaskType): Promise<TaskType> {
         try {
             const r = await this.service.create(x);
@@ -38,6 +47,9 @@ export class TasksController {
     }
 
     @Delete(':id')
+    @ApiParam({ name: 'id', type: 'number', description: 'Task ID', required: true})
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async delete(@Res() res, @Param('id') id): Promise<TaskType> {
         try {
             const x = await this.service.delete(id);

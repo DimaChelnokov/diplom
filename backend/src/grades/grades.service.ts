@@ -11,8 +11,8 @@ export class GradesService {
       const u = await connection.manager.find(grades);
       let list: GradeType[] = u.map(x => {
           let it = new GradeType();
-          it.id = x.id.toString();
-          it.type_id = x.type_id.toString();
+          it.id = x.id;
+          it.type_id = x.type_id;
           it.name = x.name;
           return it;
       });

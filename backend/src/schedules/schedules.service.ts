@@ -13,10 +13,10 @@ export class SchedulesService {
                 .getMany();
                 let list: ScheduleType[] = l.map(x => {
                     let it = new ScheduleType();
-                    it.id = x.id.toString();
-                    it.task_id = x.task_id.toString();
-                    it.group_id = x.group_id.toString();
-                    it.created = x.created.toString();
+                    it.id = x.id;
+                    it.task_id = x.task_id;
+                    it.group_id = x.group_id;
+                    it.created = x.created;
                     return it;
                 });
                 connection.close();

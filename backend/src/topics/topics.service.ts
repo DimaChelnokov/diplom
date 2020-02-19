@@ -14,9 +14,9 @@ export class TopicsService {
                 .getMany();
                 let list: TopicType[] = l.map(x => {
                     let it = new TopicType();
-                    it.id = x.id.toString();
-                    it.task_id = x.task_id.toString();
-                    it.template_id = x.template_id.toString();
+                    it.id = x.id;
+                    it.task_id = x.task_id;
+                    it.template_id = x.template_id;
                     return it;
                 });
                 connection.close();
@@ -41,9 +41,9 @@ export class TopicsService {
                 .getMany();
                 let list: TopicType[] = l.map(x => {
                     let it = new TopicType();
-                    it.id = x.id.toString();
-                    it.task_id = x.task_id.toString();
-                    it.template_id = x.template_id.toString();
+                    it.id = x.id;
+                    it.task_id = x.task_id;
+                    it.template_id = x.template_id;
                     return it;
                 });
                 connection.close();
@@ -66,8 +66,8 @@ export class TopicsService {
                 .insert()
                 .into(task_topics)
                 .values({
-                    task_id: Number(x.task_id),
-                    template_id: Number(x.template_id)
+                    task_id: x.task_id,
+                    template_id: x.template_id
                 })
                 .returning('*')
                 .execute();

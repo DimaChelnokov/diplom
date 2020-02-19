@@ -14,11 +14,11 @@ export class ItemsService {
             .getMany();
             let list: ItemType[] = l.map(x => {
                 let it = new ItemType();
-                it.id = x.id.toString();
-                it.topic_id = x.topic_id.toString();
-                it.item_id = x.item_id.toString();
+                it.id = x.id;
+                it.topic_id = x.topic_id;
+                it.item_id = x.item_id;
                 it.text = x.txt;
-                it.is_correct = x.is_correct ? 'true' : 'false';
+                it.is_correct = x.is_correct;
                 return it;
             });
             connection.close();
@@ -33,7 +33,7 @@ export class ItemsService {
         }
     }
 
-    async findTopics(id: string): Promise<ItemType[]> {
+    async findTopics(id: number): Promise<ItemType[]> {
         const connection = await createConnection();
         try {
             const l = await connection.getRepository(task_items)
@@ -43,11 +43,11 @@ export class ItemsService {
             .getMany();
             let list: ItemType[] = l.map(x => {
                 let it = new ItemType();
-                it.id = x.id.toString();
-                it.topic_id = x.topic_id.toString();
-                it.item_id = x.item_id.toString();
+                it.id = x.id;
+                it.topic_id = x.topic_id;
+                it.item_id = x.item_id;
                 it.text = x.txt;
-                it.is_correct = x.is_correct ? 'true' : 'false';
+                it.is_correct = x.is_correct;
                 return it;
             });
             connection.close();
@@ -70,10 +70,10 @@ export class ItemsService {
             .insert()
             .into(task_items)
             .values({
-                topic_id: Number(x.topic_id),
-                item_id: Number(x.item_id),
+                topic_id: x.topic_id,
+                item_id: x.item_id,
                 txt: x.text,
-                is_correct: x.is_correct == 'true'
+                is_correct: x.is_correct
             })
             .returning('*')
             .execute();

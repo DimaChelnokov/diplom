@@ -14,12 +14,12 @@ export class TasksService {
                 .getMany();
                 let list: TaskType[] = l.map(x => {
                     let it = new TaskType();
-                    it.id = x.id.toString();
-                    it.type_id = x.type_id.toString();
+                    it.id = x.id;
+                    it.type_id = x.type_id;
                     it.name = x.name;
-                    it.created_by = x.created_by.toString();
-                    it.gradetype_id = x.gradetype_id.toString();
-                    it.created = x.created.toString();
+                    it.created_by = x.created_by;
+                    it.gradetype_id = x.gradetype_id;
+                    it.created = x.created;
                     return it;
                 });
                 connection.close();
@@ -42,12 +42,12 @@ export class TasksService {
                 .where("tasks.id = :id", {id: id})
                 .getOne();
                 let it = new TaskType();
-                it.id = x.id.toString();
-                it.type_id = x.type_id.toString();
+                it.id = x.id;
+                it.type_id = x.type_id;
                 it.name = x.name;
-                it.created_by = x.created_by.toString();
-                it.gradetype_id = x.gradetype_id.toString();
-                it.created = x.created.toString();
+                it.created_by = x.created_by;
+                it.gradetype_id = x.gradetype_id;
+                it.created = x.created;
                 connection.close();
                 return it;
             } catch(error) {
@@ -68,10 +68,10 @@ export class TasksService {
                 .insert()
                 .into(tasks)
                 .values({
-                    type_id: Number(x.type_id),
+                    type_id: x.type_id,
                     name: x.name,
-                    created_by: Number(x.created_by),
-                    gradetype_id: Number(x.gradetype_id),
+                    created_by: x.created_by,
+                    gradetype_id: x.gradetype_id,
                     created: new Date()
                 })
                 .returning('*')

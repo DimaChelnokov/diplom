@@ -11,8 +11,8 @@ export class TemplatesService {
           const u = await connection.manager.find(task_templates);
           let list: TemplateType[] = u.map(x => {
               let it = new TemplateType();
-              it.id = x.id.toString();
-              it.type_id = x.type_id.toString();
+              it.id = x.id;
+              it.type_id = x.type_id;
               it.name = x.name;
               return it;
           });

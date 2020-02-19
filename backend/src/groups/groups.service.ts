@@ -1,29 +1,30 @@
-import { Injectable, InternalServerErrorException, HttpStatus } from '@nestjs/common';
-import {createConnection} from "typeorm";
+import { Injectable, InternalServerErrorException, HttpStatus, Inject } from '@nestjs/common';
+import {createConnection, Repository} from "typeorm";
 import { GroupType } from '../interfaces/group.interface';
 import { groups } from '../entity/Groups';
 
 @Injectable()
 export class GroupsService {
 
+    constructor(
+        @Inject('GROUP_REPOSITORY')
+        private readonly service: Repository<groups>,
+    ) {}  
+
     async findAll(): Promise<GroupType[]> {
-        const connection = await createConnection();
         try {
-            const l = await connection.getRepository(groups)
-            .createQueryBuilder("groups")
+            const x = await this.service.createQueryBuilder("groups")
             .where("date_to is null or date_to > now()")
             .getMany();
-            let list: GroupType[] = l.map(x => {
+            let list: GroupType[] = x.map(x => {
                 let it = new GroupType();
-                it.id = x.id.toString();
+                it.id = x.id;
                 it.name = x.name;
-                it.created = x.date_from.toString();
+                it.created = x.date_from;
                 return it;
             });
-            connection.close();
             return list;
         } catch(error) {
-            connection.close();
             console.error(error);
             throw new InternalServerErrorException({
                 status: HttpStatus.BAD_REQUEST,
@@ -32,22 +33,18 @@ export class GroupsService {
         }
     }
 
-    async findOne(id: string): Promise<GroupType> {
-        const connection = await createConnection();
+    async findOne(id: number): Promise<GroupType> {
         try {
-            const x = await connection.getRepository(groups)
-            .createQueryBuilder("groups")
+            const x = await this.service.createQueryBuilder("groups")
             .where("groups.id = :id", {id: id})
             .getOne();
             let it = new GroupType();
-            it.id = x.id.toString();
+            it.id = x.id;
             it.name = x.name;
-            it.created = x.date_from.toString();
-            it.deleted = x.date_to.toString();
-            connection.close();
+            it.created = x.date_from;
+            it.deleted = x.date_to;
             return it;
-        } catch(error) {
-            connection.close();
+        } catch (error) {
             console.error(error);
             throw new InternalServerErrorException({
                 status: HttpStatus.BAD_REQUEST,
@@ -57,13 +54,10 @@ export class GroupsService {
     }
 
     async update(x: GroupType): Promise<GroupType> {
-        let r = x;
-        const connection = await createConnection();
         try {
             if (x.id) {
-                r = await this.findOne(x.id);
-                await connection.getRepository(groups)
-                .createQueryBuilder("groups")
+                const r = await this.service.findOne(x.id);
+                await this.service.createQueryBuilder("groups")
                 .update(groups)
                 .set({ 
                     name: x.name, 
@@ -71,11 +65,10 @@ export class GroupsService {
                 })
                 .where("groups.id = :id", {id: x.id})
                 .execute();
-                r.name = x.name;
-                r.deleted = x.deleted;
+                x.name = r.name;
+                x.deleted = r.date_to;
             } else {
-                let y = await connection.getRepository(groups)
-                .createQueryBuilder("groups")
+                let y = await this.service.createQueryBuilder("groups")
                 .insert()
                 .into(groups)
                 .values({
@@ -84,33 +77,27 @@ export class GroupsService {
                 })
                 .returning('*')
                 .execute();
-                r.id = y.generatedMaps[0].id.toString();
+                x.id = y.generatedMaps[0].id.toString();
             }
+            return x;
         } catch (error) {
-            connection.close();
             console.error(error);
             throw new InternalServerErrorException({
                 status: HttpStatus.BAD_REQUEST,
                 error: error
             });
         }
-        connection.close();
-        return r;
     }
 
-    async delete(id: string): Promise<GroupType> {
-        const connection = await createConnection();
+    async delete(id: number): Promise<GroupType> {
         try {
-            await connection.getRepository(groups)
-            .createQueryBuilder("groups")
+            await this.service.createQueryBuilder("groups")
             .update(groups)
             .set({ date_to: new Date()})
             .where("groups.id = :id", {id: id})
             .execute();
-            connection.close();
             return await this.findOne(id);
-        } catch(error) {
-            connection.close();
+        } catch (error) {
             console.error(error);
             throw new InternalServerErrorException({
                 status: HttpStatus.BAD_REQUEST,
@@ -118,5 +105,4 @@ export class GroupsService {
             });
         }
     }
-
 }

@@ -1,18 +1,21 @@
-import { Injectable, InternalServerErrorException, HttpStatus } from '@nestjs/common';
-import {createConnection} from "typeorm";
+import { Injectable, InternalServerErrorException, HttpStatus, Inject } from '@nestjs/common';
+import {createConnection, Repository} from "typeorm";
 import { task_items } from '../entity/TaskItems';
 import { ItemType } from '../interfaces/item.interface';
 
 @Injectable()
 export class ItemsService {
 
+    constructor(
+        @Inject('ITEM_REPOSITORY')
+        private readonly service: Repository<task_items>,
+    ) {}  
+
     async findAll(): Promise<ItemType[]> {
-        const connection = await createConnection();
         try {
-            const l = await connection.getRepository(task_items)
-            .createQueryBuilder("task_items")
+            const l = await this.service.createQueryBuilder("task_items")
             .getMany();
-            let list: ItemType[] = l.map(x => {
+            let r: ItemType[] = l.map(x => {
                 let it = new ItemType();
                 it.id = x.id;
                 it.topic_id = x.topic_id;
@@ -21,10 +24,8 @@ export class ItemsService {
                 it.is_correct = x.is_correct;
                 return it;
             });
-            connection.close();
-            return list;
-        } catch(error) {
-            connection.close();
+            return r;
+        } catch (error) {
             console.error(error);
             throw new InternalServerErrorException({
                 status: HttpStatus.BAD_REQUEST,
@@ -34,14 +35,12 @@ export class ItemsService {
     }
 
     async findTopics(id: number): Promise<ItemType[]> {
-        const connection = await createConnection();
         try {
-            const l = await connection.getRepository(task_items)
-            .createQueryBuilder("task_items")
+            const l = await this.service.createQueryBuilder("task_items")
             .where("task_items.topic_id = :id", {id: id})
             .addOrderBy("task_topics.id", "ASC")
             .getMany();
-            let list: ItemType[] = l.map(x => {
+            let r: ItemType[] = l.map(x => {
                 let it = new ItemType();
                 it.id = x.id;
                 it.topic_id = x.topic_id;
@@ -50,10 +49,8 @@ export class ItemsService {
                 it.is_correct = x.is_correct;
                 return it;
             });
-            connection.close();
-            return list;
-        } catch(error) {
-            connection.close();
+            return r;
+        } catch (error) {
             console.error(error);
             throw new InternalServerErrorException({
                 status: HttpStatus.BAD_REQUEST,
@@ -63,10 +60,8 @@ export class ItemsService {
     }
 
     async create(x: ItemType): Promise<ItemType> {
-        const connection = await createConnection();
         try {
-            let y = await connection.getRepository(task_items)
-            .createQueryBuilder("task_items")
+            const y = await this.service.createQueryBuilder("task_items")
             .insert()
             .into(task_items)
             .values({
@@ -78,10 +73,8 @@ export class ItemsService {
             .returning('*')
             .execute();
             x.id = y.generatedMaps[0].id.toString();
-            connection.close();
             return x;
         } catch (error) {
-            connection.close();
             console.error(error);
             throw new InternalServerErrorException({
                 status: HttpStatus.BAD_REQUEST,
@@ -91,18 +84,14 @@ export class ItemsService {
     }
 
     async delete(x: ItemType): Promise<ItemType> {
-        const connection = await createConnection();
         try {
-            await connection.getRepository(task_items)
-            .createQueryBuilder("task_items")
+            await this.service.createQueryBuilder("task_items")
             .delete()
             .from(task_items)
             .where("task_items.id = :id", {id: x.id})
             .execute();
-            connection.close();
             return x;
-        } catch(error) {
-            connection.close();
+        } catch (error) {
             console.error(error);
             throw new InternalServerErrorException({
                 status: HttpStatus.BAD_REQUEST,

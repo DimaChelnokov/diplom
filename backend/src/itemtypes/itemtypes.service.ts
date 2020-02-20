@@ -1,29 +1,32 @@
-import { Injectable, InternalServerErrorException, HttpStatus } from '@nestjs/common';
-import {createConnection} from "typeorm";
+import { Injectable, InternalServerErrorException, HttpStatus, Inject } from '@nestjs/common';
+import {createConnection, Repository} from "typeorm";
 import { item_types } from '../entity/ItemTypes';
 import { ItemtypeType } from '../interfaces/itemtype.interface';
 
 @Injectable()
 export class ItemtypesService {
-    async findAll(): Promise<ItemtypeType[]> {
-        const connection = await createConnection();
-        try {
-          const u = await connection.manager.find(item_types);
-          let list: ItemtypeType[] = u.map(x => {
-              let it = new ItemtypeType();
-              it.id = x.id;
-              it.name = x.name;
-              return it;
-          });
-          connection.close();
-          return list;
-        } catch (error) {
-          connection.close();
-          console.error(error);
-          throw new InternalServerErrorException({
-            status: HttpStatus.BAD_REQUEST,
-            error: error
-        });
-      }
+
+  constructor(
+    @Inject('ITEMTYPE_REPOSITORY')
+    private readonly service: Repository<item_types>,
+  ) {}  
+
+  async findAll(): Promise<ItemtypeType[]> {
+    try {
+      const u = await this.service.find();
+      let r: ItemtypeType[] = u.map(x => {
+        let it = new ItemtypeType();
+        it.id = x.id;
+        it.name = x.name;
+        return it;
+      });
+      return r;
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException({
+        status: HttpStatus.BAD_REQUEST,
+        error: error
+      });
     }
+  }
 }

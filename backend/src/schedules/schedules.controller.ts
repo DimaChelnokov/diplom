@@ -1,7 +1,7 @@
-import { Controller, Get, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Res, HttpStatus, Post, Body, Delete, Param } from '@nestjs/common';
 import { ScheduleType } from '../interfaces/schedule.interface';
 import { SchedulesService } from './schedules.service';
-import { ApiOkResponse, ApiInternalServerErrorResponse } from '@nestjs/swagger';
+import { ApiOkResponse, ApiInternalServerErrorResponse, ApiBody, ApiParam } from '@nestjs/swagger';
 
 @Controller('schedules')
 export class SchedulesController {
@@ -14,6 +14,32 @@ export class SchedulesController {
     async findAll(@Res() res): Promise<ScheduleType[]> {
         try {
             const x = await this.service.findAll();
+            return res.status(HttpStatus.OK).json(x);
+        } catch (e) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
+        }
+    }
+
+    @Post()
+    @ApiBody({ type: [ScheduleType] })
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
+    async create(@Res() res, @Body() x: ScheduleType): Promise<ScheduleType> {
+        try {
+            const r = await this.service.create(x);
+            return res.status(HttpStatus.OK).json(r);
+        } catch (e) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
+        }
+    }
+
+    @Delete(':id')
+    @ApiParam({ name: 'id', type: 'number', description: 'Task ID', required: true})
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
+    async delete(@Res() res, @Param('id') id): Promise<ScheduleType> {
+        try {
+            const x = await this.service.delete(id);
             return res.status(HttpStatus.OK).json(x);
         } catch (e) {
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});

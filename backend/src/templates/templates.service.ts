@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException, HttpStatus, Inject } from '@nestjs/common';
-import {createConnection, Repository} from "typeorm";
+import { Repository} from "typeorm";
 import { TemplateType } from '../interfaces/template.interface';
 import { task_templates } from '../entity/TaskTemplates';
 

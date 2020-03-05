@@ -1,38 +1,79 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, HttpStatus, Inject } from '@nestjs/common';
+import { Repository} from "typeorm";
 import { User } from '../interfaces/user.interface';
-import {createConnection} from "typeorm";
 import { users } from '../entity/Users';
 
 @Injectable()
 export class UsersService {
 
-    private readonly users: User[] = [];
-
-    create(user: User) {
-        this.users.push(user);
-    }
+    constructor(
+      @Inject('USER_REPOSITORY')
+      private readonly service: Repository<users>,
+    ) {}  
 
     async findAll(): Promise<User[]> {
       try {
-        const connection = await createConnection();
-        const u = await connection.manager.find(users);
+        const u = await this.service.createQueryBuilder("users")
+        .getMany();
         let list: User[] = u.map(x => {
             let item = new User();
-            item.userId = x.id.toString();
-            item.roleId = x.role_id.toString();
-            item.name = x.fio;
-            item.login = x.login;
+            item.id = x.id;
+            item.roleId = x.role_id;
+            item.fio = x.fio;
+            item.username = x.login;
             item.password = x.pass;
             return item;
         });
-        connection.close();
         return list;
       } catch (error) {
         console.error(error);
+        throw new InternalServerErrorException({
+            status: HttpStatus.BAD_REQUEST,
+            error: error
+        });
       }
     }
 
-    findOne(id: string): User {
-        return this.users[id];
+    async findOneByName(name: string): Promise<User> {
+      try {
+        const x = await this.service.createQueryBuilder("users")
+        .where("users.login = :name", {name: name})
+        .getOne();
+        let it = new User();
+        it.id = x.id;
+        it.roleId = x.role_id;
+        it.fio = x.fio;
+        it.username = x.login;
+        it.password = x.pass;
+        return it;
+      } catch (error) {
+        console.error(error);
+        throw new InternalServerErrorException({
+            status: HttpStatus.INTERNAL_SERVER_ERROR,
+            error: error
+        });
+      }
     }
+
+    async findOneById(id: string): Promise<User> {
+      try {
+        const x = await this.service.createQueryBuilder("users")
+        .where("users.id = :id", {id: id})
+        .getOne();
+        let it = new User();
+        it.id = x.id;
+        it.roleId = x.role_id;
+        it.fio = x.fio;
+        it.username = x.login;
+        it.password = x.pass;
+        return it;
+      } catch (error) {
+        console.error(error);
+        throw new InternalServerErrorException({
+            status: HttpStatus.BAD_REQUEST,
+            error: error
+        });
+      }
+    }
+
 }

@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException, HttpStatus, Inject } from '@nestjs/common';
-import {createConnection, Repository} from "typeorm";
+import { Repository} from "typeorm";
 import { GradeType } from '../interfaces/grade.interface';
 import { grades } from '../entity/Grades';
 

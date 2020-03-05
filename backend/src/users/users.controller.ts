@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Res, HttpStatus, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Res, HttpStatus } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from '../interfaces/user.interface';
 
@@ -15,13 +15,7 @@ export class UsersController {
 
     @Get(':id')
     async findOne(@Res() res, @Param('id') id): Promise<User> {
-        const x = await this.service.findOne(id);
+        const x = await this.service.findOneById(id);
         return res.status(HttpStatus.OK).json(x);
-    }
-
-    @Post()
-    async create(@Body() x: User): Promise<User> {
-        this.service.create(x);
-        return x;
     }
 }

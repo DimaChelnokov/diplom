@@ -39,14 +39,17 @@ export class Dictionaies1581581102768 implements MigrationInterface {
         await queryRunner.query(`insert into task_templates(id, type_id, name) values(1, 1, 'Опросник (текстовый)')`);
         await queryRunner.query(`insert into task_templates(id, type_id, name) values(2, 1, 'Опросник (графический)')`);
 
-        await queryRunner.query(`insert into template_items(id, template_id, type_id, order_num) values(1, 1, 2, 1)`);
-        await queryRunner.query(`insert into template_items(id, template_id, type_id, order_num) values(2, 1, 1, 2)`);
-        await queryRunner.query(`insert into template_items(id, template_id, type_id, order_num) values(3, 1, 3, 3)`);
-        await queryRunner.query(`insert into template_items(id, template_id, type_id, order_num) values(4, 2, 1, 1)`);
-        await queryRunner.query(`insert into template_items(id, template_id, type_id, order_num) values(5, 2, 4, 2)`);
+        await queryRunner.query(`insert into template_items(id, template_id, type_id) values(1, 1, 2)`);
+        await queryRunner.query(`insert into template_items(id, template_id, type_id) values(2, 1, 1)`);
+        await queryRunner.query(`insert into template_items(id, template_id, type_id) values(3, 1, 3)`);
+        await queryRunner.query(`insert into template_items(id, template_id, type_id) values(4, 2, 1)`);
+        await queryRunner.query(`insert into template_items(id, template_id, type_id) values(5, 2, 4)`);
+    
+        await queryRunner.query(`insert into users(id, role_id, fio, login, pass, created) values(1, 1, 'root', 'root', '1', now())`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {
+        await queryRunner.query(`delete from users`);
         await queryRunner.query(`delete from user_roles`);
         await queryRunner.query(`delete from detail_statuses`);
         await queryRunner.query(`delete from grade_kinds`);

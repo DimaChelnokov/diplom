@@ -2,9 +2,9 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class ItemtypeType {
 
-    @ApiPropertyOptional()
+    @ApiPropertyOptional({type: Number})
     id: number;
 
-    @ApiProperty()
+    @ApiProperty({type: String})
     name: string;
 }

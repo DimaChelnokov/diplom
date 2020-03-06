@@ -2,12 +2,12 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class TopicType {
 
-    @ApiPropertyOptional()
+    @ApiPropertyOptional({type: Number})
     id: number;
 
-    @ApiProperty()
+    @ApiProperty({type: Number})
     task_id: number;
 
-    @ApiProperty()
+    @ApiProperty({type: Number})
     template_id: number;
 }

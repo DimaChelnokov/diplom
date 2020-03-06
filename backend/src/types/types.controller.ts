@@ -1,15 +1,19 @@
-import { Controller, Get, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Res, HttpStatus, UseGuards } from '@nestjs/common';
 import { TypesService } from './types.service';
 import { Type } from '../interfaces/type.interface';
-import { ApiOkResponse, ApiInternalServerErrorResponse } from '@nestjs/swagger';
+import { ApiOkResponse, ApiInternalServerErrorResponse, ApiUnauthorizedResponse, ApiSecurity } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@ApiSecurity('bearer')
 @Controller('types')
 export class TypesController {
 
     constructor(private service: TypesService) {}
 
+    @UseGuards(JwtAuthGuard)
     @Get()
     @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findAll(@Res() res): Promise<Type[]> {
         try {

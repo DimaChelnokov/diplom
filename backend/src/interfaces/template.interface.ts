@@ -2,12 +2,12 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class TemplateType {
 
-    @ApiPropertyOptional()
+    @ApiPropertyOptional({type: Number})
     id: number;
 
-    @ApiProperty()
+    @ApiProperty({type: Number})
     type_id: number;
 
-    @ApiProperty()
+    @ApiProperty({type: String})
     name: string;
 }

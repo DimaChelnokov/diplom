@@ -2,18 +2,18 @@ import { ApiPropertyOptional, ApiProperty } from "@nestjs/swagger";
 
 export class User {
 
-    @ApiPropertyOptional()
+    @ApiPropertyOptional({type: Number})
     id: number;
     
-    @ApiProperty()
+    @ApiProperty({type: String})
     username: string;
 
-    @ApiProperty()
+    @ApiProperty({type: String})
     password: string;
 
-    @ApiPropertyOptional()
+    @ApiPropertyOptional({type: Number})
     roleId: number;
 
-    @ApiPropertyOptional()
+    @ApiPropertyOptional({type: String})
     fio: string;
 }

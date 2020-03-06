@@ -1,15 +1,19 @@
-import { Controller, Get, Res, HttpStatus, Param, Post, Body, Delete } from '@nestjs/common';
+import { Controller, Get, Res, HttpStatus, Param, Post, Body, Delete, UseGuards } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { TaskType } from '../interfaces/task.interface';
-import { ApiBody, ApiOkResponse, ApiInternalServerErrorResponse, ApiParam } from '@nestjs/swagger';
+import { ApiBody, ApiOkResponse, ApiInternalServerErrorResponse, ApiParam, ApiUnauthorizedResponse, ApiSecurity } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@ApiSecurity('bearer')
 @Controller('tasks')
 export class TasksController {
 
     constructor(private service: TasksService) {}
 
+    @UseGuards(JwtAuthGuard)
     @Get()
     @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findAll(@Res() res): Promise<TaskType[]> {
         try {
@@ -20,9 +24,11 @@ export class TasksController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get(':id')
     @ApiParam({ name: 'id', type: 'number', description: 'Task ID', required: true})
     @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findOne(@Res() res, @Param('id') id): Promise<TaskType> {
         try {
@@ -33,9 +39,11 @@ export class TasksController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post()
     @ApiBody({ type: [TaskType] })
     @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async create(@Res() res, @Body() x: TaskType): Promise<TaskType> {
         try {
@@ -46,9 +54,11 @@ export class TasksController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     @ApiParam({ name: 'id', type: 'number', description: 'Task ID', required: true})
     @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async delete(@Res() res, @Param('id') id): Promise<TaskType> {
         try {

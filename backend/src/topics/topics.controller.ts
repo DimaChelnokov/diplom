@@ -1,15 +1,19 @@
-import { Controller, Get, Res, HttpStatus, Param, Delete, Post, Body } from '@nestjs/common';
+import { Controller, Get, Res, HttpStatus, Param, Delete, Post, Body, UseGuards } from '@nestjs/common';
 import { TopicsService } from './topics.service';
 import { TopicType } from '../interfaces/topic.interface';
-import { ApiBody, ApiOkResponse, ApiInternalServerErrorResponse, ApiParam } from '@nestjs/swagger';
+import { ApiBody, ApiOkResponse, ApiInternalServerErrorResponse, ApiParam, ApiUnauthorizedResponse, ApiSecurity } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@ApiSecurity('bearer')
 @Controller('topics')
 export class TopicsController {
 
     constructor(private service: TopicsService) {}
 
+    @UseGuards(JwtAuthGuard)
     @Get()
     @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findAll(@Res() res): Promise<TopicType[]> {
         try {
@@ -20,9 +24,11 @@ export class TopicsController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get(':id')
     @ApiParam({ name: 'id', type: 'number', description: 'Topic ID', required: true})
     @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findTask(@Res() res, @Param('id') id): Promise<TopicType[]> {
         try {
@@ -33,9 +39,11 @@ export class TopicsController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post()
     @ApiBody({ type: [TopicType] })
     @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async create(@Res() res, @Body() x: TopicType): Promise<TopicType> {
         try {
@@ -46,9 +54,11 @@ export class TopicsController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     @ApiParam({ name: 'id', type: 'number', description: 'Topic ID', required: true})
     @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async delete(@Res() res, @Param('id') id): Promise<TopicType> {
         try {

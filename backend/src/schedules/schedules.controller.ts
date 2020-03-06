@@ -1,15 +1,19 @@
-import { Controller, Get, Res, HttpStatus, Post, Body, Delete, Param } from '@nestjs/common';
+import { Controller, Get, Res, HttpStatus, Post, Body, Delete, Param, UseGuards } from '@nestjs/common';
 import { ScheduleType } from '../interfaces/schedule.interface';
 import { SchedulesService } from './schedules.service';
-import { ApiOkResponse, ApiInternalServerErrorResponse, ApiBody, ApiParam } from '@nestjs/swagger';
+import { ApiOkResponse, ApiInternalServerErrorResponse, ApiBody, ApiParam, ApiUnauthorizedResponse, ApiSecurity } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@ApiSecurity('bearer')
 @Controller('schedules')
 export class SchedulesController {
 
     constructor(private service: SchedulesService) {}
 
+    @UseGuards(JwtAuthGuard)
     @Get()
     @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findAll(@Res() res): Promise<ScheduleType[]> {
         try {
@@ -20,9 +24,11 @@ export class SchedulesController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post()
     @ApiBody({ type: [ScheduleType] })
     @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async create(@Res() res, @Body() x: ScheduleType): Promise<ScheduleType> {
         try {
@@ -33,9 +39,11 @@ export class SchedulesController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     @ApiParam({ name: 'id', type: 'number', description: 'Task ID', required: true})
     @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async delete(@Res() res, @Param('id') id): Promise<ScheduleType> {
         try {

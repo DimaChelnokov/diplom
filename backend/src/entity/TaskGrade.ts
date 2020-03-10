@@ -29,6 +29,13 @@ export class task_grade {
 
     @Index()
     @Column({ nullable: true })
+    student_id: number;
+    @ManyToOne(type => users)
+    @JoinColumn({ name: "student_id" })
+    studentId: users;
+
+    @Index()
+    @Column({ nullable: true })
     graded_by: number;
     @ManyToOne(type => users)
     @JoinColumn({ name: "graded_by" })

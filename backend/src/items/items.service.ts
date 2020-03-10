@@ -72,7 +72,7 @@ export class ItemsService {
             })
             .returning('*')
             .execute();
-            x.id = y.generatedMaps[0].id.toString();
+            x.id = y.generatedMaps[0].id;
             return x;
         } catch (error) {
             console.error(error);
@@ -83,14 +83,13 @@ export class ItemsService {
         }
     }
 
-    async delete(x: ItemType): Promise<ItemType> {
+    async delete(id: number) {
         try {
             await this.service.createQueryBuilder("task_items")
             .delete()
             .from(task_items)
-            .where("task_items.id = :id", {id: x.id})
+            .where("task_items.id = :id", {id: id})
             .execute();
-            return x;
         } catch (error) {
             console.error(error);
             throw new InternalServerErrorException({

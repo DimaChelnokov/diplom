@@ -12,9 +12,11 @@ import { TasksModule } from './tasks/tasks.module';
 import { SchedulesModule } from './schedules/schedules.module';
 import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
+import { GradetypesModule } from './gradetypes/gradetypes.module';
+import { RulesModule } from './rules/rules.module';
 
 @Module({
   controllers: [AppController],
-  imports: [UsersModule, GroupsModule, TypesModule, ItemtypesModule, GradesModule, TemplatesModule, TopicsModule, ItemsModule, TasksModule, SchedulesModule, DatabaseModule, AuthModule],
+  imports: [UsersModule, GroupsModule, TypesModule, ItemtypesModule, GradesModule, TemplatesModule, TopicsModule, ItemsModule, TasksModule, SchedulesModule, DatabaseModule, AuthModule, GradetypesModule, RulesModule],
 })
 export class AppModule {}

@@ -62,8 +62,8 @@ export class TopicsController {
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async delete(@Res() res, @Param('id') id): Promise<TopicType> {
         try {
-            const x = await this.service.delete(id);
-            return res.status(HttpStatus.OK).json(x);
+            await this.service.delete(id);
+            return res.status(HttpStatus.OK).json({});
         } catch (e) {
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
         }

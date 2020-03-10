@@ -53,33 +53,40 @@ export class GroupsService {
         }
     }
 
-    async update(x: GroupType): Promise<GroupType> {
+    async create(x: GroupType): Promise<GroupType> {
         try {
-            if (x.id) {
-                const r = await this.service.findOne(x.id);
-                await this.service.createQueryBuilder("groups")
-                .update(groups)
-                .set({ 
-                    name: x.name, 
-                    date_to: x.deleted
-                })
-                .where("groups.id = :id", {id: x.id})
-                .execute();
-                x.name = r.name;
-                x.deleted = r.date_to;
-            } else {
-                let y = await this.service.createQueryBuilder("groups")
-                .insert()
-                .into(groups)
-                .values({
-                    name: x.name, 
-                    date_from: new Date()
-                })
-                .returning('*')
-                .execute();
-                x.id = y.generatedMaps[0].id.toString();
-            }
+            const y = await this.service.createQueryBuilder("groups")
+            .insert()
+            .into(groups)
+            .values({
+                name: x.name,
+                date_from: x.created,
+                date_to: x.deleted
+            })
+            .returning('*')
+            .execute();
+            x.id = y.generatedMaps[0].id;
             return x;
+        } catch (error) {
+            console.error(error);
+            throw new InternalServerErrorException({
+                status: HttpStatus.BAD_REQUEST,
+                error: error
+            });
+        }
+    }
+
+    async update(id:number, x: GroupType): Promise<GroupType> {
+        try {
+            await this.service.createQueryBuilder("groups")
+            .update(groups)
+            .set({ 
+                name: x.name, 
+                date_to: x.deleted
+            })
+            .where("groups.id = :id", {id: id})
+            .execute();
+            return await this.findOne(id);
         } catch (error) {
             console.error(error);
             throw new InternalServerErrorException({

@@ -6,7 +6,7 @@ import { gradeProviders } from './grades.providers';
 
 @Module({
   imports: [DatabaseModule],
-  providers: [...gradeProviders,GradesService],
+  providers: [...gradeProviders, GradesService],
   controllers: [GradesController]
 })
 export class GradesModule {}

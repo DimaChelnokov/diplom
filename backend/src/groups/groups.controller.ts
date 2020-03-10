@@ -47,7 +47,23 @@ export class GroupsController {
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async create(@Res() res, @Body() x: GroupType): Promise<GroupType> {
         try {
-            const r = await this.service.update(x);
+            const r = await this.service.create(x);
+            return res.status(HttpStatus.OK).json(r);
+        } catch (e) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
+        }
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post(':id')
+    @ApiParam({ name: 'id', type: 'number', description: 'Group ID', required: true})
+    @ApiBody({ type: [GroupType] })
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
+    async update(@Res() res, @Param('id') id, @Body() x: GroupType): Promise<GroupType> {
+        try {
+            const r = await this.service.update(id, x);
             return res.status(HttpStatus.OK).json(r);
         } catch (e) {
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});

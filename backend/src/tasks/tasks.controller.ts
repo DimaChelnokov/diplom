@@ -1,8 +1,9 @@
-import { Controller, Get, Res, HttpStatus, Param, Post, Body, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Res, HttpStatus, Param, Post, Body, Delete, UseGuards, Req } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { TaskType } from '../interfaces/task.interface';
 import { ApiBody, ApiOkResponse, ApiInternalServerErrorResponse, ApiParam, ApiUnauthorizedResponse, ApiSecurity } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Request } from 'express';
 
 @ApiSecurity('bearer')
 @Controller('tasks')
@@ -45,9 +46,9 @@ export class TasksController {
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
-    async create(@Res() res, @Body() x: TaskType): Promise<TaskType> {
+    async create(@Req() request: Request, @Res() res, @Body() x: TaskType): Promise<TaskType> {
         try {
-            const r = await this.service.create(x);
+            const r = await this.service.create(x, request.user);
             return res.status(HttpStatus.OK).json(r);
         } catch (e) {
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
@@ -62,8 +63,8 @@ export class TasksController {
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async delete(@Res() res, @Param('id') id): Promise<TaskType> {
         try {
-            const x = await this.service.delete(id);
-            return res.status(HttpStatus.OK).json(x);
+            await this.service.delete(id);
+            return res.status(HttpStatus.OK).json({});
         } catch (e) {
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
         }

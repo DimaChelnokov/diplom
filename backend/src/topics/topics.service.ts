@@ -66,7 +66,7 @@ export class TopicsService {
             })
             .returning('*')
             .execute();
-            x.id = y.generatedMaps[0].id.toString();
+            x.id = y.generatedMaps[0].id;
             return x;
         } catch (error) {
                 console.error(error);
@@ -77,14 +77,13 @@ export class TopicsService {
         }
     }
 
-    async delete(x: TopicType): Promise<TopicType> {
+    async delete(id: number) {
         try {
             await this.service.createQueryBuilder("task_topics")
             .delete()
             .from(task_topics)
-            .where("task_topics.id = :id", {id: x.id})
+            .where("task_topics.id = :id", {id: id})
             .execute();
-            return x;
         } catch (error) {
                 console.error(error);
                 throw new InternalServerErrorException({

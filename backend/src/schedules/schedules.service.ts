@@ -45,7 +45,7 @@ export class SchedulesService {
             })
             .returning('*')
             .execute();
-            x.id = y.generatedMaps[0].id.toString();
+            x.id = y.generatedMaps[0].id;
             return x;
         } catch (error) {
             console.error(error);
@@ -56,14 +56,13 @@ export class SchedulesService {
         }
     }
 
-    async delete(x: ScheduleType): Promise<ScheduleType> {
+    async delete(id: number) {
         try {
             await this.service.createQueryBuilder("group_tasks")
             .delete()
             .from(group_tasks)
-            .where("tasks.id = :id", {id: x.id})
+            .where("group_tasks.id = :id", {id: id})
             .execute();
-            return x;
         } catch (error) {
             console.error(error);
             throw new InternalServerErrorException({

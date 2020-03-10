@@ -6,7 +6,7 @@
    "password": "diplom",
    "database": "diplom",
    "migrationsTableName": "migrations",
-   "synchronize": false,
+   "synchronize": true,
    "logging": false,
    "entities": [
       "src/entity/**/*.ts"

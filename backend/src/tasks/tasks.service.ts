@@ -57,7 +57,7 @@ export class TasksService {
         }
     }
 
-    async create(x: TaskType): Promise<TaskType> {
+    async create(x: TaskType, user: any): Promise<TaskType> {
         try {
             const y = await this.service.createQueryBuilder("tasks")
             .insert()
@@ -65,13 +65,13 @@ export class TasksService {
             .values({
                 type_id: x.type_id,
                 name: x.name,
-                created_by: x.created_by,
+                created_by: user.userId,
                 gradetype_id: x.gradetype_id,
                 created: new Date()
             })
             .returning('*')
             .execute();
-            x.id = y.generatedMaps[0].id.toString();
+            x.id = y.generatedMaps[0].id;
             return x;
         } catch (error) {
                 console.error(error);
@@ -82,14 +82,13 @@ export class TasksService {
         }
     }
 
-    async delete(x: TaskType): Promise<TaskType> {
+    async delete(id: number) {
         try {
             await this.service.createQueryBuilder("tasks")
             .delete()
             .from(tasks)
-            .where("tasks.id = :id", {id: x.id})
+            .where("tasks.id = :id", {id: id})
             .execute();
-            return x;
         } catch (error) {
             console.error(error);
             throw new InternalServerErrorException({

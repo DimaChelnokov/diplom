@@ -34,6 +34,30 @@ export class ItemsService {
         }
     }
 
+    async findOne(id: number): Promise<ItemType> {
+        try {
+            const x = await this.service.createQueryBuilder("task_items")
+            .where("task_items.id = :id", {id: id})
+            .getOne();
+            if (!x) {
+              return null;
+            }
+            let it = new ItemType();
+            it.id = x.id;
+            it.topic_id = x.topic_id;
+            it.item_id = x.item_id;
+            it.text = x.txt;
+            it.is_correct = x.is_correct;
+            return it;
+        } catch (error) {
+            console.error(error);
+            throw new InternalServerErrorException({
+                status: HttpStatus.BAD_REQUEST,
+                error: error
+            });
+        }
+    }
+    
     async findTopics(id: number): Promise<ItemType[]> {
         try {
             const l = await this.service.createQueryBuilder("task_items")
@@ -83,13 +107,17 @@ export class ItemsService {
         }
     }
 
-    async delete(id: number) {
+    async delete(id: number): Promise<ItemType> {
         try {
-            await this.service.createQueryBuilder("task_items")
-            .delete()
-            .from(task_items)
-            .where("task_items.id = :id", {id: id})
-            .execute();
+            const r = await this.findOne(id);
+            if (r) {
+                await this.service.createQueryBuilder("task_items")
+                .delete()
+                .from(task_items)
+                .where("task_items.id = :id", {id: id})
+                .execute();
+            }
+            return r;
         } catch (error) {
             console.error(error);
             throw new InternalServerErrorException({

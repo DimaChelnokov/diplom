@@ -21,7 +21,6 @@ export class UsersService {
             item.roleId = x.role_id;
             item.fio = x.fio;
             item.username = x.login;
-            item.password = x.pass;
             return item;
         });
         return list;
@@ -60,12 +59,14 @@ export class UsersService {
         const x = await this.service.createQueryBuilder("users")
         .where("users.id = :id", {id: id})
         .getOne();
+        if (!x) {
+            return null;
+        }
         let it = new User();
         it.id = x.id;
         it.roleId = x.role_id;
         it.fio = x.fio;
         it.username = x.login;
-        it.password = x.pass;
         return it;
       } catch (error) {
         console.error(error);

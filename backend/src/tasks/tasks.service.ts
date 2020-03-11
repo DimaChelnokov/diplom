@@ -35,11 +35,14 @@ export class TasksService {
         }
     }
 
-    async findOne(id: string): Promise<TaskType> {
+    async findOne(id: number): Promise<TaskType> {
         try {
             const x = await this.service.createQueryBuilder("tasks")
             .where("tasks.id = :id", {id: id})
             .getOne();
+            if (!x) {
+                return null;
+            }
             let it = new TaskType();
             it.id = x.id;
             it.type_id = x.type_id;
@@ -82,13 +85,17 @@ export class TasksService {
         }
     }
 
-    async delete(id: number) {
+    async delete(id: number): Promise<TaskType> {
         try {
-            await this.service.createQueryBuilder("tasks")
-            .delete()
-            .from(tasks)
-            .where("tasks.id = :id", {id: id})
-            .execute();
+            const r = this.findOne(id);
+            if (r) {
+                await this.service.createQueryBuilder("tasks")
+                .delete()
+                .from(tasks)
+                .where("tasks.id = :id", {id: id})
+                .execute();
+            }
+            return r;
         } catch (error) {
             console.error(error);
             throw new InternalServerErrorException({

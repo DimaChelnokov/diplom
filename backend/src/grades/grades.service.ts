@@ -41,6 +41,9 @@ export class GradesService {
         const x = await this.service.createQueryBuilder("task_grade")
         .where("task_grade.id = :id", {id: id})
         .getOne();
+        if (!x) {
+          return null;
+        }
         let it = new TaskGrade();
         it.id = x.id;
         it.student_id = x.student_id;
@@ -90,14 +93,13 @@ async create(x: TaskGrade, user: any): Promise<TaskGrade> {
   async update(id:number, x: TaskGrade, user: any): Promise<TaskGrade> {
     try {
         if (x.id) {
-            const r = await this.service.findOne(x.id);
-            await this.service.createQueryBuilder("task_grade")
-            .update(task_grade)
-            .set({ 
+           await this.service.createQueryBuilder("task_grade")
+           .update(task_grade)
+           .set({ 
               grade_id: x.grade_id
-            })
-            .where("task_grade.id = :id and task_grade.graded_by = :user_id", {id: id, user_id: user.userId})
-            .execute();
+           })
+           .where("task_grade.id = :id and task_grade.graded_by = :user_id", {id: id, user_id: user.userId})
+           .execute();
         }
         return await this.findOne(id);
     } catch (error) {
@@ -109,13 +111,17 @@ async create(x: TaskGrade, user: any): Promise<TaskGrade> {
     }
   }
 
-  async delete(id: number, user: any) {
+  async delete(id: number, user: any): Promise<TaskGrade> {
     try {
-        await this.service.createQueryBuilder("task_grade")
-        .delete()
-        .from(task_grade)
-        .where("task_grade.id = :id and task_grade.graded_by = :user_id", {id: id, user_id: user.userId})
-        .execute();
+        const r = this.findOne(id);
+        if (r) {
+          await this.service.createQueryBuilder("task_grade")
+          .delete()
+          .from(task_grade)
+          .where("task_grade.id = :id and task_grade.graded_by = :user_id", {id: id, user_id: user.userId})
+          .execute();
+        }
+        return r;
     } catch (error) {
         console.error(error);
         throw new InternalServerErrorException({

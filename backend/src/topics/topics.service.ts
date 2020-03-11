@@ -32,6 +32,28 @@ export class TopicsService {
         }
     }
 
+    async findOne(id: number): Promise<TopicType> {
+        try {
+            const x = await this.service.createQueryBuilder("task_topics")
+            .where("task_topics.id = :id", {id: id})
+            .getOne();
+            if (!x) {
+              return null;
+            }
+            let it = new TopicType();
+            it.id = x.id;
+            it.task_id = x.task_id;
+            it.template_id = x.template_id;
+            return it;
+        } catch (error) {
+            console.error(error);
+            throw new InternalServerErrorException({
+                status: HttpStatus.BAD_REQUEST,
+                error: error
+            });
+        }
+    }
+
     async findTask(id: string): Promise<TopicType[]> {
         try {
             const l = await this.service.createQueryBuilder("task_topics")
@@ -77,13 +99,17 @@ export class TopicsService {
         }
     }
 
-    async delete(id: number) {
+    async delete(id: number): Promise<TopicType> {
         try {
-            await this.service.createQueryBuilder("task_topics")
-            .delete()
-            .from(task_topics)
-            .where("task_topics.id = :id", {id: id})
-            .execute();
+            const r = this.findOne(id);
+            if (r) {
+                await this.service.createQueryBuilder("task_topics")
+                .delete()
+                .from(task_topics)
+                .where("task_topics.id = :id", {id: id})
+                .execute();
+            }
+            return r;
         } catch (error) {
                 console.error(error);
                 throw new InternalServerErrorException({

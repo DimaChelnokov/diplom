@@ -6,6 +6,24 @@ import {MigrationInterface, QueryRunner} from "typeorm";
 export class Dictionaies1581581102768 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
+        await queryRunner.query(`insert into event_types(id, name) values(1, 'Авторизация')`);
+        await queryRunner.query(`insert into event_types(id, name) values(2, 'Создание')`);
+        await queryRunner.query(`insert into event_types(id, name) values(3, 'Редактирование')`);
+        await queryRunner.query(`insert into event_types(id, name) values(4, 'Удаление')`);
+
+        await queryRunner.query(`insert into object_types(id, name) values(1, 'users')`);
+        await queryRunner.query(`insert into object_types(id, name) values(2, 'grages')`);
+        await queryRunner.query(`insert into object_types(id, name) values(3, 'gradetypes')`);
+        await queryRunner.query(`insert into object_types(id, name) values(4, 'groups')`);
+        await queryRunner.query(`insert into object_types(id, name) values(5, 'items')`);
+        await queryRunner.query(`insert into object_types(id, name) values(6, 'itemtypes')`);
+        await queryRunner.query(`insert into object_types(id, name) values(7, 'rules')`);
+        await queryRunner.query(`insert into object_types(id, name) values(8, 'schedules')`);
+        await queryRunner.query(`insert into object_types(id, name) values(9, 'tasks')`);
+        await queryRunner.query(`insert into object_types(id, name) values(10, 'templates')`);
+        await queryRunner.query(`insert into object_types(id, name) values(11, 'topics')`);
+        await queryRunner.query(`insert into object_types(id, name) values(12, 'types')`);
+
         await queryRunner.query(`insert into user_roles(id, name) values(1, 'Преподаватель')`);
         await queryRunner.query(`insert into user_roles(id, name) values(2, 'Студент')`);
 
@@ -60,6 +78,8 @@ export class Dictionaies1581581102768 implements MigrationInterface {
         await queryRunner.query(`delete from item_types`);
         await queryRunner.query(`delete from task_templates`);
         await queryRunner.query(`delete from task_types`);
+        await queryRunner.query(`delete from object_types`);
+        await queryRunner.query(`delete from event_types`);
     }
 
 }

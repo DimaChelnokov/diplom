@@ -14,9 +14,13 @@ import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
 import { GradetypesModule } from './gradetypes/gradetypes.module';
 import { RulesModule } from './rules/rules.module';
+import { LogModule } from './log/log.module';
+import { logProviders } from './log/log.providers';
+import { LogService } from './log/log.service';
 
 @Module({
   controllers: [AppController],
-  imports: [UsersModule, GroupsModule, TypesModule, ItemtypesModule, GradesModule, TemplatesModule, TopicsModule, ItemsModule, TasksModule, SchedulesModule, DatabaseModule, AuthModule, GradetypesModule, RulesModule],
+  providers: [...logProviders, LogService],
+  imports: [UsersModule, GroupsModule, TypesModule, ItemtypesModule, GradesModule, TemplatesModule, TopicsModule, ItemsModule, TasksModule, SchedulesModule, DatabaseModule, AuthModule, GradetypesModule, RulesModule, LogModule],
 })
 export class AppModule {}

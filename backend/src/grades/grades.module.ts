@@ -7,10 +7,11 @@ import { usersProviders } from '../users/users.providers';
 import { UsersService } from '../users/users.service';
 import { logProviders } from '../log/log.providers';
 import { LogService } from '../log/log.service';
+import { studentProviders } from '../users/students.provider';
 
 @Module({
   imports: [DatabaseModule],
-  providers: [...gradeProviders, ...usersProviders, ...logProviders, GradesService, UsersService, LogService],
+  providers: [...gradeProviders, ...usersProviders, ...studentProviders, ...logProviders, GradesService, UsersService, LogService],
   controllers: [GradesController]
 })
 export class GradesModule {}

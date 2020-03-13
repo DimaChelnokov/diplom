@@ -11,9 +11,21 @@ export class User {
     @ApiProperty({type: String})
     password: string;
 
+    @ApiProperty({type: String})
+    email: string;
+
     @ApiPropertyOptional({type: Number})
     roleId: number;
 
     @ApiPropertyOptional({type: String})
     fio: string;
+
+    @ApiProperty({type: Date})
+    created: Date;
+
+    @ApiPropertyOptional({type: Date})
+    deleted: Date;
+
+    @ApiPropertyOptional({type: Number})
+    group_id: number;
 }

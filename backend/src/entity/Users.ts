@@ -15,6 +15,9 @@ export class users {
     @Column()
     fio: string;
 
+    @Column({ nullable: true })
+    email: string;
+
     @Index()
     @Column({ unique: true })
     login: string;

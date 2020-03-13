@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, Index } from "typeorm";
 import { users } from "./Users";
+import { groups } from "./Groups";
 @Entity()
 export class students {
     @PrimaryGeneratedColumn()
@@ -13,6 +14,15 @@ export class students {
     user: users;
 
     @Index()
-    @Column()
+    @Column({ nullable: false })
     group_id: number;
+    @ManyToOne(type => groups)
+    @JoinColumn({ name: "group_id" })
+    group: users;
+
+    @Column()
+    created: Date;
+    
+    @Column({ nullable: true })
+    deleted: Date;
 }

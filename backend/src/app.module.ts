@@ -17,10 +17,13 @@ import { RulesModule } from './rules/rules.module';
 import { LogModule } from './log/log.module';
 import { logProviders } from './log/log.providers';
 import { LogService } from './log/log.service';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   controllers: [AppController],
   providers: [...logProviders, LogService],
-  imports: [UsersModule, GroupsModule, TypesModule, ItemtypesModule, GradesModule, TemplatesModule, TopicsModule, ItemsModule, TasksModule, SchedulesModule, DatabaseModule, AuthModule, GradetypesModule, RulesModule, LogModule],
+  imports: [ MulterModule.register({
+    dest: './upload',
+  }), UsersModule, GroupsModule, TypesModule, ItemtypesModule, GradesModule, TemplatesModule, TopicsModule, ItemsModule, TasksModule, SchedulesModule, DatabaseModule, AuthModule, GradetypesModule, RulesModule, LogModule],
 })
 export class AppModule {}

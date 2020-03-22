@@ -24,6 +24,21 @@ import { MulterModule } from '@nestjs/platform-express';
   providers: [...logProviders, LogService],
   imports: [ MulterModule.register({
     dest: './upload',
-  }), UsersModule, GroupsModule, TypesModule, ItemtypesModule, GradesModule, TemplatesModule, TopicsModule, ItemsModule, TasksModule, SchedulesModule, DatabaseModule, AuthModule, GradetypesModule, RulesModule, LogModule],
+  }), 
+  UsersModule, 
+  GroupsModule, 
+  TypesModule, 
+  ItemtypesModule, 
+  GradesModule, 
+  TemplatesModule, 
+  TopicsModule, 
+  ItemsModule, 
+  TasksModule, 
+  SchedulesModule, 
+  DatabaseModule, 
+  AuthModule, 
+  GradetypesModule, 
+  RulesModule, 
+  LogModule],
 })
 export class AppModule {}

@@ -2,18 +2,18 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class ItemType {
 
-    @ApiPropertyOptional({type: Number})
+    @ApiPropertyOptional()
     id: number;
 
-    @ApiProperty({type: Number})
+    @ApiProperty()
     topic_id: number;
 
-    @ApiProperty({type: Number})
+    @ApiProperty()
     item_id: number;
 
-    @ApiProperty({type: String})
+    @ApiProperty()
     text: string;
 
-    @ApiProperty({type: Boolean})
+    @ApiProperty()
     is_correct: boolean;
 }

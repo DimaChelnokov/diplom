@@ -55,7 +55,6 @@ export class SchedulesController {
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('admin')
     @Delete(':id')
-    @ApiParam({ name: 'id', type: 'number', description: 'Task ID', required: true})
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiForbiddenResponse({ description: 'Forbidden.'})

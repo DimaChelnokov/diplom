@@ -2,12 +2,12 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class GradeType {
 
-    @ApiPropertyOptional({type: Number})
+    @ApiPropertyOptional()
     id: number;
 
-    @ApiProperty({type: Number})
+    @ApiProperty()
     type_id: number;
 
-    @ApiProperty({type: String})
+    @ApiProperty()
     name: string;
 }

@@ -2,15 +2,15 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class ScheduleType {
 
-    @ApiPropertyOptional({type: Number})
+    @ApiPropertyOptional()
     id: number;
 
-    @ApiProperty({type: Number})
+    @ApiProperty()
     task_id: number;
 
-    @ApiProperty({type: Number})
+    @ApiProperty()
     group_id: number;
 
-    @ApiProperty({type: Date})
+    @ApiProperty()
     created: Date;
 }

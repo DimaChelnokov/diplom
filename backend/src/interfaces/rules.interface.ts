@@ -2,18 +2,18 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class GradeRules {
 
-    @ApiPropertyOptional({type: Number})
+    @ApiPropertyOptional()
     id: number;
 
-    @ApiProperty({type: Number})
+    @ApiProperty()
     task_id: number;
 
-    @ApiProperty({type: Number})
+    @ApiProperty()
     type_id: number;
 
-    @ApiProperty({type: Number})
+    @ApiProperty()
     grade_id: number;
 
-    @ApiProperty({type: Number})
+    @ApiProperty()
     total_num: number;
 }

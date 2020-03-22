@@ -17,8 +17,8 @@ export class UsersController {
         private readonly logService: LogService
     ) {}
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('admin')
+//    @UseGuards(JwtAuthGuard, RolesGuard)
+//    @Roles('admin')
     @Get()
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
@@ -29,10 +29,9 @@ export class UsersController {
         return res.status(HttpStatus.OK).json(r);
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('user')
+//    @UseGuards(JwtAuthGuard, RolesGuard)
+//    @Roles('user')
     @Get(':id')
-    @ApiParam({ name: 'id', type: 'number', description: 'User ID', required: true})
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiForbiddenResponse({ description: 'Forbidden.'})
@@ -47,8 +46,8 @@ export class UsersController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('admin')
+//    @UseGuards(JwtAuthGuard, RolesGuard)
+//    @Roles('admin')
     @Post()
     @ApiBody({ type: [User] })
     @ApiCreatedResponse({ description: 'Successfully.'})
@@ -67,10 +66,9 @@ export class UsersController {
         }
     }
  
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('admin')
+//    @UseGuards(JwtAuthGuard, RolesGuard)
+//    @Roles('admin')
     @Post(':id')
-    @ApiParam({ name: 'id', type: 'number', description: 'User ID', required: true})
     @ApiBody({ type: [User] })
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
@@ -94,10 +92,9 @@ export class UsersController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('admin')
+//    @UseGuards(JwtAuthGuard, RolesGuard)
+//    @Roles('admin')
     @Delete(':id')
-    @ApiParam({ name: 'id', type: 'number', description: 'User ID', required: true})
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiForbiddenResponse({ description: 'Forbidden.'})

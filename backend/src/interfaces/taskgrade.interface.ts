@@ -2,27 +2,27 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class TaskGrade {
 
-    @ApiPropertyOptional({type: Number})
+    @ApiPropertyOptional()
     id: number;
 
-    @ApiProperty({type: Number})
+    @ApiProperty()
     student_id: number;
 
-    @ApiProperty({type: Number})
+    @ApiProperty()
     task_id: number;
 
-    @ApiProperty({type: Number})
+    @ApiProperty()
     grade_id: number;
 
-    @ApiProperty({type: Number})
+    @ApiProperty()
     kind_id: number;
 
-    @ApiProperty({type: Number})
+    @ApiProperty()
     user_id: number;
 
-    @ApiProperty({type: String})
+    @ApiProperty()
     notes: string;
 
-    @ApiProperty({type: Date})
+    @ApiProperty()
     changed: Date;
 }

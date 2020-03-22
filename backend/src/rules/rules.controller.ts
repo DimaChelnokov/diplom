@@ -55,7 +55,6 @@ export class RulesController {
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('admin')
     @Delete(':id')
-    @ApiParam({ name: 'id', type: 'number', description: 'Rule ID', required: true})
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiForbiddenResponse({ description: 'Forbidden.'})

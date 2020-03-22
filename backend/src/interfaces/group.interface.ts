@@ -2,15 +2,15 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class GroupType {
     
-    @ApiPropertyOptional({type: Number})
+    @ApiPropertyOptional()
     id: number;
     
-    @ApiProperty({type: String})
+    @ApiProperty()
     name: string;
 
-    @ApiProperty({type: Date})
+    @ApiProperty()
     created: Date;
 
-    @ApiPropertyOptional({type: Date})
+    @ApiPropertyOptional()
     deleted: Date;
 }

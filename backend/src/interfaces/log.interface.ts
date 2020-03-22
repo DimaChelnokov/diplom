@@ -2,24 +2,24 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class UserLog {
 
-    @ApiProperty({type: Date})
+    @ApiProperty()
     event_date: Date;
 
-    @ApiProperty({type: Number})
+    @ApiProperty()
     user_id: number;
 
-    @ApiProperty({type: Number})
+    @ApiProperty()
     event_id: number;
 
-    @ApiProperty({type: Number})
+    @ApiProperty()
     type_id: number;
 
-    @ApiProperty({type: String})
+    @ApiProperty()
     url: string;
 
-    @ApiProperty({type: JSON})
+    @ApiProperty()
     body: JSON;
 
-    @ApiProperty({type: Number})
+    @ApiProperty()
     result_code: number;
 }

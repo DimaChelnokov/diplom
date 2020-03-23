@@ -106,6 +106,9 @@ export class UsersService {
         const x = await this.service.createQueryBuilder("users")
         .where("users.login = :name", {name: name})
         .getOne();
+        if (!x) {
+          return null;
+        }
         let it = new User();
         it.id = x.id;
         it.roleId = x.role_id;

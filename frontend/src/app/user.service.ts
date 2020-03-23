@@ -4,7 +4,7 @@ import { User } from './user'
 
 @Injectable()
 export class UserService {
-  private url = 'http://127.0.0.1:3000/users'
+  private url = '/users'
   constructor(private http: HttpClient) {}
 
   getUsers() {

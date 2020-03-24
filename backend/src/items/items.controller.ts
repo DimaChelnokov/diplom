@@ -9,7 +9,7 @@ import { Request } from 'express';
 import { LogService } from '../log/log.service';
 
 @ApiSecurity('bearer')
-@Controller('items')
+@Controller('api/items')
 export class ItemsController {
 
     constructor(

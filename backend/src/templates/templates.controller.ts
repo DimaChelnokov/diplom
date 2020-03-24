@@ -5,7 +5,7 @@ import { ApiOkResponse, ApiInternalServerErrorResponse, ApiUnauthorizedResponse,
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @ApiSecurity('bearer')
-@Controller('templates')
+@Controller('api/templates')
 export class TemplatesController {
 
     constructor(private service: TemplatesService) {}

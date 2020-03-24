@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class AuthService {
 
-  private url = '/auth/login'
+  private url = '/api/auth/login'
 
   constructor(private http: HttpClient) { }
 

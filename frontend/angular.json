@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "diplom-frontend": {
@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "diplom-frontend"
+    }
+  },
+  "defaultProject": "diplom-frontend",
+  "cli": {
+    "analytics": "fcfe92bc-b4b9-4dc2-a21d-593b51faabd6"
+  }
 }

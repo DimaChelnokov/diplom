@@ -16,13 +16,13 @@ export class AppController {
   ) {}
 
   @UseGuards(LocalAuthGuard)
-  @Post('auth/login')
+  @Post('api/auth/login')
   @ApiBody({ type: [User] })
   @ApiCreatedResponse({ description: 'Successfully.'})
   @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
   async login(@Request() req) {
     const r = await this.authService.login(req.user);
-    await this.logService.create(req.user.id, 1, 1, 'auth/login', req.user, HttpStatus.CREATED);
+    await this.logService.create(req.user.id, 1, 1, 'api/auth/login', req.user, HttpStatus.CREATED);
     return r;
   }
 

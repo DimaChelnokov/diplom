@@ -7,7 +7,7 @@ import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 
 @ApiSecurity('bearer')
-@Controller('log')
+@Controller('api/log')
 export class LogController {
 
     constructor(private service: LogService) {}

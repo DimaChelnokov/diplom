@@ -9,7 +9,7 @@ import { LogService } from '../log/log.service';
 import { Request } from 'express';
 
 @ApiSecurity('bearer')
-@Controller('schedules')
+@Controller('api/schedules')
 export class SchedulesController {
 
     constructor(

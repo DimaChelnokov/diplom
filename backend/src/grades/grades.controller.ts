@@ -9,7 +9,7 @@ import { Roles } from '../auth/roles.decorator';
 import { LogService } from '../log/log.service';
 
 @ApiSecurity('bearer')
-@Controller('grades')
+@Controller('api/grades')
 export class GradesController {
 
     constructor(

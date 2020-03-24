@@ -5,7 +5,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { GradeType } from '../interfaces/gradetype.interface';
 
 @ApiSecurity('bearer')
-@Controller('gradetypes')
+@Controller('api/gradetypes')
 export class GradetypesController {
     
     constructor(private service: GradetypesService) {}

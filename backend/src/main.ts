@@ -17,9 +17,9 @@ async function bootstrap() {
     .addTag('diplom')
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);  
+  SwaggerModule.setup('api/swagger', app, document);  
 
-  app.useStaticAssets(join(__dirname, '/../public'), {prefix: '/public/'});
+  app.useStaticAssets(join(__dirname, '/../public'), {prefix: '/'});
   
   app.enableCors();
   await app.listen(3000);

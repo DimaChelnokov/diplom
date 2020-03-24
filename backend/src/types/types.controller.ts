@@ -5,7 +5,7 @@ import { ApiOkResponse, ApiInternalServerErrorResponse, ApiUnauthorizedResponse,
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @ApiSecurity('bearer')
-@Controller('types')
+@Controller('api/types')
 export class TypesController {
 
     constructor(private service: TypesService) {}

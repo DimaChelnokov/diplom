@@ -9,7 +9,7 @@ import { Request } from 'express';
 import { LogService } from '../log/log.service';
 
 @ApiSecurity('bearer')
-@Controller('groups')
+@Controller('api/groups')
 export class GroupsController {
 
     constructor(

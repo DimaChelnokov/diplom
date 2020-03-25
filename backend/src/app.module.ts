@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { UsersModule } from './users/users.module';
 import { GroupsModule } from './groups/groups.module';
@@ -41,4 +41,4 @@ import { MulterModule } from '@nestjs/platform-express';
   RulesModule, 
   LogModule],
 })
-export class AppModule {}
+export class AppModule { }

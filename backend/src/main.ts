@@ -4,6 +4,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { join } from 'path';
 import { NestExpressApplication } from "@nestjs/platform-express";
+import { NotFoundExceptionFilter } from "./frontend.catch";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
@@ -20,6 +21,8 @@ async function bootstrap() {
   SwaggerModule.setup('api/swagger', app, document);  
 
   app.useStaticAssets(join(__dirname, '/../public'), {prefix: '/'});
+  app.setBaseViewsDir(join(__dirname, '/../public'));
+  app.useGlobalFilters(new NotFoundExceptionFilter());
   
   app.enableCors();
   await app.listen(3000);

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'auth',
@@ -12,7 +13,10 @@ export class AuthComponent implements OnInit {
   username: string;
   password: string;
 
-  constructor(private serv: AuthService) { }
+  constructor(
+    private serv: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void { 
     this.username = '';
@@ -24,11 +28,15 @@ export class AuthComponent implements OnInit {
       (data: any) => {
         console.log(data);
         localStorage.setItem('myAuthToken', data.access_token);
-        alert("Token: " + data.access_token);
+        this.router.navigate(['']);
       },
       (error: any) => {
         let status = error.status;
-        alert("Error: " + status);
+        if (status == 401) {
+            alert("Логин или пароль не найден");
+        } else {
+            alert("Error: " + status);
+        }
       })
   }
 

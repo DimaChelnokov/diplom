@@ -17,8 +17,8 @@ export class UsersController {
         private readonly logService: LogService
     ) {}
 
-//    @UseGuards(JwtAuthGuard, RolesGuard)
-//    @Roles('admin')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
     @Get()
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
@@ -29,8 +29,8 @@ export class UsersController {
         return res.status(HttpStatus.OK).json(r);
     }
 
-//    @UseGuards(JwtAuthGuard, RolesGuard)
-//    @Roles('user')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('user')
     @Get(':id')
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
@@ -46,8 +46,8 @@ export class UsersController {
         }
     }
 
-//    @UseGuards(JwtAuthGuard, RolesGuard)
-//    @Roles('admin')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
     @Post()
     @ApiBody({ type: [User] })
     @ApiCreatedResponse({ description: 'Successfully.'})
@@ -66,8 +66,8 @@ export class UsersController {
         }
     }
  
-//    @UseGuards(JwtAuthGuard, RolesGuard)
-//    @Roles('admin')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
     @Post(':id')
     @ApiBody({ type: [User] })
     @ApiOkResponse({ description: 'Successfully.'})
@@ -92,8 +92,8 @@ export class UsersController {
         }
     }
 
-//    @UseGuards(JwtAuthGuard, RolesGuard)
-//    @Roles('admin')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
     @Delete(':id')
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})

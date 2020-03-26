@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { User } from './user';
 import { UserService } from './user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'users',
@@ -19,7 +20,10 @@ export class UsersComponent implements OnInit {
   isNewRecord: boolean
   statusMessage: string
 
-  constructor(private serv: UserService) {
+  constructor(
+    private serv: UserService,
+    private router: Router
+  ) {
     this.users = new Array<User>()
   }
 
@@ -30,6 +34,11 @@ export class UsersComponent implements OnInit {
   private loadUsers() {
     this.serv.getUsers().subscribe((data: User[]) => {
       this.users = data
+    },
+    (error: any) => {
+      if (error.status == 401) {
+        this.router.navigate(['auth']);
+      }
     })
   }
 

@@ -24,6 +24,7 @@ export class AuthComponent implements OnInit {
   }
 
   submit(): void {
+    localStorage.removeItem('myAuthToken');
     this.serv.auth(this.username, this.password).subscribe(
       (data: any) => {
         console.log(data);

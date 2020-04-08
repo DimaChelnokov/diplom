@@ -14,6 +14,6 @@ export class ItemType {
     @ApiProperty()
     text: string;
 
-    @ApiProperty()
+    @ApiPropertyOptional()
     is_correct: boolean;
 }

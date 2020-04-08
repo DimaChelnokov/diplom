@@ -1,5 +1,5 @@
 import { Controller, UseGuards, Get, Res, HttpStatus, Post, Body, Delete, Param, Req } from '@nestjs/common';
-import { ApiSecurity, ApiOkResponse, ApiUnauthorizedResponse, ApiInternalServerErrorResponse, ApiBody, ApiParam, ApiForbiddenResponse, ApiNotFoundResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiSecurity, ApiOkResponse, ApiUnauthorizedResponse, ApiInternalServerErrorResponse, ApiBody, ApiForbiddenResponse, ApiNotFoundResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { RulesService } from './rules.service';
 import { GradeRules } from '../interfaces/rules.interface';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';

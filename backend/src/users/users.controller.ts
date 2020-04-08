@@ -2,7 +2,7 @@ import { Controller, Get, Param, Res, HttpStatus, UseGuards, Post, Req, Body, De
 import { UsersService } from './users.service';
 import { User } from '../interfaces/user.interface';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { ApiOkResponse, ApiUnauthorizedResponse, ApiInternalServerErrorResponse, ApiSecurity, ApiParam, ApiForbiddenResponse, ApiNotFoundResponse, ApiBody, ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiOkResponse, ApiUnauthorizedResponse, ApiInternalServerErrorResponse, ApiSecurity, ApiForbiddenResponse, ApiNotFoundResponse, ApiBody, ApiCreatedResponse } from '@nestjs/swagger';
 import { Roles } from '../auth/roles.decorator';
 import { RolesGuard } from '../auth/roles.guard';
 import { LogService } from '../log/log.service';

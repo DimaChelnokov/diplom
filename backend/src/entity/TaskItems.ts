@@ -20,9 +20,9 @@ export class task_items {
     @JoinColumn({ name: "item_id" })
     item: template_items;
 
-    @Column({ nullable: true })
+    @Column()
     txt: string;
 
-    @Column()
+    @Column({ nullable: true })
     is_correct: boolean;
 }

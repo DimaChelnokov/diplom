@@ -1,6 +1,6 @@
 import { Controller, Get, Res, HttpStatus, UseGuards, Post, Body, Req, Param, Delete } from '@nestjs/common';
 import { GradesService } from './grades.service';
-import { ApiOkResponse, ApiInternalServerErrorResponse, ApiUnauthorizedResponse, ApiSecurity, ApiBody, ApiParam, ApiNotFoundResponse, ApiForbiddenResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiOkResponse, ApiInternalServerErrorResponse, ApiUnauthorizedResponse, ApiSecurity, ApiBody, ApiNotFoundResponse, ApiForbiddenResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { TaskGrade } from '../interfaces/taskgrade.interface';
 import { Request } from 'express';

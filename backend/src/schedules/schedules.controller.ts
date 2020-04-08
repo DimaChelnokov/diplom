@@ -1,7 +1,7 @@
 import { Controller, Get, Res, HttpStatus, Post, Body, Delete, Param, UseGuards, Req } from '@nestjs/common';
 import { ScheduleType } from '../interfaces/schedule.interface';
 import { SchedulesService } from './schedules.service';
-import { ApiOkResponse, ApiInternalServerErrorResponse, ApiBody, ApiParam, ApiUnauthorizedResponse, ApiSecurity, ApiForbiddenResponse, ApiNotFoundResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiOkResponse, ApiInternalServerErrorResponse, ApiBody, ApiUnauthorizedResponse, ApiSecurity, ApiForbiddenResponse, ApiNotFoundResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';

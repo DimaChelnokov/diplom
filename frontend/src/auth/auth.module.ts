@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AuthComponent],
-  exports: [ AuthComponent ],
   imports: [
     CommonModule,
     FormsModule

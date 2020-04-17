@@ -171,6 +171,7 @@ export class UsersService {
             role_id: x.roleId,
             fio: x.fio,
             login: x.username,
+            pass: x.password,
             email: x.email,
             created: new Date()
         })

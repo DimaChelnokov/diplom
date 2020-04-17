@@ -42,12 +42,6 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  addUser() {
-    this.editedUser = new User(0, '', 1)
-    this.users.push(this.editedUser)
-    this.isNewRecord = true
-  }
-
   editUser(user: User) {
     this.editedUser = new User(user.id, user.username, user.roleId)
   }

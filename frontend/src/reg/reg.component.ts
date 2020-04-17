@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MustMatch } from './must-match.validator';
+import { RegService } from './reg.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reg',
@@ -12,7 +14,11 @@ export class RegComponent implements OnInit {
   registerForm: FormGroup;
   submitted: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private serv: RegService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
@@ -34,7 +40,19 @@ export class RegComponent implements OnInit {
     if (this.registerForm.invalid) {
         return;
     }
-    alert(JSON.stringify(this.registerForm.value));
+    this.serv.addUser(this.registerForm.value).subscribe(
+      (data: any) => {
+        alert("Пользователь зарегестрирован");
+        this.router.navigate(['auth']);
+      },
+      (error: any) => {
+        let status = error.status;
+        if (status == 409) {
+            alert("Пользователь уже существует");
+        } else {
+            alert("Error: " + status);
+        }
+      });
   }
 
 }

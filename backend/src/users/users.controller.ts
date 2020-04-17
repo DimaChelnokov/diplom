@@ -2,7 +2,7 @@ import { Controller, Get, Param, Res, HttpStatus, UseGuards, Post, Req, Body, De
 import { UsersService } from './users.service';
 import { User } from '../interfaces/user.interface';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { ApiOkResponse, ApiUnauthorizedResponse, ApiInternalServerErrorResponse, ApiSecurity, ApiForbiddenResponse, ApiNotFoundResponse, ApiBody, ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiOkResponse, ApiUnauthorizedResponse, ApiInternalServerErrorResponse, ApiSecurity, ApiForbiddenResponse, ApiNotFoundResponse, ApiBody, ApiCreatedResponse, ApiConflictResponse } from '@nestjs/swagger';
 import { Roles } from '../auth/roles.decorator';
 import { RolesGuard } from '../auth/roles.guard';
 import { LogService } from '../log/log.service';
@@ -46,22 +46,21 @@ export class UsersController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('admin')
     @Post()
     @ApiBody({ type: [User] })
     @ApiCreatedResponse({ description: 'Successfully.'})
-    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
-    @ApiForbiddenResponse({ description: 'Forbidden.'})
+    @ApiConflictResponse({ description: 'User already exists.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
-    async create(@Req() request: Request, @Res() res, @Body() x: User): Promise<User> {
-        const user: any = request.user;
+    async create(@Res() res, @Body() x: User): Promise<User> {
         try {
+            const y = await this.service.findOneByName(x.username);
+            if (y) {
+                return res.status(HttpStatus.CONFLICT).json(x);
+            }
             const r = await this.service.create(x);
-            await this.logService.create(user.userId, 2, 1, 'users', r, HttpStatus.CREATED);
+            await this.logService.create(r.id, 2, 1, 'users', r, HttpStatus.CREATED);
             return res.status(HttpStatus.CREATED).json(r);
         } catch (e) {
-            await this.logService.create(user.userId, 2, 1, 'users', x, HttpStatus.INTERNAL_SERVER_ERROR);
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
         }
     }

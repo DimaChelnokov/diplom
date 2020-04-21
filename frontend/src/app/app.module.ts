@@ -13,11 +13,14 @@ import { JwtInterceptor } from './jwt.interceptor'
 import { JwtGuard } from './jwt.guard'
 import { RegModule } from '../reg/reg.module'
 import { RegComponent } from '../reg/reg.component'
+import { AccComponent } from 'src/acc/acc.component'
+import { AccModule } from 'src/acc/acc.module'
 
 const appRoutes: Routes = [
   { path: '', component: UsersComponent, canActivate: [JwtGuard] },
   { path: 'reg', component: RegComponent },
   { path: 'auth', component: AuthComponent },
+  { path: 'profile', component: AccComponent },
   { path: '**', redirectTo: '/' }
 ]
 
@@ -29,6 +32,7 @@ const appRoutes: Routes = [
     UsersModule,
     AuthModule,
     RegModule,
+    AccModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

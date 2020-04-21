@@ -31,14 +31,29 @@ export class UsersController {
 
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('user')
-    @Get(':id')
+    @Get('id/:id')
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
-    @ApiForbiddenResponse({ description: 'Forbidden.'})
     @ApiNotFoundResponse({ description: 'Not Found.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findOne(@Res() res, @Param('id') id): Promise<User> {
         const r = await this.service.findOneById(id);
+        if (!r) {
+            return res.status(HttpStatus.NOT_FOUND).json();
+        } else {
+            return res.status(HttpStatus.OK).json(r);
+        }
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('current')
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiNotFoundResponse({ description: 'Not Found.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
+    async findCurrent(@Req() request: Request, @Res() res): Promise<User> {
+        const user: any = request.user;
+        const r = await this.service.findOneById(user.userId);
         if (!r) {
             return res.status(HttpStatus.NOT_FOUND).json();
         } else {
@@ -67,7 +82,7 @@ export class UsersController {
  
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('admin')
-    @Post(':id')
+    @Post('id/:id')
     @ApiBody({ type: [User] })
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
@@ -91,9 +106,33 @@ export class UsersController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Post('current')
+    @ApiBody({ type: [User] })
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiNotFoundResponse({ description: 'Not Found.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
+    async updateCurrent(@Req() request: Request, @Res() res, @Body() x: User): Promise<User> {
+        const user: any = request.user;
+        try {
+            const r = await this.service.update(user.userId, x);
+            if (!r) {
+                await this.logService.create(user.userId, 3, 1, 'users', { id: user.userId }, HttpStatus.NOT_FOUND);
+                return res.status(HttpStatus.NOT_FOUND).json();
+            } else {
+                await this.logService.create(user.userId, 3, 1, 'users', r, HttpStatus.OK);
+                return res.status(HttpStatus.OK).json(r);
+            }
+        } catch (e) {
+            await this.logService.create(user.userId, 3, 1, 'users', { id: user.userId }, HttpStatus.INTERNAL_SERVER_ERROR);
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
+        }
+    }
+
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('admin')
-    @Delete(':id')
+    @Delete('id/:id')
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiForbiddenResponse({ description: 'Forbidden.'})

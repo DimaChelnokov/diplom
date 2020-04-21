@@ -193,28 +193,26 @@ export class UsersService {
 
     async update(id:number, x: User): Promise<User> {
       try {
-          if (x.id) {
-             await this.service.createQueryBuilder("users")
-             .update(users)
-             .set({ 
-               fio: x.fio,
-               email: x.email,
-               login: x.username,               
-               pass: x.password
-             })
-             .where("users.id = :id", {id: id})
-             .execute();
-             let s = await this.findGroupByUser(id);
-             if (x.group_id) {
-                 if (!s || (s.group_id != x.group_id)) {
-                     if (s) {
-                         await this.deleteGroup(s.id);
-                     }
-                     await this.createGroup(id, x.group_id);
-                 }
-             }
-          }
-          return await this.findOneById(id);
+        await this.service.createQueryBuilder("users")
+        .update(users)
+        .set({ 
+          fio: x.fio,
+          email: x.email,
+          login: x.username,               
+          pass: x.password
+        })
+        .where("users.id = :id", {id: id})
+        .execute();
+        let s = await this.findGroupByUser(id);
+        if (x.group_id) {
+            if (!s || (s.group_id != x.group_id)) {
+                if (s) {
+                    await this.deleteGroup(s.id);
+                }
+                await this.createGroup(id, x.group_id);
+            }
+        }
+        return await this.findOneById(id);
       } catch (error) {
           console.error(error);
           throw new InternalServerErrorException({

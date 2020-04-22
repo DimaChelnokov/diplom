@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccComponent } from './acc.component';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AccService } from './acc.service';
 
 @NgModule({
@@ -9,7 +9,7 @@ import { AccService } from './acc.service';
   providers: [AccService],
   imports: [
     CommonModule,
-    FormsModule
+    ReactiveFormsModule
   ]
 })
 export class AccModule { }

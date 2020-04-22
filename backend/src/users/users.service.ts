@@ -198,11 +198,19 @@ export class UsersService {
         .set({ 
           fio: x.fio,
           email: x.email,
-          login: x.username,               
-          pass: x.password
+          login: x.username
         })
         .where("users.id = :id", {id: id})
         .execute();
+        if (x.password) {
+          await this.service.createQueryBuilder("users")
+          .update(users)
+          .set({ 
+            pass: x.password
+          })
+          .where("users.id = :id", {id: id})
+          .execute();
+        }
         let s = await this.findGroupByUser(id);
         if (x.group_id) {
             if (!s || (s.group_id != x.group_id)) {

@@ -17,10 +17,11 @@ import { AccComponent } from 'src/acc/acc.component'
 import { AccModule } from 'src/acc/acc.module'
 
 const appRoutes: Routes = [
-  { path: '', component: UsersComponent, canActivate: [JwtGuard] },
+  { path: '', component: AccComponent, canActivate: [JwtGuard] },
+  { path: 'users', component: UsersComponent, canActivate: [JwtGuard] },
   { path: 'reg', component: RegComponent },
   { path: 'auth', component: AuthComponent },
-  { path: 'profile', component: AccComponent },
+  { path: 'profile', component: AccComponent, canActivate: [JwtGuard] },
   { path: '**', redirectTo: '/' }
 ]
 

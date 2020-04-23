@@ -27,14 +27,13 @@ export class AuthComponent implements OnInit {
     localStorage.removeItem('myAuthToken');
     this.serv.auth(this.username, this.password).subscribe(
       (data: any) => {
-        console.log(data);
         localStorage.setItem('myAuthToken', data.access_token);
         this.router.navigate(['']);
       },
       (error: any) => {
         let status = error.status;
         if (status == 401) {
-            alert("Логин или пароль не найден");
+            alert("Р›РѕРіРёРЅ РёР»Рё РїР°СЂРѕР»СЊ РЅРµ РЅР°Р№РґРµРЅ");
         } else {
             alert("Error: " + status);
         }

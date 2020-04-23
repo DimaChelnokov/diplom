@@ -11,24 +11,23 @@ import { Router } from '@angular/router';
 })
 export class UsersComponent implements OnInit {
 
-  @ViewChild('readOnlyTemplate', { static: false })
-  readOnlyTemplate: TemplateRef<any>;
+  @ViewChild('readOnlyTemplate', { static: false }) readOnlyTemplate: TemplateRef<any>;
   @ViewChild('editTemplate', { static: false }) editTemplate: TemplateRef<any>;
 
-  editedUser: User
-  users: Array<User>
-  isNewRecord: boolean
-  statusMessage: string
+  editedUser: User;
+  users: Array<User>;
+  isNewRecord: boolean;
+  statusMessage: string;
 
   constructor(
     private serv: UserService,
     private router: Router
   ) {
-    this.users = new Array<User>()
+    this.users = new Array<User>();
   }
 
   ngOnInit(): void {
-    this.loadUsers()
+    this.loadUsers();
   }
 
   private loadUsers() {

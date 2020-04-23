@@ -4,23 +4,23 @@ import { User } from './user'
 
 @Injectable()
 export class UserService {
+
   private url = '/api/users'
   constructor(private http: HttpClient) {}
 
   getUsers() {
-    return this.http.get(this.url)
+    return this.http.get(this.url);
   }
 
   createUser(user: User) {
-    return this.http.post(this.url, user)
+    return this.http.post(this.url, user);
   }
 
   updateUser(id: number, user: User) {
-    const urlParams = new HttpParams().set('id', id.toString())
-    return this.http.put(this.url, user, { params: urlParams })
+    return this.http.put(this.url + '/' + id, user);
   }
 
   deleteUser(id: number) {
-    return this.http.delete(this.url + '/' + id)
+    return this.http.delete(this.url + '/' + id);
   }
 }

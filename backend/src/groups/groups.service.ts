@@ -13,9 +13,8 @@ export class GroupsService {
 
     async findAll(): Promise<GroupType[]> {
         try {
-            const x = await this.service.createQueryBuilder("groups")
-            .where("groups.date_to is null or groups.date_to > now()")
-            .getMany();
+            const x = await this.service.query(
+                'select id, name, date_from, date_to from groups where groups.date_to is null or groups.date_to > now() order by date_from, name');
             let list: GroupType[] = x.map(x => {
                 let it = new GroupType();
                 it.id = x.id;
@@ -63,8 +62,7 @@ export class GroupsService {
             .into(groups)
             .values({
                 name: x.name,
-                date_from: x.created,
-                date_to: x.deleted
+                date_from: new Date()
             })
             .returning('*')
             .execute();
@@ -84,8 +82,7 @@ export class GroupsService {
             await this.service.createQueryBuilder("groups")
             .update(groups)
             .set({ 
-                name: x.name, 
-                date_to: x.deleted
+                name: x.name
             })
             .where("groups.id = :id", {id: id})
             .execute();

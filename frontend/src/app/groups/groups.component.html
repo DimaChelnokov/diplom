@@ -1,0 +1,71 @@
+<h1>Список групп</h1>
+<input
+  type="button"
+  value="Добавить"
+  class="btn btn-default"
+  (click)="addGroup()"
+/>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <td>Дата</td>
+        <td>Группа</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let group of groups">
+        <ng-template
+          [ngTemplateOutlet]="loadTemplate(group)"
+          [ngTemplateOutletContext]="{ $implicit: group}"
+        >
+        </ng-template>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #readOnlyTemplate let-group>
+    <td>{{group.created | date: 'dd/MM/yyyy'}}</td>
+    <td>{{group.name}}</td>
+    <td>
+      <input
+        type="button"
+        value="Изменить"
+        (click)="editGroup(group)"
+        class="btn btn-default"
+        />
+    </td>
+    <td>
+      <input
+        type="button"
+        value="Удалить"
+        (click)="deleteGroup(group)"
+        class="btn btn-danger"
+      />
+    </td>
+  </ng-template>
+  
+  <ng-template #editTemplate>
+    <td>{{editedGroup.created | date: 'dd/MM/yyyy'}}</td>
+    <td>
+      <input type="text" [(ngModel)]="editedGroup.name" class="form-control" />
+    </td>
+    <td>
+      <input
+        type="button"
+        value="Сохранить"
+        (click)="saveGroup()"
+        class="btn btn-success"
+      />
+    </td>
+    <td>
+      <input
+        type="button"
+        value="Отмена"
+        (click)="cancel()"
+        class="btn btn-warning"
+      />
+    </td>
+  </ng-template>
+  

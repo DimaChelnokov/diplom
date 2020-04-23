@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MustMatch } from 'src/reg/must-match.validator';
+import { MustMatch } from 'src/app/reg/must-match.validator';
 import { Router } from '@angular/router';
 import { AccService } from './acc.service';
 import { Profile } from './profile';

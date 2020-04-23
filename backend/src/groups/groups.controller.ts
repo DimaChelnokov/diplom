@@ -18,10 +18,11 @@ export class GroupsController {
     ) {}
 
     @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('user')
+    @Roles('admin')
     @Get()
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiForbiddenResponse({ description: 'Forbidden.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findAll(@Res() res): Promise<GroupType[]> {
         try {
@@ -33,10 +34,11 @@ export class GroupsController {
     }
 
     @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('user')
+    @Roles('admin')
     @Get(':id')
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiForbiddenResponse({ description: 'Forbidden.'})
     @ApiNotFoundResponse({ description: 'Not Found.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findOne(@Res() res, @Param('id') id): Promise<GroupType> {

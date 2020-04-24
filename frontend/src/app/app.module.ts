@@ -19,7 +19,7 @@ import { GroupsComponent } from './groups/groups.component'
 import { GroupsModule } from './groups/groups.module'
 
 const appRoutes: Routes = [
-  { path: '', component: GroupsComponent, canActivate: [JwtGuard] },
+  { path: '', component: UsersComponent, canActivate: [JwtGuard] },
   { path: 'users', component: UsersComponent, canActivate: [JwtGuard] },
   { path: 'groups', component: GroupsComponent, canActivate: [JwtGuard] },
   { path: 'reg', component: RegComponent },

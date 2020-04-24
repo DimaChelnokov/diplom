@@ -5,22 +5,24 @@ import { User } from './user'
 @Injectable()
 export class UserService {
 
-  private url = '/api/users'
+  private users = '/api/users';
+  private groups = '/api/groups';
+
   constructor(private http: HttpClient) {}
 
   getUsers() {
-    return this.http.get(this.url);
+    return this.http.get(this.users);
   }
 
-  createUser(user: User) {
-    return this.http.post(this.url, user);
+  getGroups() {
+    return this.http.get(this.groups);
   }
 
   updateUser(id: number, user: User) {
-    return this.http.put(this.url + '/' + id, user);
+    return this.http.post(this.users + '/id/' + id, user);
   }
 
   deleteUser(id: number) {
-    return this.http.delete(this.url + '/' + id);
+    return this.http.delete(this.users + '/id/' + id);
   }
 }

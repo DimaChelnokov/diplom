@@ -2,9 +2,10 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <td>Id</td>
       <td>Имя</td>
+      <td>EMail</td>
       <td>Роль</td>
+      <td>Группа</td>
       <td></td>
       <td></td>
     </tr>
@@ -19,12 +20,17 @@
     </tr>
   </tbody>
 </table>
-<div>{{statusMessage}}</div>
 
 <ng-template #readOnlyTemplate let-user>
-  <td>{{user.id}}</td>
   <td>{{user.username}}</td>
-  <td>{{user.roleId}}</td>
+  <td>{{user.email}}</td>
+  <td *ngIf="user.roleId==1">Преподаватель</td>
+  <td *ngIf="user.roleId==2">Студент</td>
+  <td>
+    <div *ngFor="let it of groups">
+      <div *ngIf="it.id==user.group_id">{{it.name}}</div>
+    </div>
+  </td>
   <td>
     <input
       type="button"
@@ -44,20 +50,20 @@
 </ng-template>
 
 <ng-template #editTemplate>
+  <td>{{editedUser.username}}</td>
+  <td>{{editedUser.email}}</td>
   <td>
-    <input
-      type="text"
-      [(ngModel)]="editedUser.id"
-      readonly
-      disabled
-      class="form-control"
-    />
+  <select class="form-control" name="editedUser.roleId" [(ngModel)]="editedUser.roleId">
+    <option value="1">Преподаватель</option>
+    <option value="2">Студент</option>
+  </select>
   </td>
   <td>
-    <input type="text" [(ngModel)]="editedUser.username" class="form-control" />
-  </td>
-  <td>
-    <input type="text" [(ngModel)]="editedUser.roleId" class="form-control" />
+    <select class="form-control" name="editedUser.group_id" [(ngModel)]="editedUser.group_id" *ngIf="editedUser.roleId==2">
+      <option *ngFor="let it of groups" [value]="it.id">
+        {{ it.name }}
+      </option>
+    </select>
   </td>
   <td>
     <input

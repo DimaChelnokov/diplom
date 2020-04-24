@@ -29,22 +29,6 @@ export class UsersController {
         return res.status(HttpStatus.OK).json(r);
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('user')
-    @Get('id/:id')
-    @ApiOkResponse({ description: 'Successfully.'})
-    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
-    @ApiNotFoundResponse({ description: 'Not Found.'})
-    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
-    async findOne(@Res() res, @Param('id') id): Promise<User> {
-        const r = await this.service.findOneById(id);
-        if (!r) {
-            return res.status(HttpStatus.NOT_FOUND).json();
-        } else {
-            return res.status(HttpStatus.OK).json(r);
-        }
-    }
-
     @UseGuards(JwtAuthGuard)
     @Get('current')
     @ApiOkResponse({ description: 'Successfully.'})
@@ -92,7 +76,10 @@ export class UsersController {
     async update(@Req() request: Request, @Res() res, @Param('id') id, @Body() x: User): Promise<User> {
         const user: any = request.user;
         try {
-            const r = await this.service.update(id, x);
+            if (id == user.userId) {
+                return res.status(HttpStatus.FORBIDDEN).json('¬ы не можете редактировать текущего пользовател€!');
+            }
+            const r = await this.service.updateRole(id, x);
             if (!r) {
                 await this.logService.create(user.userId, 3, 1, 'users', { id: id }, HttpStatus.NOT_FOUND);
                 return res.status(HttpStatus.NOT_FOUND).json();
@@ -116,7 +103,7 @@ export class UsersController {
     async updateCurrent(@Req() request: Request, @Res() res, @Body() x: User): Promise<User> {
         const user: any = request.user;
         try {
-            const r = await this.service.update(user.userId, x);
+            const r = await this.service.updateFio(user.userId, x);
             if (!r) {
                 await this.logService.create(user.userId, 3, 1, 'users', { id: user.userId }, HttpStatus.NOT_FOUND);
                 return res.status(HttpStatus.NOT_FOUND).json();
@@ -141,6 +128,9 @@ export class UsersController {
     async delete(@Req() request: Request, @Res() res, @Param('id') id): Promise<User> {
         const user: any = request.user;
         try {
+            if (id == user.userId) {
+                return res.status(HttpStatus.FORBIDDEN).json('¬ы не можете удалить текущего пользовател€!');
+            }
             const r = await this.service.delete(id);
             if (!r) {
                 await this.logService.create(user.userId, 4, 1, 'users', { id: id }, HttpStatus.NOT_FOUND);

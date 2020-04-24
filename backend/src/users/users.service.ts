@@ -191,7 +191,38 @@ export class UsersService {
       }
     }
 
-    async update(id:number, x: User): Promise<User> {
+    async updateRole(id:number, x: User): Promise<User> {
+      try {
+        await this.service.createQueryBuilder("users")
+        .update(users)
+        .set({ 
+          role_id: x.roleId
+        })
+        .where("users.id = :id", {id: id})
+        .execute();
+        let s = await this.findGroupByUser(id);
+        if (s && s.group_id && (x.roleId == 1)) {
+            await this.deleteGroup(s.id);
+        }
+        if (x.group_id && (x.roleId != 1)) {
+            if (!s || (s.group_id != x.group_id)) {
+                if (s) {
+                    await this.deleteGroup(s.id);
+                }
+                await this.createGroup(id, x.group_id);
+            }
+        }
+        return await this.findOneById(id);
+      } catch (error) {
+          console.error(error);
+          throw new InternalServerErrorException({
+              status: HttpStatus.BAD_REQUEST,
+              error: error
+          });
+      }
+    }
+
+    async updateFio(id:number, x: User): Promise<User> {
       try {
         await this.service.createQueryBuilder("users")
         .update(users)

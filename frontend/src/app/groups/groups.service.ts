@@ -5,7 +5,7 @@ import { Group } from '../acc/group';
 @Injectable()
 export class GroupsService {
 
-  private url = '/api/groups'
+  private url = '/api/groups';
   constructor(private http: HttpClient) {}
 
   getGroups() {

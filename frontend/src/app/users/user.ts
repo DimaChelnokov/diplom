@@ -2,6 +2,8 @@
   constructor(
     public id: number, 
     public username: string, 
-    public roleId: number
+    public email: string,
+    public roleId: number,
+    public group_id: number
   ) {}
 }

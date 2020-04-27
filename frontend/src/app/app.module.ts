@@ -17,9 +17,12 @@ import { AccComponent } from 'src/app/acc/acc.component'
 import { AccModule } from 'src/app/acc/acc.module'
 import { GroupsComponent } from './groups/groups.component'
 import { GroupsModule } from './groups/groups.module'
+import { SchedComponent } from './sched/sched.component'
+import { SchedModule } from './sched/sched.module'
 
 const appRoutes: Routes = [
-  { path: '', component: UsersComponent, canActivate: [JwtGuard] },
+  { path: '', component: SchedComponent, canActivate: [JwtGuard] },
+  { path: 'sched', component: SchedComponent, canActivate: [JwtGuard] },
   { path: 'users', component: UsersComponent, canActivate: [JwtGuard] },
   { path: 'groups', component: GroupsComponent, canActivate: [JwtGuard] },
   { path: 'reg', component: RegComponent },
@@ -38,6 +41,7 @@ const appRoutes: Routes = [
     RegModule,
     AccModule,
     GroupsModule,
+    SchedModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

@@ -77,7 +77,7 @@ export class UsersController {
         const user: any = request.user;
         try {
             if (id == user.userId) {
-                return res.status(HttpStatus.FORBIDDEN).json('¬ы не можете редактировать текущего пользовател€!');
+                return res.status(HttpStatus.FORBIDDEN).json();
             }
             const r = await this.service.updateRole(id, x);
             if (!r) {
@@ -129,7 +129,7 @@ export class UsersController {
         const user: any = request.user;
         try {
             if (id == user.userId) {
-                return res.status(HttpStatus.FORBIDDEN).json('¬ы не можете удалить текущего пользовател€!');
+                return res.status(HttpStatus.FORBIDDEN).json();
             }
             const r = await this.service.delete(id);
             if (!r) {

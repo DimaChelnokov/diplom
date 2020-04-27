@@ -6,11 +6,20 @@ export class ScheduleType {
     id: number;
 
     @ApiProperty()
+    task: string;
+
+    @ApiProperty()
     task_id: number;
 
     @ApiProperty()
-    group_id: number;
+    group_name: string;
+
+    @ApiProperty()
+    created_by: string;
 
     @ApiProperty()
     created: Date;
+
+    @ApiProperty()
+    grade: string;
 }

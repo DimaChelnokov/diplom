@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, Index } from "typeorm";
 import { tasks } from "./Tasks";
 import { groups } from "./Groups";
+import { users } from "./Users";
 @Entity()
 export class group_tasks {
     @PrimaryGeneratedColumn()
@@ -19,6 +20,13 @@ export class group_tasks {
     @ManyToOne(type => groups)
     @JoinColumn({ name: "group_id" })
     group: groups;
+
+    @Index()
+    @Column({ nullable: false })
+    created_by: number;
+    @ManyToOne(type => users)
+    @JoinColumn({ name: "created_by" })
+    user: users;
 
     @Column()
     created: Date;

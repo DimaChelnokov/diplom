@@ -6,6 +6,7 @@
         <td>Задание</td>
         <td>Преподаватель</td>
         <td>Оценка</td>
+        <td>Примечание</td>
         <td></td>
       </tr>
     </thead>
@@ -15,22 +16,30 @@
         <td>{{sched.task}}</td>
         <td>{{sched.created_by}}</td>
         <td>{{sched.grade}}</td>
+        <td>{{sched.note}}</td>
         <td>
             <input
               type="button"
               value="Решать"
               (click)="goTo(sched)"
-              class="btn btn-default"
+              class="btn btn-warning"
               *ngIf="sched.grade === null"
               />
               <input
               type="button"
-              value="Смотреть"
+              value="Просмотр"
               (click)="goTo(sched)"
-              class="btn btn-default"
-              *ngIf="sched.grade !== null"
+              class="btn btn-success"
+              *ngIf="sched.grade !== null && sched.grade_id != 2 && sched.grade_id != 3 && sched.grade_id != 4"
              />
-        </td>
+             <input
+             type="button"
+             value="Просмотр"
+             (click)="goTo(sched)"
+             class="btn btn-danger"
+             *ngIf="sched.grade !== null && (sched.grade_id == 2 || sched.grade_id == 3 || sched.grade_id == 4)"
+            />
+       </td>
       </tr>
     </tbody>
   </table>

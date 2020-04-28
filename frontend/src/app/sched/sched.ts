@@ -6,7 +6,10 @@ export class Sched {
       public group_name: string,
       public created_by: string, 
       public created: Date,
-      public grade: string
+      public grade: string,
+      public grade_id: number,
+      public note: string,
+      public start: number
     ) {}
   }
   

@@ -32,4 +32,7 @@ export class tasks {
 
     @Column()
     created: Date;
+
+    @Column({ nullable: true })
+    deleted: Date;
 }

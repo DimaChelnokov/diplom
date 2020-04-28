@@ -39,7 +39,8 @@ export class Dictionaies1581581102768 implements MigrationInterface {
 
         await queryRunner.query(`insert into grades(id, type_id, name) values(1, 1, 'зачёт')`);
         await queryRunner.query(`insert into grades(id, type_id, name) values(2, 1, 'незачёт')`);
-        await queryRunner.query(`insert into grades(id, type_id, name) values(4, 2, 'неуд')`);
+        await queryRunner.query(`insert into grades(id, type_id, name) values(3, 2, 'неуд')`);
+        await queryRunner.query(`insert into grades(id, type_id, name) values(4, 2, 'плохо')`);
         await queryRunner.query(`insert into grades(id, type_id, name) values(5, 2, 'удовл')`);
         await queryRunner.query(`insert into grades(id, type_id, name) values(6, 2, 'хор')`);
         await queryRunner.query(`insert into grades(id, type_id, name) values(7, 2, 'отл')`);

@@ -1,0 +1,41 @@
+<a href="sched"><h1>{{slide.task}}</h1></a>
+<div *ngIf="slide.img">
+    <img src="api/upload/{{slide.img}}"/>
+</div>    
+<div *ngIf="slide.txt">
+    <p>{{slide.txt}}</p>
+</div>
+<div *ngIf="slide.is_radio">
+    <p *ngFor="let a of answers">
+        <input name="answer" type="radio" [value]="a.id">
+        <label [for]="a.id">{{a.txt}}</label>
+    </p>
+</div>
+<div *ngIf="!slide.is_radio">
+    <p *ngFor="let a of answers">
+        <input name="answer" type="checkbox" [value]="a.id">
+        <label [for]="a.id">{{a.txt}}</label>
+    </p>
+</div>
+<table class="table">
+    <tr>
+        <td>
+            <input
+            type="button"
+            value="Назад"
+            (click)="goTo(slide.prev)"
+            class="btn btn-warning"
+            *ngIf="slide.prev"
+            />
+        </td>
+        <td>
+            <input
+            type="button"
+            value="Далее"
+            (click)="goTo(slide.next)"
+            class="btn btn-success"
+            *ngIf="slide.next"
+            />
+        </td>>
+    </tr>
+</table>

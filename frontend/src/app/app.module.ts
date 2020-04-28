@@ -19,10 +19,13 @@ import { GroupsComponent } from './groups/groups.component'
 import { GroupsModule } from './groups/groups.module'
 import { SchedComponent } from './sched/sched.component'
 import { SchedModule } from './sched/sched.module'
+import { SlideComponent } from './slide/slide.component'
+import { SlideModule } from './slide/slide.module'
 
 const appRoutes: Routes = [
   { path: '', component: SchedComponent, canActivate: [JwtGuard] },
   { path: 'sched', component: SchedComponent, canActivate: [JwtGuard] },
+  { path: 'slide/:id', component: SlideComponent, canActivate: [JwtGuard] },
   { path: 'users', component: UsersComponent, canActivate: [JwtGuard] },
   { path: 'groups', component: GroupsComponent, canActivate: [JwtGuard] },
   { path: 'reg', component: RegComponent },
@@ -42,6 +45,7 @@ const appRoutes: Routes = [
     AccModule,
     GroupsModule,
     SchedModule,
+    SlideModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

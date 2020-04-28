@@ -20,6 +20,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api/swagger', app, document);  
 
+  app.useStaticAssets(join(__dirname, '/../upload'), {prefix: '/api/upload'});
   app.useStaticAssets(join(__dirname, '/../public'), {prefix: '/'});
   app.setBaseViewsDir(join(__dirname, '/../public'));
   app.useGlobalFilters(new NotFoundExceptionFilter());

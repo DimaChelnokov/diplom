@@ -31,9 +31,6 @@ export class Dictionaies1581581102768 implements MigrationInterface {
         await queryRunner.query(`insert into detail_statuses(id, name) values(2, 'запись активна')`);
         await queryRunner.query(`insert into detail_statuses(id, name) values(3, 'запись устарела')`);
 
-        await queryRunner.query(`insert into grade_kinds(id, name) values(1, 'автоматическая оценка')`);
-        await queryRunner.query(`insert into grade_kinds(id, name) values(2, 'оценка преподавателем')`);
-
         await queryRunner.query(`insert into grade_types(id, name) values(1, 'зачёт/незачёт')`);
         await queryRunner.query(`insert into grade_types(id, name) values(2, 'неуд/удовл/хор/отл')`);
 
@@ -71,7 +68,6 @@ export class Dictionaies1581581102768 implements MigrationInterface {
         await queryRunner.query(`delete from users`);
         await queryRunner.query(`delete from user_roles`);
         await queryRunner.query(`delete from detail_statuses`);
-        await queryRunner.query(`delete from grade_kinds`);
         await queryRunner.query(`delete from grades`);
         await queryRunner.query(`delete from grade_types`);
         await queryRunner.query(`delete from rule_types`);

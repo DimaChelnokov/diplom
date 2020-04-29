@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, Index } 
 import { tasks } from "./Tasks";
 import { grades } from "./Grades";
 import { users } from "./Users";
-import { grade_kinds } from "./GradeKinds";
+import { students } from "./Students";
 @Entity()
 export class task_grade {
     @PrimaryGeneratedColumn()
@@ -15,24 +15,18 @@ export class task_grade {
     @JoinColumn({ name: "task_id" })
     task: tasks;
 
-    @Column({ nullable: false })
+    @Column({ nullable: true })
     grade_id: number;
     @ManyToOne(type => grades)
     @JoinColumn({ name: "grade_id" })
     grade: grades;
 
-    @Column({ nullable: false })
-    kind_id: number;
-    @ManyToOne(type => grade_kinds)
-    @JoinColumn({ name: "kind_id" })
-    kind: grade_kinds;
-
     @Index()
     @Column({ nullable: true })
     student_id: number;
-    @ManyToOne(type => users)
+    @ManyToOne(type => students)
     @JoinColumn({ name: "student_id" })
-    studentId: users;
+    studentId: students;
 
     @Index()
     @Column({ nullable: true })

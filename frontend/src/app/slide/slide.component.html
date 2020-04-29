@@ -1,25 +1,44 @@
-<a href="sched"><h1>{{slide.task}}</h1></a>
-<div *ngIf="slide.img">
-    <img src="api/upload/{{slide.img}}"/>
-</div>    
-<div *ngIf="slide.txt">
-    <p>{{slide.txt}}</p>
-</div>
-<div *ngIf="slide.is_radio">
-    <p *ngFor="let a of answers">
-        <input name="answer" type="radio" [value]="a.id">
-        <label [for]="a.id">{{a.txt}}</label>
-    </p>
-</div>
-<div *ngIf="!slide.is_radio">
-    <p *ngFor="let a of answers">
-        <input name="answer" type="checkbox" [value]="a.id">
-        <label [for]="a.id">{{a.txt}}</label>
-    </p>
-</div>
-<table class="table">
-    <tr>
-        <td>
+<div class="jumbotron">
+    <div class="container">
+       <div class="row">
+          <div class="col-md-6 offset-md-3">
+            <a href="sched"><h2>{{slide.task}}</h2></a>
+            <div *ngIf="slide.img">
+                <img src="api/upload/{{slide.img}}"/>
+            </div>    
+            <div *ngIf="slide.txt">
+                <p>{{slide.txt}}</p>
+            </div>
+            <div *ngIf="slide.is_radio">
+                <div *ngIf="slide.grade_id === null">
+                    <p *ngFor="let a of items">
+                        <input name="answer" type="radio" [value]="a.id" checked *ngIf="a.is_checked" (change)="onChanged(a)">
+                        <input name="answer" type="radio" [value]="a.id" *ngIf="!a.is_checked" (change)="onChanged(a)">
+                        <label [for]="a.id">{{a.txt}}</label>
+                    </p>
+                </div>
+                <div *ngIf="slide.grade_id !== null">
+                    <p *ngFor="let a of items">
+                        <input name="answer" type="radio" [value]="a.id" checked *ngIf="a.is_checked" (change)="onChanged(a)" disabled>
+                        <input name="answer" type="radio" [value]="a.id" *ngIf="!a.is_checked" (change)="onChanged(a)" disabled>
+                        <label [for]="a.id">{{a.txt}}</label>
+                    </p>
+                </div>
+            </div>
+            <div *ngIf="!slide.is_radio">
+                <div *ngIf="slide.grade_id === null">
+                    <p *ngFor="let a of items">
+                        <input name="answer" type="checkbox" [value]="a.id" [checked]="a.is_checked" (change)="onChanged(a)">
+                        <label [for]="a.id">{{a.txt}}</label>
+                    </p>
+                </div>
+                <div *ngIf="slide.grade_id !== null">
+                    <p *ngFor="let a of items">
+                        <input name="answer" type="checkbox" [value]="a.id" [checked]="a.is_checked" (change)="onChanged(a)" disabled>
+                        <label [for]="a.id">{{a.txt}}</label>
+                    </p>
+                </div>
+            </div>
             <input
             type="button"
             value="Назад"
@@ -27,15 +46,14 @@
             class="btn btn-warning"
             *ngIf="slide.prev"
             />
-        </td>
-        <td>
             <input
             type="button"
             value="Далее"
             (click)="goTo(slide.next)"
-            class="btn btn-success"
+            class="btn btn-success pull-right"
             *ngIf="slide.next"
             />
-        </td>>
-    </tr>
-</table>
+          </div>
+        </div>
+     </div>
+ </div>

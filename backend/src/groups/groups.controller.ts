@@ -34,27 +34,6 @@ export class GroupsController {
 
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('admin')
-    @Get(':id')
-    @ApiOkResponse({ description: 'Successfully.'})
-    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
-    @ApiForbiddenResponse({ description: 'Forbidden.'})
-    @ApiNotFoundResponse({ description: 'Not Found.'})
-    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
-    async findOne(@Res() res, @Param('id') id): Promise<GroupType> {
-        try {
-            const r = await this.service.findOne(id);
-            if (!r) {
-                return res.status(HttpStatus.NOT_FOUND).json();
-            } else {
-                return res.status(HttpStatus.OK).json(r);
-            }
-        } catch (e) {
-            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
-        }
-    }
-
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('admin')
     @Post()
     @ApiBody({ type: [GroupType] })
     @ApiOkResponse({ description: 'Successfully.'})

@@ -7,7 +7,8 @@ export class Slide {
       public txt: string, 
       public is_radio: boolean,
       public next: number, 
-      public prev: number
+      public prev: number,
+      public grade_id: number
     ) {}
   }
   

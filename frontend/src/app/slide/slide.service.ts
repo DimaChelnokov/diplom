@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Answer } from './answer';
 
 @Injectable()
 export class SlideService {
 
   private slide = '/api/schedules';
-  private answers = '/api/schedules/slide';
+  private items = '/api/schedules/slide';
+  private answers = 'api/answers/current';
 
   constructor(private http: HttpClient) { }
 
@@ -13,7 +15,15 @@ export class SlideService {
     return this.http.get(this.slide + '/' + id);
   }
 
-  getAnswers(id: number) {
+  getItems(id: number) {
+    return this.http.get(this.items + '/' + id);
+  }
+
+  getResults(id: number) {
     return this.http.get(this.answers + '/' + id);
+  }
+
+  setResults(results: Answer[]) {
+    return this.http.post(this.answers, results);
   }
 }

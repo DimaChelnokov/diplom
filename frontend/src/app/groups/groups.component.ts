@@ -86,7 +86,7 @@ export class GroupsComponent implements OnInit {
   }
 
   deleteGroup(group: Group) {
-    if (confirm("Óäàëèòü ãðóïïó?")) {
+    if (confirm("Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ Ð³Ñ€ÑƒÐ¿Ð¿Ñƒ?")) {
       this.serv.deleteGroup(group.id).subscribe(data => {
           setTimeout(() => this.loadGroups(), 1000);
       });

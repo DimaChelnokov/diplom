@@ -1,0 +1,31 @@
+<h1>Решённые задания</h1>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <td>Дата</td>
+        <td>Задание</td>
+        <td>Группа</td>
+        <td>Студент</td>
+        <td>Примечание</td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let it of tasks">
+        <td>{{it.solved | date: 'dd/MM/yyyy'}}</td>
+        <td>{{it.task}}</td>
+        <td>{{it.group_name}}</td>
+        <td>{{it.solved_by}}</td>
+        <td>{{it.note}}</td>
+        <td>
+            <input
+              type="button"
+              value="Оценить"
+              (click)="goTo(it)"
+              class="btn btn-success"
+              />
+       </td>
+      </tr>
+    </tbody>
+  </table>
+  

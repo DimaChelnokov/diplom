@@ -1,22 +1,28 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
-export class TaskType {
+export class SolvedType {
 
     @ApiPropertyOptional()
     id: number;
 
     @ApiProperty()
-    type_id: number;
+    task: string;
 
     @ApiProperty()
-    name: string;
+    task_id: number;
 
     @ApiProperty()
-    created_by: number;
+    group_name: string;
 
     @ApiProperty()
-    gradetype_id: number;
+    solved_by: string;
 
     @ApiProperty()
-    created: Date;
+    solved: Date;
+
+    @ApiProperty()
+    start: number;
+
+    @ApiProperty()
+    note: string;
 }

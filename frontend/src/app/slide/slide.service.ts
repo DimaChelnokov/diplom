@@ -7,7 +7,7 @@ export class SlideService {
 
   private slide = '/api/schedules';
   private items = '/api/schedules/slide';
-  private answers = 'api/answers/current';
+  private answers = '/api/answers/current';
 
   constructor(private http: HttpClient) { }
 

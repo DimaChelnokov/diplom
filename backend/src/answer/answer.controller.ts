@@ -35,6 +35,25 @@ export class AnswerController {
     }
 
     @UseGuards(JwtAuthGuard)
+    @Get('student/:student/:id')
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiNotFoundResponse({ description: 'Not Found.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
+    async findSlideByUser(@Res() res, @Param('student') student, @Param('id') id): Promise<ResultType> {
+        try {
+            const r = await this.service.getResultsByStudent(student, id);
+            if (!r) {
+                return res.status(HttpStatus.NOT_FOUND).json();
+            } else {
+                return res.status(HttpStatus.OK).json(r);
+            }
+        } catch (e) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
+        }
+    }
+
+    @UseGuards(JwtAuthGuard)
     @Post('current')
     @ApiBody({ type: [ResultType] })
     @ApiOkResponse({ description: 'Successfully.'})

@@ -18,6 +18,9 @@ export class SolvedType {
     solved_by: string;
 
     @ApiProperty()
+    student_id: number;
+
+    @ApiProperty()
     solved: Date;
 
     @ApiProperty()

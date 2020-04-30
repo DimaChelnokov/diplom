@@ -21,12 +21,15 @@ export class ScheduleType {
     created: Date;
 
     @ApiProperty()
+    gradetype_id: number;
+
+    @ApiPropertyOptional()
     grade: string;
 
-    @ApiProperty()
+    @ApiPropertyOptional()
     grade_id: number;
 
-    @ApiProperty()
+    @ApiPropertyOptional()
     note: string;
 
     @ApiProperty()

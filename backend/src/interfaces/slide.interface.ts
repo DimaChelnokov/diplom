@@ -26,6 +26,9 @@ export class SlideType {
     @ApiPropertyOptional()
     prev: number;
 
+    @ApiProperty()
+    gradetype_id: number;
+    
     @ApiPropertyOptional()
     grade_id: number;
 }

@@ -6,8 +6,5 @@ export class GradeType {
     id: number;
 
     @ApiProperty()
-    type_id: number;
-
-    @ApiProperty()
     name: string;
 }

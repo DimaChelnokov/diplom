@@ -1,0 +1,66 @@
+<div class="jumbotron">
+    <div class="container">
+       <div class="row">
+          <div class="col-md-6 offset-md-3">
+            <a href="solved"><h2>{{slide.task}}</h2></a>
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                      <td>
+                        <select class="form-control" name="grade.grade_id" [(ngModel)]="grade.grade_id">
+                          <option *ngFor="let it of grades" [value]="it.id">
+                            {{ it.name }}
+                          </option>
+                        </select>
+                      </td>
+                      <td>
+                        <input type="text" [(ngModel)]="grade.note" class="form-control" />
+                      </td>
+                      <td>
+                        <input
+                        type="button"
+                        value="Оценить"
+                        (click)="save(grade)"
+                        class="btn btn-success pull-right"
+                        />
+                      </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="slide.img">
+                <img src="api/upload/{{slide.img}}"/>
+            </div>    
+            <div *ngIf="slide.txt">
+                <p>{{slide.txt}}</p>
+            </div>
+            <div *ngIf="slide.is_radio">
+                <p *ngFor="let a of items">
+                    <input name="answer" type="radio" [value]="a.id" checked *ngIf="a.is_checked" disabled>
+                    <input name="answer" type="radio" [value]="a.id" *ngIf="!a.is_checked" disabled>
+                    <label [ngClass]="{correct: a.is_correct}" [for]="a.id">{{a.txt}}</label>
+                </p>
+            </div>
+            <div *ngIf="!slide.is_radio">
+                <p *ngFor="let a of items">
+                    <input name="answer" type="checkbox" [value]="a.id" [checked]="a.is_checked" disabled>
+                    <label [ngClass]="{correct: a.is_correct}" [for]="a.id">{{a.txt}}</label>
+                </p>
+            </div>
+            <input
+            type="button"
+            value="Назад"
+            (click)="goTo(slide.prev)"
+            class="btn btn-default"
+            *ngIf="slide.prev"
+            />
+            <input
+            type="button"
+            value="Далее"
+            (click)="goTo(slide.next)"
+            class="btn btn-default pull-right"
+            *ngIf="slide.next"
+            />
+          </div>
+        </div>
+     </div>
+ </div>

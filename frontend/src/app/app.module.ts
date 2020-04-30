@@ -23,12 +23,15 @@ import { SlideComponent } from './slide/slide.component'
 import { SlideModule } from './slide/slide.module'
 import { SolvedModule } from './solved/solved.module'
 import { SolvedComponent } from './solved/solved.component'
+import { ResultModule } from './result/result.module'
+import { ResultComponent } from './result/result.component'
 
 const appRoutes: Routes = [
   { path: '', component: SolvedComponent, canActivate: [JwtGuard] },
   { path: 'sched', component: SchedComponent, canActivate: [JwtGuard] },
   { path: 'solved', component: SolvedComponent, canActivate: [JwtGuard] },
   { path: 'slide/:id', component: SlideComponent, canActivate: [JwtGuard] },
+  { path: 'res/:student/:id', component: ResultComponent, canActivate: [JwtGuard] },
   { path: 'users', component: UsersComponent, canActivate: [JwtGuard] },
   { path: 'groups', component: GroupsComponent, canActivate: [JwtGuard] },
   { path: 'reg', component: RegComponent },
@@ -50,6 +53,7 @@ const appRoutes: Routes = [
     SchedModule,
     SlideModule,
     SolvedModule,
+    ResultModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

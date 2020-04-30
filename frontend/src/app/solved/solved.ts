@@ -7,7 +7,8 @@ export class Solved {
       public solved_by: string, 
       public solved: Date,
       public note: string,
-      public start: number
+      public start: number,
+      public student_id: number
     ) {}
   }
   

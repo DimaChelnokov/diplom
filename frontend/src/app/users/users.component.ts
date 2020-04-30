@@ -94,6 +94,6 @@ export class UsersComponent implements OnInit {
       if (error.status == 403) {
         alert('Вы не можете удалить текущего пользователя!');
       }
-    })
+    });
   }
 }

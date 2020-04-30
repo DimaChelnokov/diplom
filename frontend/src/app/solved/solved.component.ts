@@ -36,6 +36,6 @@ export class SolvedComponent implements OnInit {
   }
 
   goTo(it: Solved) { 
-    this.router.navigate(['result/' + it.start]);
+    this.router.navigate(['res/' + it.student_id + '/' + it.start]);
   }
 }

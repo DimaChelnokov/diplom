@@ -19,8 +19,8 @@
                 </div>
                 <div *ngIf="slide.grade_id !== null">
                     <p *ngFor="let a of items">
-                        <input name="answer" type="radio" [value]="a.id" checked *ngIf="a.is_checked" (change)="onChanged(a)" disabled>
-                        <input name="answer" type="radio" [value]="a.id" *ngIf="!a.is_checked" (change)="onChanged(a)" disabled>
+                        <input name="answer" type="radio" [value]="a.id" checked *ngIf="a.is_checked" disabled>
+                        <input name="answer" type="radio" [value]="a.id" *ngIf="!a.is_checked" disabled>
                         <label [for]="a.id">{{a.txt}}</label>
                     </p>
                 </div>
@@ -34,7 +34,7 @@
                 </div>
                 <div *ngIf="slide.grade_id !== null">
                     <p *ngFor="let a of items">
-                        <input name="answer" type="checkbox" [value]="a.id" [checked]="a.is_checked" (change)="onChanged(a)" disabled>
+                        <input name="answer" type="checkbox" [value]="a.id" [checked]="a.is_checked" disabled>
                         <label [for]="a.id">{{a.txt}}</label>
                     </p>
                 </div>
@@ -43,14 +43,14 @@
             type="button"
             value="Назад"
             (click)="goTo(slide.prev)"
-            class="btn btn-warning"
+            class="btn btn-default"
             *ngIf="slide.prev"
             />
             <input
             type="button"
             value="Далее"
             (click)="goTo(slide.next)"
-            class="btn btn-success pull-right"
+            class="btn btn-default pull-right"
             *ngIf="slide.next"
             />
           </div>

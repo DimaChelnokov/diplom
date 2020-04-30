@@ -1,19 +1,33 @@
-import { Controller, Get, Res, HttpStatus, UseGuards, Post, Body, Req, Param, Delete } from '@nestjs/common';
+import { Controller, Res, HttpStatus, UseGuards, Post, Body, Param } from '@nestjs/common';
 import { GradesService } from './grades.service';
 import { ApiOkResponse, ApiInternalServerErrorResponse, ApiUnauthorizedResponse, ApiSecurity, ApiBody, ApiNotFoundResponse, ApiForbiddenResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { Request } from 'express';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
-import { LogService } from '../log/log.service';
+import { TaskGrade } from '../interfaces/taskgrade.interface';
 
 @ApiSecurity('bearer')
 @Controller('api/grades')
 export class GradesController {
 
     constructor(
-        private readonly service: GradesService,
-        private readonly logService: LogService
+        private readonly service: GradesService
     ) {}
 
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
+    @Post()
+    @ApiBody({ type: [TaskGrade] })
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiForbiddenResponse({ description: 'Forbidden.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
+    async update(@Res() res, @Body() x: TaskGrade): Promise<TaskGrade> {
+        try {
+            const r = await this.service.updateGrade(x.student_id, x.task_id, x);
+            return res.status(HttpStatus.OK).json(r);
+        } catch (e) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
+        }
+    }
 }

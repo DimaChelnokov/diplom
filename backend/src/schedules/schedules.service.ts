@@ -18,7 +18,7 @@ export class SchedulesService {
         try {
             const x = await this.service.query(
                `select a.id as id, a.created as created, a.task_id as task_id, b.name as task, c.name as group_name, 
-                       g.name as grade, d.fio as created_by, f.grade_id as grade_id, f.note as note,
+                       g.name as grade, d.fio as created_by, f.grade_id as grade_id, f.note as note, b.gradetype_id as gradetype_id,
                       (select min(id) from task_topics h where h.task_id = b.id) as start
                 from   group_tasks a
                 inner  join tasks b on (b.id = a.task_id and now() > b.created and now() <= coalesce(b.deleted, now())) 
@@ -41,6 +41,7 @@ export class SchedulesService {
                     it.grade_id = x.grade_id;
                     it.note = x.note;
                     it.start = x.start;
+                    it.gradetype_id = x.gradetype_id;
                     return it;
                 });
                 return list;
@@ -57,7 +58,7 @@ export class SchedulesService {
         try {
             const x = await this.service.query(
                `select a.id as id, a.changed as solved, a.task_id as task_id, b.name as task,
-                       d.name as group_name, f.fio as solved_by, a.note as note, 
+                       d.name as group_name, f.fio as solved_by, a.note as note, e.id as student_id,
                        (select min(id) from task_topics h where h.task_id = b.id) as start
                 from   task_grade a
                 inner  join tasks b on (b.id = a.task_id and b.created_by = $1 and now() > b.created and now() <= coalesce(b.deleted, now()))
@@ -77,6 +78,7 @@ export class SchedulesService {
                     it.solved_by = x.solved_by;
                     it.note = x.note;
                     it.start = x.start;
+                    it.student_id = x.student_id;
                     return it;
                 });
                 return list;
@@ -104,11 +106,8 @@ export class SchedulesService {
     async getSlide(user: number, id: number): Promise<SlideType> {
         try {
             let student = await this.getStudent(user);
-            if (!student) {
-                return null;
-            }
             const x = await this.service.query(
-                `select a.id as id, a.task_id as task_id, b.name as task, c.txt as img, d.txt as txt, a.is_radio as is_radio, g.grade_id as grade_id,
+                `select a.id as id, a.task_id as task_id, b.name as task, c.txt as img, d.txt as txt, a.is_radio as is_radio, g.grade_id as grade_id, b.gradetype_id as gradetype_id,
                 (select min(e.id) from task_topics e where e.task_id = a.task_id and e.id > a.id) as next,
                 (select max(f.id) from task_topics f where f.task_id = a.task_id and f.id < a.id) as prev
                  from   task_topics a
@@ -130,6 +129,7 @@ export class SchedulesService {
             it.next = x[0].next;
             it.prev = x[0].prev;
             it.grade_id = x[0].grade_id;
+            it.gradetype_id = x[0].gradetype_id;
             return it;
         } catch (error) {
             console.error(error);

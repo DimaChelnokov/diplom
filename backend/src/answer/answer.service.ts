@@ -61,6 +61,38 @@ export class AnswerService {
         }
     }
 
+    async getResultsByStudent(student: number, task: number): Promise<ResultType[]> {
+        try {
+            const x = await this.service.query(
+                `select c.student_id as student_id, a.task_id as task_id, 
+                        b.id as item_id, c.checked as checked
+                 from   task_topics a
+                 inner  join task_items b on (b.topic_id = a.id)
+                 inner  join answer c on (c.item_id = b.id and c.student_id = $1)
+                 where  a.id = $2`, [student, task]);
+                 let list: ResultType[] = x.map(x => {
+                     let it = new ResultType();
+                     it.student_id = x.student_id;
+                     it.task_id = x.task_id;
+                     it.item_id = x.item_id;
+                     if (x.checked) {
+                         it.is_checked = true;
+                     } else {
+                         it.is_checked = false;
+                     }
+                     it.checked = x.checked;
+                     return it;
+                 });
+                 return list;
+        } catch (error) {
+                console.error(error);
+                throw new InternalServerErrorException({
+                    status: HttpStatus.BAD_REQUEST,
+                    error: error
+                });
+        }
+    }
+
     async touchGrade(student: number, task: number): Promise<boolean> {
         const x = await this.service.query(
             `select a.id

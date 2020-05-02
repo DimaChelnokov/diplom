@@ -1,0 +1,67 @@
+<table class="table">
+    <thead>
+      <tr>
+        <th style="width: 10%">
+            <a href="/users">Пользователи</a>
+        </th>
+        <th style="width: 10%">
+          <a href="/groups">Группы</a>
+        </th>
+        <th style="width: 10%">
+          <b>Задания</b>
+        </th>
+        <th style="width: 10%">
+          <a href="/solved">Оценки</a>
+        </th>
+        <th style="width: 10%">
+          <a href="/profile">Профиль</a>
+        </th>
+        <th style="width: 90%">
+          <a href="/auth">Выйти</a>
+        </th>
+      </tr>
+    </thead>
+  </table>
+  
+  <h1>Список заданий</h1>
+  <input
+     type="button"
+     value="Добавить"
+     class="btn btn-default"
+  />
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <td>Дата</td>
+        <td>Задание</td>
+        <td>Тип оценки</td>
+        <td>Группы</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let it of tasks">
+        <td>{{it.created | date: 'dd/MM/yyyy'}}</td>
+        <td>{{it.name}}</td>
+        <td>{{it.gradetype}}</td>
+        <td>{{it.groups}}</td>
+        <td>
+            <input
+              type="button"
+              value="Редактировать"
+              class="btn btn-success"
+              />
+       </td>
+       <td>
+            <input
+              type="button"
+              value="Удалить"
+              (click)="deleteTask(it)"
+              class="btn btn-danger"
+            />
+       </td>
+      </tr>
+    </tbody>
+  </table>
+  

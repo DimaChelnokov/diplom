@@ -71,7 +71,7 @@ export class UsersComponent implements OnInit {
       this.serv
         .updateUser(this.editedUser.id, this.editedUser)
         .subscribe(data => {
-          setTimeout(() => this.loadUsers(), 1000);
+          setTimeout(() => this.loadUsers(), 2000);
         },
         (error: any) => {
           if (error.status == 403) {
@@ -88,7 +88,7 @@ export class UsersComponent implements OnInit {
   deleteUser(user: User) {
     if (!confirm("Удалить пользователя?")) return;
     this.serv.deleteUser(user.id).subscribe(data => {
-      setTimeout(() => this.loadUsers(), 1000);
+      setTimeout(() => this.loadUsers(), 2000);
     },
     (error: any) => {
       if (error.status == 403) {

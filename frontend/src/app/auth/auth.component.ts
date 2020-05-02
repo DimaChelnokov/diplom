@@ -28,7 +28,12 @@ export class AuthComponent implements OnInit {
     this.serv.auth(this.username, this.password).subscribe(
       (data: any) => {
         localStorage.setItem('myAuthToken', data.access_token);
-        this.router.navigate(['']);
+        localStorage.setItem('myRole', data.role);
+        if (data.role == 1) {
+          this.router.navigate(['users']);
+        } else {
+          this.router.navigate(['sched']);
+        }
       },
       (error: any) => {
         let status = error.status;

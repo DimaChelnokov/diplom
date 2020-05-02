@@ -1,4 +1,32 @@
-<div class="jumbotron">
+<table class="table">
+    <thead>
+      <tr>
+        <th *ngIf="role==1" style="width: 10%">
+          <a href="/users">Пользователи</a>
+        </th>
+        <th *ngIf="role==1" style="width: 10%">
+          <a href="/groups">Группы</a>
+        </th>
+        <th *ngIf="role==1" style="width: 10%">
+            <a href="/tasks">Задания</a>
+        </th>
+        <th *ngIf="role==2" style="width: 10%">
+            <a href="/sched">Задания</a>
+        </th>
+        <th *ngIf="role==1" style="width: 10%">
+          <a href="/solved">Оценки</a>
+        </th>
+        <th class="col-md-1" style="width: 10%">
+          <b>Профиль</b>
+        </th>
+        <th class="col-md-1" style="width: 90%">
+          <a href="/auth">Выйти</a>
+        </th>
+      </tr>
+    </thead>
+  </table>
+  
+  <div class="jumbotron">
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-3">

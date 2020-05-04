@@ -27,10 +27,6 @@ export class Dictionaies1581581102768 implements MigrationInterface {
         await queryRunner.query(`insert into user_roles(id, name) values(1, 'Преподаватель')`);
         await queryRunner.query(`insert into user_roles(id, name) values(2, 'Студент')`);
 
-        await queryRunner.query(`insert into detail_statuses(id, name) values(1, 'ожидается активация')`);
-        await queryRunner.query(`insert into detail_statuses(id, name) values(2, 'запись активна')`);
-        await queryRunner.query(`insert into detail_statuses(id, name) values(3, 'запись устарела')`);
-
         await queryRunner.query(`insert into grade_types(id, name) values(1, 'зачёт/незачёт')`);
         await queryRunner.query(`insert into grade_types(id, name) values(2, 'неуд/удовл/хор/отл')`);
 
@@ -67,7 +63,6 @@ export class Dictionaies1581581102768 implements MigrationInterface {
     public async down(queryRunner: QueryRunner): Promise<any> {
         await queryRunner.query(`delete from users`);
         await queryRunner.query(`delete from user_roles`);
-        await queryRunner.query(`delete from detail_statuses`);
         await queryRunner.query(`delete from grades`);
         await queryRunner.query(`delete from grade_types`);
         await queryRunner.query(`delete from rule_types`);

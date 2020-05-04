@@ -14,9 +14,9 @@ export class Test1588054689331 implements MigrationInterface {
         await queryRunner.query(`insert into task_topics(id, task_id, template_id, is_radio) values(2, 1, 1, true)`);
         await queryRunner.query(`insert into task_topics(id, task_id, template_id, is_radio) values(3, 1, 1, true)`);
 
-        await queryRunner.query(`insert into picture(internal_name, file_name, user_id, loaded) values('1.png', '1.png', 1, now())`);
-        await queryRunner.query(`insert into picture(internal_name, file_name, user_id, loaded) values('2.png', '2.png', 1, now())`);
-        await queryRunner.query(`insert into picture(internal_name, file_name, user_id, loaded) values('3.png', '3.png', 1, now())`);
+        await queryRunner.query(`insert into picture(internal_name, file_name, loaded) values('1.png', '1.png', now())`);
+        await queryRunner.query(`insert into picture(internal_name, file_name, loaded) values('2.png', '2.png', now())`);
+        await queryRunner.query(`insert into picture(internal_name, file_name, loaded) values('3.png', '3.png', now())`);
 
         await queryRunner.query(`insert into task_items(id, topic_id, item_id, txt, is_correct) values(1, 1, 1, '1.png', false)`);
         await queryRunner.query(`insert into task_items(id, topic_id, item_id, txt, is_correct) values(2, 1, 2, 'Выберите тип схемы подключения:', false)`);

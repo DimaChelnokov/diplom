@@ -1,7 +1,7 @@
-import { Controller, Request, UseGuards, Post, HttpStatus, UseInterceptors, UploadedFiles, Res } from '@nestjs/common';
+import { Controller, UseGuards, Request, Post, HttpStatus, UseInterceptors, UploadedFiles, Res, Req } from '@nestjs/common';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { AuthService } from './auth/auth.service';
-import { ApiUnauthorizedResponse, ApiBody, ApiCreatedResponse, ApiSecurity } from '@nestjs/swagger';
+import { ApiUnauthorizedResponse, ApiBody, ApiCreatedResponse, ApiSecurity, ApiOkResponse, ApiInternalServerErrorResponse } from '@nestjs/swagger';
 import { User } from './interfaces/user.interface';
 import { LogService } from './log/log.service';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
@@ -26,9 +26,14 @@ export class AppController {
     return r;
   }
 
-  @Post('upload')
+  @Post('api/upload')
   @UseInterceptors(AnyFilesInterceptor())
+  @ApiOkResponse({ description: 'Successfully.'})
+  @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
   async uploadFile(@UploadedFiles() files, @Res() res) {
+    for (let file of files) {
+      await this.logService.addFile(file);
+    }
     return res.status(HttpStatus.OK).json(files);
   }
 }

@@ -2,6 +2,7 @@ import { Injectable, Inject, InternalServerErrorException, HttpStatus } from '@n
 import { user_log } from '../entity/UserLog';
 import { Repository } from 'typeorm';
 import { UserLog } from '../interfaces/log.interface';
+import { picture } from '../entity/Picture';
 
 @Injectable()
 export class LogService {
@@ -68,5 +69,25 @@ export class LogService {
           });
         }
       }
-    
+
+      async addFile(file: any): Promise<boolean> {
+        try {
+          await this.service.createQueryBuilder("picture")
+          .insert()
+          .into(picture)
+          .values({
+              file_name: file.originalname,
+              internal_name: file.filename,
+              loaded: new Date()
+          })
+          .execute();
+          return true;
+        } catch (error) {
+          console.error(error);
+          throw new InternalServerErrorException({
+              status: HttpStatus.BAD_REQUEST,
+              error: error
+          });
+        }
+      }
 }

@@ -27,6 +27,7 @@
   <input
      type="button"
      value="Добавить"
+     (click)="addTask()"
      class="btn btn-default"
   />
   <table class="table table-striped">
@@ -38,30 +39,89 @@
         <td>Группы</td>
         <td></td>
         <td></td>
+        <td></td>
+        <td></td>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let it of tasks">
-        <td>{{it.created | date: 'dd/MM/yyyy'}}</td>
-        <td>{{it.name}}</td>
-        <td>{{it.gradetype}}</td>
-        <td>{{it.groups}}</td>
-        <td>
-            <input
-              type="button"
-              value="Редактировать"
-              class="btn btn-success"
-              />
-       </td>
-       <td>
-            <input
-              type="button"
-              value="Удалить"
-              (click)="deleteTask(it)"
-              class="btn btn-danger"
-            />
-       </td>
+        <ng-template
+        [ngTemplateOutlet]="loadTemplate(it)"
+        [ngTemplateOutletContext]="{ $implicit: it}"
+        >
+        </ng-template>
       </tr>
     </tbody>
   </table>
   
+  <ng-template #readOnlyTemplate let-it>
+    <td>{{it.created | date: 'dd/MM/yyyy'}}</td>
+    <td>{{it.name}}</td>
+    <td>{{it.gradetype}}</td>
+    <td>{{it.groups}}</td>
+    <td>
+    <input
+          type="button"
+          value="Слайды"
+          class="btn btn-default"
+          *ngIf="!it.groups"
+        />
+    </td>
+    <td>
+        <input
+          type="button"
+          value="Группы"
+          class="btn btn-default"
+        />
+    </td>
+    <td>
+      <input
+        type="button"
+        value="Редактировать"
+        (click)="editTask(it)"
+        class="btn btn-success"
+        />
+   </td>
+   <td>
+        <input
+          type="button"
+          value="Удалить"
+          (click)="deleteTask(it)"
+          class="btn btn-danger"
+        />
+   </td>
+</ng-template>
+  
+<ng-template #editTemplate>
+  <td>{{editedTask.created | date: 'dd/MM/yyyy'}}</td>
+  <td>
+    <input type="text" [(ngModel)]="editedTask.name" class="form-control" />
+  </td>
+  <td *ngIf="editedTask.groups">{{editedTask.gradetype}}</td>
+  <td *ngIf="!editedTask.groups">
+    <select class="form-control" name="editedTask.gradetype_id" [(ngModel)]="editedTask.gradetype_id">
+      <option *ngFor="let it of gradeTypes" [value]="it.id">
+        {{ it.name }}
+      </option>
+    </select>
+  </td>
+  <td>{{editedTask.groups}}</td>
+  <td></td>
+  <td></td>
+  <td>
+    <input
+      type="button"
+      value="Сохранить"
+      (click)="saveTask()"
+      class="btn btn-success"
+    />
+  </td>
+  <td>
+  <input
+     type="button"
+     value="Отмена"
+     (click)="cancel()"
+     class="btn btn-warning"
+   />
+</td>
+</ng-template>

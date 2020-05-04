@@ -1,0 +1,71 @@
+<table class="table">
+    <thead>
+      <tr>
+        <th style="width: 10%">
+            <a href="/users">Пользователи</a>
+        </th>
+        <th style="width: 10%">
+          <a href="/groups">Группы</a>
+        </th>
+        <th style="width: 10%">
+          <a href="/tasks">Задания</a>
+        </th>
+        <th style="width: 10%">
+          <a href="/solved">Оценки</a>
+        </th>
+        <th style="width: 10%">
+          <a href="/profile">Профиль</a>
+        </th>
+        <th style="width: 90%">
+          <a href="/auth">Выйти</a>
+        </th>
+      </tr>
+    </thead>
+  </table>
+
+  <h1>Список слайдов</h1>
+  <input
+     type="button"
+     value="Добавить"
+     class="btn btn-default"
+  />
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <td>Текст</td>
+        <td>Тип выбора</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let it of topics">
+            <ng-template
+            [ngTemplateOutlet]="loadTemplate(it)"
+            [ngTemplateOutletContext]="{ $implicit: it}"
+            >
+            </ng-template>
+          </tr>
+        </tbody>
+  </table>
+
+  <ng-template #readOnlyTemplate let-it>
+    <td>{{it.name}}</td>
+    <td>{{it.is_radio}}</td>
+    <td>
+        <input
+          type="button"
+          value="Редактировать"
+          class="btn btn-success"
+          />
+     </td>
+     <td>
+          <input
+            type="button"
+            value="Удалить"
+            (click)="deleteTopic(it)"
+            class="btn btn-danger"
+          />
+     </td>
+ </ng-template>  
+ 

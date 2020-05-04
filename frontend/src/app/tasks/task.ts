@@ -6,6 +6,7 @@ export class Task {
       public created_by: number,
       public name: string,
       public gradetype: string,
+      public gradetype_id: number,
       public groups: string
     ) {}
   }

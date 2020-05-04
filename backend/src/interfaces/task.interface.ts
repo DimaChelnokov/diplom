@@ -21,5 +21,8 @@ export class TaskType {
     gradetype: string;
 
     @ApiProperty()
+    gradetype_id: number;
+
+    @ApiProperty()
     groups: string;
 }

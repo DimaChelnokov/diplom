@@ -8,6 +8,8 @@ import { Roles } from '../auth/roles.decorator';
 import { LogService } from '../log/log.service';
 import { TaskType } from '../interfaces/task.interface';
 import { TopicType } from '../interfaces/topic.interface';
+import { TopicDetailType } from '../interfaces/topicdetail.interface';
+import { Item } from '../interfaces/item.interface';
 
 @ApiSecurity('bearer')
 @Controller('api/tasks')
@@ -27,8 +29,34 @@ export class TasksController {
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findAll(@Req() request: Request, @Res() res): Promise<TaskType[]> {
         const user: any = request.user;
-        const r = await this.service.getTasks(user.userId);
-        return res.status(HttpStatus.OK).json(r);
+        try {
+            const r = await this.service.getTasks(user.userId);
+            return res.status(HttpStatus.OK).json(r);
+        } catch(e) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
+        }
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
+    @Get(':id')
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiForbiddenResponse({ description: 'Forbidden.'})
+    @ApiNotFoundResponse({ description: 'Not Found.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
+    async findOne(@Req() request: Request, @Param('id') id, @Res() res): Promise<TaskType> {
+        const user: any = request.user;
+        try {
+            const r = await this.service.findOne(user.userId, id);
+            if (!r) {
+                return res.status(HttpStatus.NOT_FOUND).json();
+            } else {
+                return res.status(HttpStatus.OK).json(r);
+            }
+        } catch(e) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
+        }
     }
 
     @UseGuards(JwtAuthGuard, RolesGuard)
@@ -38,7 +66,6 @@ export class TasksController {
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
     @ApiForbiddenResponse({ description: 'Forbidden.'})
-    @ApiNotFoundResponse({ description: 'Not Found.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async create(@Req() request: Request, @Res() res, @Body() x: TaskType): Promise<TaskType> {
         const user: any = request.user;
@@ -52,7 +79,7 @@ export class TasksController {
 
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('admin')
-    @Post(':id')
+    @Post('task/:id')
     @ApiBody({ type: [TaskType] })
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
@@ -103,8 +130,12 @@ export class TasksController {
     @ApiForbiddenResponse({ description: 'Forbidden.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async getTopics(@Res() res, @Param('id') id): Promise<TopicType[]> {
-        const r = await this.service.getTopics(id);
-        return res.status(HttpStatus.OK).json(r);
+        try {
+            const r = await this.service.getTopics(id);
+            return res.status(HttpStatus.OK).json(r);
+        } catch(e) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
+        }
     }
 
     @UseGuards(JwtAuthGuard, RolesGuard)
@@ -135,7 +166,96 @@ export class TasksController {
     async deleteTopic(@Res() res, @Param('id') id): Promise<TaskType> {
         try {
             const r = await this.service.deleteTopic(id);
+            return res.status(HttpStatus.OK).json();
+        } catch (e) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
+        }
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
+    @Get('topic/:id')
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiForbiddenResponse({ description: 'Forbidden.'})
+    @ApiNotFoundResponse({ description: 'Not Found.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
+    async getTopic(@Res() res, @Param('id') id): Promise<TopicDetailType> {
+        try {
+            const r = await this.service.getTopic(id);
+            if (!r) {
+                return res.status(HttpStatus.NOT_FOUND).json();
+            } else {
+                return res.status(HttpStatus.OK).json(r);
+            }
+        } catch(e) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
+        }
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
+    @Post('topic')
+    @ApiBody({ type: [TopicDetailType] })
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiForbiddenResponse({ description: 'Forbidden.'})
+    @ApiNotFoundResponse({ description: 'Not Found.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
+    async saveTopic(@Res() res, @Body() x: TopicDetailType): Promise<TopicDetailType> {
+        try {
+            const r = await this.service.saveTopic(x);
+            return res.status(HttpStatus.CREATED).json(r);
+        } catch (e) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
+        }
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
+    @Get('items/:id')
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiForbiddenResponse({ description: 'Forbidden.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
+    async getItems(@Res() res, @Param('id') id): Promise<Item[]> {
+        try {
+            const r = await this.service.getItems(id);
             return res.status(HttpStatus.OK).json(r);
+        } catch(e) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
+        }
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
+    @Post('items')
+    @ApiBody({ type: [Item] })
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiForbiddenResponse({ description: 'Forbidden.'})
+    @ApiNotFoundResponse({ description: 'Not Found.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
+    async addItem(@Res() res, @Body() x: Item): Promise<Item> {
+        try {
+            const r = await this.service.addItem(x);
+            return res.status(HttpStatus.CREATED).json(r);
+        } catch (e) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
+        }
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
+    @Delete('items/:id')
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiForbiddenResponse({ description: 'Forbidden.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
+    async delItem(@Res() res, @Param('id') id): Promise<TaskType> {
+        try {
+            const r = await this.service.delItem(id);
+            return res.status(HttpStatus.OK).json();
         } catch (e) {
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
         }

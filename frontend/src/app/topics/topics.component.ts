@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { TopicsService } from './topics.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Topic } from './topic';
+import { Task } from './task';
 
 @Component({
   selector: 'app-topics',
@@ -12,9 +13,13 @@ import { Topic } from './topic';
 export class TopicsComponent implements OnInit {
 
   @ViewChild('readOnlyTemplate', { static: false }) readOnlyTemplate: TemplateRef<any>;
+  @ViewChild('editTemplate', { static: false }) editTemplate: TemplateRef<any>;
 
   id: number;
   topics: Array<Topic>;
+  isNewRecord: boolean;
+  editedTopic: Topic;
+  task: Task;
 
   constructor(
     private route: ActivatedRoute,
@@ -23,10 +28,24 @@ export class TopicsComponent implements OnInit {
   ) { 
     this.id = route.snapshot.params.id;
     this.topics = new Array<Topic>();
+    this.isNewRecord = false;
+    this.task = null;
   }
 
   ngOnInit(): void {
-    this.loadTopics();
+    this.loadTask();
+  }
+
+  private loadTask() {
+    this.serv.getTask(this.id).subscribe((data: Task) => {
+      this.task = data;
+      this.loadTopics();
+    },
+    (error: any) => {
+      if (error.status == 401) {
+        this.router.navigate(['auth']);
+      }
+    })
   }
 
   private loadTopics() {
@@ -40,8 +59,12 @@ export class TopicsComponent implements OnInit {
     })
   }
 
-  loadTemplate(topic: Topic) {
-    return this.readOnlyTemplate;
+  loadTemplate(it: Topic) {
+    if (this.isNewRecord && !it.id) {
+      return this.editTemplate;
+    } else {
+      return this.readOnlyTemplate;
+    }
   }
 
   deleteTopic(topic: Topic) {
@@ -50,5 +73,29 @@ export class TopicsComponent implements OnInit {
           setTimeout(() => this.loadTopics(), 2000);
       });
     }
+  }
+
+  cancel() {
+    this.isNewRecord = false;
+    this.editedTopic = null;
+    this.topics.pop();
+  }
+
+  addTopic() {
+    this.editedTopic = new Topic(null, this.id, '', false, 0);
+    this.isNewRecord = true;
+    this.topics.push(this.editedTopic);
+  }
+
+  createTopic() {
+    this.serv.createTopic(this.editedTopic).subscribe((data: Topic) => {
+      this.editedTopic.id = data.id;
+      this.isNewRecord = false;
+      this.editedTopic = null;
+    });
+  }
+
+  goTo(topic: Topic) {
+    this.router.navigate(['topic/' + topic.id]);
   }
 }

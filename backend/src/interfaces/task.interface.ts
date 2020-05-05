@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class TaskType {
 
@@ -25,4 +25,7 @@ export class TaskType {
 
     @ApiProperty()
     groups: string;
+
+    @ApiPropertyOptional()
+    topic_count: number;
 }

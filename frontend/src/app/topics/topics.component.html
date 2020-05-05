@@ -23,12 +23,7 @@
     </thead>
   </table>
 
-  <h1>Список слайдов</h1>
-  <input
-     type="button"
-     value="Добавить"
-     class="btn btn-default"
-  />
+  <a href="tasks" *ngIf="task"><h3>{{task.name}}</h3></a>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -48,14 +43,23 @@
           </tr>
         </tbody>
   </table>
+  <input
+     type="button"
+     value="Добавить"
+     class="btn btn-default"
+     (click)="addTopic()"
+     *ngIf="!isNewRecord"
+  />
 
   <ng-template #readOnlyTemplate let-it>
     <td>{{it.name}}</td>
-    <td>{{it.is_radio}}</td>
+    <td *ngIf="it.radio==0">Множественный выбор</td>
+    <td *ngIf="it.radio==1">Одиночный выбор</td>
     <td>
         <input
           type="button"
           value="Редактировать"
+          (click)="goTo(it)"
           class="btn btn-success"
           />
      </td>
@@ -69,3 +73,30 @@
      </td>
  </ng-template>  
  
+<ng-template #editTemplate>
+  <td>
+    <input type="text" [(ngModel)]="editedTopic.name" class="form-control" />
+  </td>
+  <td>
+    <select class="form-control" name="editedTopic.radio" [(ngModel)]="editedTopic.radio">
+      <option selected value="0">Множественный выбор</option>
+      <option value="1">Одиночный выбор</option>
+    </select>
+  </td>
+  <td>
+    <input
+    type="button"
+    value="Сохранить"
+    (click)="createTopic()"
+    class="btn btn-success"
+  />
+  </td>
+   <td>
+    <input
+    type="button"
+    value="Отмена"
+    (click)="cancel()"
+    class="btn btn-warning"
+  />
+  </td>
+</ng-template>

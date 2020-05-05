@@ -1,0 +1,97 @@
+<table class="table">
+    <thead>
+      <tr>
+        <th style="width: 10%">
+            <a href="/users">Пользователи</a>
+        </th>
+        <th style="width: 10%">
+          <a href="/groups">Группы</a>
+        </th>
+        <th style="width: 10%">
+          <a href="/tasks">Задания</a>
+        </th>
+        <th style="width: 10%">
+          <a href="/solved">Оценки</a>
+        </th>
+        <th style="width: 10%">
+          <a href="/profile">Профиль</a>
+        </th>
+        <th style="width: 90%">
+          <a href="/auth">Выйти</a>
+        </th>
+      </tr>
+    </thead>
+  </table>
+
+  <div class="jumbotron">
+    <div class="container">
+       <div class="row">
+          <div class="col-md-6 offset-md-3">
+            <div class="topic-form">
+              <a href="topics/{{topic.task_id}}" *ngIf="topic"><h3>{{topic.task}}</h3></a><br>
+              <div *ngIf="topic.img">
+                  <img src="api/upload/{{topic.img}}"/>
+              </div><br>
+              <div *ngIf="topic.txt">
+                 <input type="text" [(ngModel)]="topic.txt" class="form-control" (change)="onChanged()"/><br>
+              </div>
+              <div class="form-group">
+                <input
+                type="button"
+                value="Сохранить"
+                (click)="saveTopic()"
+                class="btn btn-success"
+                *ngIf="isChanged"
+                />
+              </div>
+            </div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <td>Текст</td>
+                  <td>Правильно?</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let it of items">
+                      <ng-template
+                      [ngTemplateOutlet]="loadTemplate(it)"
+                      [ngTemplateOutletContext]="{ $implicit: it}"
+                      >
+                      </ng-template>
+                    </tr>
+                  </tbody>
+            </table>
+            <input
+               type="button"
+               value="Добавить"
+               class="btn btn-default"
+               *ngIf="!isNewRecord"
+            />
+            
+          </div>
+        </div>
+     </div>
+ </div>
+
+<ng-template #readOnlyTemplate let-it>
+  <td>{{it.txt}}</td>
+  <td *ngIf="it.correct==1">Да</td>
+  <td *ngIf="it.correct==0">Нет</td>
+  <td>
+      <input
+        type="button"
+        value="Редактировать"
+        class="btn btn-success"
+        />
+   </td>
+   <td>
+        <input
+          type="button"
+          value="Удалить"
+          class="btn btn-danger"
+        />
+   </td>
+</ng-template>  

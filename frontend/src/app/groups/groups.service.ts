@@ -17,7 +17,7 @@ export class GroupsService {
   }
 
   updateGroup(id: number, group: Group) {
-    return this.http.post(this.url + '/' + id, group);
+    return this.http.post(this.url + '/group/' + id, group);
   }
 
   deleteGroup(id: number) {

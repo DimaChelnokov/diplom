@@ -25,8 +25,12 @@ export class UsersController {
     @ApiForbiddenResponse({ description: 'Forbidden.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findAll(@Res() res): Promise<User[]> {
-        const r = await this.service.findAll();
-        return res.status(HttpStatus.OK).json(r);
+        try {
+            const r = await this.service.findAll();
+            return res.status(HttpStatus.OK).json(r);
+        } catch(e) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
+        }
     }
 
     @UseGuards(JwtAuthGuard)
@@ -37,11 +41,15 @@ export class UsersController {
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findCurrent(@Req() request: Request, @Res() res): Promise<User> {
         const user: any = request.user;
-        const r = await this.service.findOneById(user.userId);
-        if (!r) {
-            return res.status(HttpStatus.NOT_FOUND).json();
-        } else {
-            return res.status(HttpStatus.OK).json(r);
+        try {
+            const r = await this.service.findOneById(user.userId);
+            if (!r) {
+                return res.status(HttpStatus.NOT_FOUND).json();
+            } else {
+                return res.status(HttpStatus.OK).json(r);
+            }
+        } catch(e) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
         }
     }
 

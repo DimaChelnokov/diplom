@@ -6,6 +6,7 @@ import { Topic } from './topic';
 export class TopicsService {
 
   private topics = '/api/tasks/topics';
+  private task = '/api/tasks';
 
   constructor(private http: HttpClient) { }
 
@@ -19,5 +20,9 @@ export class TopicsService {
 
   deleteTopic(id: number) {
     return this.http.delete(this.topics + '/' + id);
+  }
+
+  getTask(id: number) {
+    return this.http.get(this.task + '/' + id);
   }
 }

@@ -7,6 +7,7 @@ import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { Request } from 'express';
 import { LogService } from '../log/log.service';
+import { AttachType } from '../interfaces/attach.interface';
 
 @ApiSecurity('bearer')
 @Controller('api/groups')
@@ -55,7 +56,7 @@ export class GroupsController {
 
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('admin')
-    @Post(':id')
+    @Post('group/:id')
     @ApiBody({ type: [GroupType] })
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
@@ -100,6 +101,56 @@ export class GroupsController {
             }
         } catch (e) {
             await this.logService.create(user.userId, 4, 4, 'grades', { id: id }, HttpStatus.INTERNAL_SERVER_ERROR);
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
+        }
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
+    @Get('attached/:id')
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiForbiddenResponse({ description: 'Forbidden.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
+    async getAttached(@Res() res, @Param('id') id): Promise<AttachType[]> {
+        try {
+            const x = await this.service.getAttached(id);
+            return res.status(HttpStatus.OK).json(x);
+        } catch (e) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
+        }
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
+    @Post('attached')
+    @ApiBody({ type: [AttachType] })
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiForbiddenResponse({ description: 'Forbidden.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
+    async attach(@Req() request: Request, @Res() res, @Body() x: AttachType): Promise<AttachType> {
+        const user: any = request.user;
+        try {
+            const r = await this.service.addAttach(user.userId, x);
+            return res.status(HttpStatus.CREATED).json(r);
+        } catch (e) {
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
+        }
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
+    @Delete('attached/:id')
+    @ApiOkResponse({ description: 'Successfully.'})
+    @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiForbiddenResponse({ description: 'Forbidden.'})
+    @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
+    async detach(@Res() res, @Param('id') id): Promise<GroupType> {
+        try {
+            const r = await this.service.delAttach(id);
+            return res.status(HttpStatus.OK).json(r);
+        } catch (e) {
             return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message.error.toString(), stack: e.stack});
         }
     }

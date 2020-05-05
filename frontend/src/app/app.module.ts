@@ -31,11 +31,17 @@ import { TaskModule } from './task/task.module'
 import { TaskComponent } from './task/task.component'
 import { TopicsModule } from './topics/topics.module'
 import { TopicsComponent } from './topics/topics.component'
+import { AttachsModule } from './attachs/attachs.module'
+import { AttachsComponent } from './attachs/attachs.component'
+import { TopicModule } from './topic/topic.module'
+import { TopicComponent } from './topic/topic.component'
 
 const appRoutes: Routes = [
   { path: '', component: AuthComponent },
   { path: 'tasks', component: TasksComponent, canActivate: [JwtGuard] },
   { path: 'topics/:id', component: TopicsComponent, canActivate: [JwtGuard] },
+  { path: 'topic/:id', component: TopicComponent, canActivate: [JwtGuard] },
+  { path: 'attached/:id', component: AttachsComponent, canActivate: [JwtGuard] },
   { path: 'upload/:id', component: TaskComponent, canActivate: [JwtGuard] },
   { path: 'sched', component: SchedComponent, canActivate: [JwtGuard] },
   { path: 'solved', component: SolvedComponent, canActivate: [JwtGuard] },
@@ -65,7 +71,9 @@ const appRoutes: Routes = [
     ResultModule,
     TasksModule,
     TopicsModule,
+    TopicModule,
     TaskModule,
+    AttachsModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [

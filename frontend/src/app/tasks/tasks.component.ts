@@ -66,7 +66,8 @@ export class TasksComponent implements OnInit {
       task.name,
       task.gradetype,
       task.gradetype_id,
-      task.groups);
+      task.groups,
+      task.topic_count);
   }
 
   loadTemplate(task: Task) {
@@ -78,7 +79,7 @@ export class TasksComponent implements OnInit {
   }
 
   addTask() {
-    this.editedTask = new Task(null, 1, new Date, null, '', '', 1, '');
+    this.editedTask = new Task(null, 1, new Date, null, '', '', 1, '', 0);
     this.tasks.push(this.editedTask);
     this.isNewRecord = true;
   }
@@ -103,7 +104,7 @@ export class TasksComponent implements OnInit {
       this.editedTask = null;
     } else {
       this.serv
-        .updateGroup(this.editedTask.id, this.editedTask)
+        .updateTask(this.editedTask.id, this.editedTask)
         .subscribe(data => {
           this.loadTasks();
         });
@@ -119,7 +120,11 @@ export class TasksComponent implements OnInit {
     }
   }
 
-  goTo(task: Task) {
+  goToSlides(task: Task) {
     this.router.navigate(['topics/' + task.id]);
+  }
+
+  goToAttachs(task: Task) {
+    this.router.navigate(['attached/' + task.id]);
   }
 }

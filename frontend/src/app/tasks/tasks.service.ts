@@ -22,8 +22,8 @@ export class TasksService {
     return this.http.post(this.tasks, task);
   }
 
-  updateGroup(id: number, task: Task) {
-    return this.http.post(this.tasks + '/' + id, task);
+  updateTask(id: number, task: Task) {
+    return this.http.post(this.tasks + '/task/' + id, task);
   }
 
   deleteTask(id: number) {

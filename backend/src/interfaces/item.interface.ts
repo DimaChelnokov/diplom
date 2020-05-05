@@ -1,19 +1,19 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class TopicType {
+export class Item {
 
     @ApiProperty()
     id: number;
 
     @ApiProperty()
-    task_id: number;
+    topic_id: number;
 
     @ApiProperty()
-    name: string;
+    txt: string;
 
     @ApiProperty()
-    is_radio: boolean;
+    is_correct: boolean;
 
     @ApiProperty()
-    radio: number;
+    correct: number;
 }

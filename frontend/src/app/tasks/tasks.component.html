@@ -23,13 +23,7 @@
     </thead>
   </table>
   
-  <h1>Список заданий</h1>
-  <input
-     type="button"
-     value="Добавить"
-     (click)="addTask()"
-     class="btn btn-default"
-  />
+  <h3>Список заданий</h3>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -53,6 +47,13 @@
       </tr>
     </tbody>
   </table>
+  <input
+     type="button"
+     value="Добавить"
+     (click)="addTask()"
+     class="btn btn-default"
+     *ngIf="!this.isNewRecord"
+  />
   
   <ng-template #readOnlyTemplate let-it>
     <td>{{it.created | date: 'dd/MM/yyyy'}}</td>
@@ -64,6 +65,7 @@
           type="button"
           value="Слайды"
           class="btn btn-default"
+          (click)="goToSlides(it)"
           *ngIf="!it.groups"
         />
     </td>
@@ -72,6 +74,8 @@
           type="button"
           value="Группы"
           class="btn btn-default"
+          (click)="goToAttachs(it)"
+          *ngIf="it.topic_count > 0"
         />
     </td>
     <td>

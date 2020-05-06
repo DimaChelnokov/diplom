@@ -57,7 +57,7 @@ export class GroupsComponent implements OnInit {
   }  
 
   editGroup(group: Group) {
-    this.editedGroup = new Group(group.id, group.name, group.created);
+    this.editedGroup = group;
   }
 
   cancel() {
@@ -88,6 +88,7 @@ export class GroupsComponent implements OnInit {
   deleteGroup(group: Group) {
     if (confirm("Удалить группу?")) {
       this.serv.deleteGroup(group.id).subscribe(data => {
+          this.cancel();
           setTimeout(() => this.loadGroups(), 2000);
       });
     }

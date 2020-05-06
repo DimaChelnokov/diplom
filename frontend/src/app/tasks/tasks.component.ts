@@ -58,16 +58,7 @@ export class TasksComponent implements OnInit {
   }
 
   editTask(task: Task) {
-    this.editedTask = new Task(
-      task.id, 
-      task.type_id,
-      task.created,
-      task.created_by,
-      task.name,
-      task.gradetype,
-      task.gradetype_id,
-      task.groups,
-      task.topic_count);
+    this.editedTask = task;
   }
 
   loadTemplate(task: Task) {
@@ -115,6 +106,7 @@ export class TasksComponent implements OnInit {
   deleteTask(task: Task) {
     if (confirm("Удалить задание?")) {
       this.serv.deleteTask(task.id).subscribe(data => {
+          this.cancel();
           setTimeout(() => this.loadTasks(), 2000);
       });
     }

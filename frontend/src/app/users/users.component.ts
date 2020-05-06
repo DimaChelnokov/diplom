@@ -56,7 +56,7 @@ export class UsersComponent implements OnInit {
   }
 
   editUser(user: User) {
-    this.editedUser = new User(user.id, user.username, user.email, user.roleId, user.group_id);
+    this.editedUser = user;
   }
 
   loadTemplate(user: User) {

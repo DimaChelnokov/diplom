@@ -28,12 +28,24 @@
        <div class="row">
           <div class="col-md-6 offset-md-3">
             <div class="topic-form">
-              <a href="topics/{{topic.task_id}}" *ngIf="topic"><h3>{{topic.task}}</h3></a><br>
-              <div *ngIf="topic.img">
-                  <img src="api/upload/{{topic.img}}"/>
-              </div><br>
+              <a href="topics/{{topic.task_id}}" *ngIf="topic"><h3>{{topic.task}}</h3></a>
+
+              <div *ngIf="topic.img && !previewUrl">
+                <img src="api/upload/{{topic.img}}"/>
+              </div>
+
+              <div class="form-group">
+                  <input type="file" name="image" (change)="fileProgress($event)" />
+              </div>
+              <div class="image-preview mb-3" *ngIf="previewUrl">
+                  <img [src]="previewUrl"/>                 
+              </div>
+              <div class="form-group" *ngIf="this.isImage">
+                  <button class="btn btn-primary"  (click)="onSubmit()">Загрузить</button>
+              </div>
+
               <div *ngIf="topic.txt">
-                 <input type="text" [(ngModel)]="topic.txt" class="form-control" (change)="onChanged()"/><br>
+                 <input type="text" [(ngModel)]="topic.txt" class="form-control" (change)="onChanged()"/>
               </div>
               <div class="form-group">
                 <input
@@ -67,10 +79,10 @@
             <input
                type="button"
                value="Добавить"
+               (click)="addItem()"
                class="btn btn-default"
                *ngIf="!isNewRecord"
             />
-            
           </div>
         </div>
      </div>
@@ -80,18 +92,41 @@
   <td>{{it.txt}}</td>
   <td *ngIf="it.correct==1">Да</td>
   <td *ngIf="it.correct==0">Нет</td>
-  <td>
-      <input
-        type="button"
-        value="Редактировать"
-        class="btn btn-success"
-        />
-   </td>
    <td>
         <input
           type="button"
           value="Удалить"
+          (click)="deleteItem(it)"
           class="btn btn-danger"
         />
    </td>
-</ng-template>  
+   <td></td>
+  </ng-template>  
+
+<ng-template #editTemplate>
+  <td>
+    <input type="text" [(ngModel)]="editedItem.txt" class="form-control" />
+  </td>
+  <td>
+    <select class="form-control" name="editedItem.correct" [(ngModel)]="editedItem.correct">
+      <option value="1">Да</option>
+      <option selected value="0">Нет</option>
+    </select>
+  </td>
+  <td>
+    <input
+    type="button"
+    value="Сохранить"
+    (click)="createItem()"
+    class="btn btn-success"
+  />
+  </td>
+   <td>
+    <input
+    type="button"
+    value="Отмена"
+    (click)="cancel()"
+    class="btn btn-warning"
+  />
+  </td>
+</ng-template>

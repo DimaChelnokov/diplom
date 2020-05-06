@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 })
 export class AuthComponent implements OnInit {
 
-  username: string;
-  password: string;
+  login: string;
+  pass: string;
 
   constructor(
     private serv: AuthService,
@@ -19,13 +19,13 @@ export class AuthComponent implements OnInit {
   ) { }
 
   ngOnInit(): void { 
-    this.username = '';
-    this.password = '';
+    this.login = '';
+    this.pass = '';
   }
 
   submit(): void {
     localStorage.removeItem('myAuthToken');
-    this.serv.auth(this.username, this.password).subscribe(
+    this.serv.auth(this.login, this.pass).subscribe(
       (data: any) => {
         localStorage.setItem('myAuthToken', data.access_token);
         localStorage.setItem('myRole', data.role);

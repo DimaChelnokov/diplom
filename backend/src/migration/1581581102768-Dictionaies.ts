@@ -57,7 +57,7 @@ export class Dictionaies1581581102768 implements MigrationInterface {
         await queryRunner.query(`insert into template_items(id, template_id, type_id) values(4, 2, 1)`);
         await queryRunner.query(`insert into template_items(id, template_id, type_id) values(5, 2, 4)`);
     
-        await queryRunner.query(`insert into users(id, role_id, fio, login, pass, created) values(1, 1, 'root', 'root', '1', now())`);
+        await queryRunner.query(`insert into users(role_id, fio, login, pass, created) values(1, 'root', 'root', '1', now())`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {

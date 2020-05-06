@@ -70,6 +70,7 @@ export class TopicsComponent implements OnInit {
   deleteTopic(topic: Topic) {
     if (confirm("Удалить слайд?")) {
       this.serv.deleteTopic(topic.id).subscribe(data => {
+          this.cancel();
           setTimeout(() => this.loadTopics(), 2000);
       });
     }

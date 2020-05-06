@@ -91,7 +91,6 @@ export class AccComponent implements OnInit {
     this.serv.changeProfile(this.registerForm.value, this.groupIdByName(this.registerForm.value.group)).subscribe(
       (data: any) => {
         alert("Изменения сохранены");
-        this.router.navigate(['']);
       },
       (error: any) => {
         let status = error.status;

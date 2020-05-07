@@ -36,8 +36,11 @@ export class AttachsComponent implements OnInit {
       this.loadGroups();
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
     })
   }
@@ -47,8 +50,11 @@ export class AttachsComponent implements OnInit {
       this.groups = data;
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
     })
   }
@@ -58,11 +64,27 @@ export class AttachsComponent implements OnInit {
       this.serv.detach(at.id).subscribe((data: boolean) => {
         at.task_id = null;
         at.id = null;
+      },
+      (error: any) => {
+        let status = error.status;
+        if (status == 401) {
+          this.router.navigate(['auth']);
+        } else {
+          alert("Error: " + status);
+        }
       });
     } else {
       at.task_id = this.id;
       this.serv.attach(at).subscribe((data: Attach) => {
         at.id = data.id;
+      },
+      (error: any) => {
+        let status = error.status;
+        if (status == 401) {
+          this.router.navigate(['auth']);
+        } else {
+          alert("Error: " + status);
+        }
       });
     }
   }

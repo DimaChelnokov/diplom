@@ -38,10 +38,13 @@ export class UsersComponent implements OnInit {
       this.loadUsers();
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
-    })
+    });
   }
 
   private loadUsers() {
@@ -49,10 +52,13 @@ export class UsersComponent implements OnInit {
       this.users = data;
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
-    })
+    });
   }
 
   editUser(user: User) {
@@ -74,8 +80,13 @@ export class UsersComponent implements OnInit {
           setTimeout(() => this.loadUsers(), 2000);
         },
         (error: any) => {
+          let status = error.status;
           if (error.status == 403) {
             alert('Вы не можете редактировать текущего пользователя!');
+          } else if (status == 401) {
+            this.router.navigate(['auth']);
+          } else {
+            alert("Error: " + status);
           }
         })
       this.editedUser = null;
@@ -91,8 +102,13 @@ export class UsersComponent implements OnInit {
       setTimeout(() => this.loadUsers(), 2000);
     },
     (error: any) => {
+      let status = error.status;
       if (error.status == 403) {
         alert('Вы не можете удалить текущего пользователя!');
+      } else if (status == 401) {
+        this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
     });
   }

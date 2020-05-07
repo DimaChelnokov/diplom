@@ -40,10 +40,13 @@ export class TasksComponent implements OnInit {
       this.loadTasks();
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
-    })
+    });
   }
 
   private loadTasks() {
@@ -51,10 +54,13 @@ export class TasksComponent implements OnInit {
       this.tasks = data;
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
-    })
+    });
   }
 
   editTask(task: Task) {
@@ -90,6 +96,14 @@ export class TasksComponent implements OnInit {
       })[0]?.name;
       this.serv.createTask(this.editedTask).subscribe(data => {
         setTimeout(() => this.loadTasks(), 2000);
+      },
+      (error: any) => {
+        let status = error.status;
+        if (status == 401) {
+          this.router.navigate(['auth']);
+        } else {
+          alert("Error: " + status);
+        }
       });
       this.isNewRecord = false
       this.editedTask = null;
@@ -98,6 +112,14 @@ export class TasksComponent implements OnInit {
         .updateTask(this.editedTask.id, this.editedTask)
         .subscribe(data => {
           this.loadTasks();
+        },
+        (error: any) => {
+          let status = error.status;
+          if (status == 401) {
+            this.router.navigate(['auth']);
+          } else {
+            alert("Error: " + status);
+          }
         });
       this.editedTask = null;
     }
@@ -108,6 +130,14 @@ export class TasksComponent implements OnInit {
       this.serv.deleteTask(task.id).subscribe(data => {
           this.cancel();
           setTimeout(() => this.loadTasks(), 2000);
+      },
+      (error: any) => {
+        let status = error.status;
+        if (status == 401) {
+          this.router.navigate(['auth']);
+        } else {
+          alert("Error: " + status);
+        }
       });
     }
   }

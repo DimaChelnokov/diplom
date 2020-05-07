@@ -64,8 +64,11 @@ export class AccComponent implements OnInit {
       }
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
     })
   }
@@ -77,7 +80,12 @@ export class AccComponent implements OnInit {
     },
     (error: any) => {
       if (error.status == 401) {
-        this.router.navigate(['auth']);
+        let status = error.status;
+        if (status == 401) {
+          this.router.navigate(['auth']);
+        } else {
+          alert("Error: " + status);
+        }
       }
     })
   }
@@ -94,7 +102,11 @@ export class AccComponent implements OnInit {
       },
       (error: any) => {
         let status = error.status;
-        alert("Error: " + status);
+        if (status == 401) {
+          this.router.navigate(['auth']);
+        } else {
+          alert("Error: " + status);
+        }
       });
   }
 }

@@ -44,8 +44,11 @@ export class GroupsComponent implements OnInit {
       this.groups = data;
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
     })
   }
@@ -72,6 +75,14 @@ export class GroupsComponent implements OnInit {
     if (this.isNewRecord) {
       this.serv.createGroup(this.editedGroup).subscribe(data => {
         this.loadGroups();
+      },
+      (error: any) => {
+        let status = error.status;
+        if (status == 401) {
+          this.router.navigate(['auth']);
+        } else {
+          alert("Error: " + status);
+        }
       });
       this.isNewRecord = false
       this.editedGroup = null;
@@ -80,6 +91,14 @@ export class GroupsComponent implements OnInit {
         .updateGroup(this.editedGroup.id, this.editedGroup)
         .subscribe(data => {
           this.loadGroups();
+        },
+        (error: any) => {
+          let status = error.status;
+          if (status == 401) {
+            this.router.navigate(['auth']);
+          } else {
+            alert("Error: " + status);
+          }
         });
       this.editedGroup = null;
     }
@@ -90,6 +109,14 @@ export class GroupsComponent implements OnInit {
       this.serv.deleteGroup(group.id).subscribe(data => {
           this.cancel();
           setTimeout(() => this.loadGroups(), 2000);
+      },
+      (error: any) => {
+        let status = error.status;
+        if (status == 401) {
+          this.router.navigate(['auth']);
+        } else {
+          alert("Error: " + status);
+        }
       });
     }
   }

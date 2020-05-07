@@ -56,8 +56,11 @@ export class ResultComponent implements OnInit {
       this.loadSlide();
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
     });
   }
@@ -68,8 +71,11 @@ export class ResultComponent implements OnInit {
       this.loadGrades(this.slide.gradetype_id);
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
     });
   }
@@ -79,8 +85,11 @@ export class ResultComponent implements OnInit {
       this.grades = data;
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
     });
   }
@@ -91,8 +100,11 @@ export class ResultComponent implements OnInit {
       this.loadItems();
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
     });
   }
@@ -106,6 +118,14 @@ export class ResultComponent implements OnInit {
   save(grade: Grade) {
     this.serv.setGrade(this.student, this.slide.task_id, grade).subscribe(data => {
       this.router.navigate(['solved']);
+    },
+    (error: any) => {
+      let status = error.status;
+      if (status == 401) {
+        this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
+      }
     });
   }
 }

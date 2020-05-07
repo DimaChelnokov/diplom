@@ -29,8 +29,11 @@ export class SolvedComponent implements OnInit {
       this.tasks = data;
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
     })
   }

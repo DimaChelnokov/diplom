@@ -42,10 +42,13 @@ export class TopicsComponent implements OnInit {
       this.loadTopics();
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
-    })
+    });
   }
 
   private loadTopics() {
@@ -53,10 +56,13 @@ export class TopicsComponent implements OnInit {
       this.topics = data;
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
-    })
+    });
   }
 
   loadTemplate(it: Topic) {
@@ -72,6 +78,14 @@ export class TopicsComponent implements OnInit {
       this.serv.deleteTopic(topic.id).subscribe(data => {
           this.cancel();
           setTimeout(() => this.loadTopics(), 2000);
+      },
+      (error: any) => {
+        let status = error.status;
+        if (status == 401) {
+          this.router.navigate(['auth']);
+        } else {
+          alert("Error: " + status);
+        }
       });
     }
   }
@@ -93,6 +107,14 @@ export class TopicsComponent implements OnInit {
       this.editedTopic.id = data.id;
       this.isNewRecord = false;
       this.editedTopic = null;
+    },
+    (error: any) => {
+      let status = error.status;
+      if (status == 401) {
+        this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
+      }
     });
   }
 

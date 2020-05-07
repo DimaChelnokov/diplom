@@ -26,6 +26,8 @@ export class TopicComponent implements OnInit {
   previewUrl:any = null;
   isImage: boolean = false;
 
+  public fileChoice: string = null;
+
   constructor(
     private route: ActivatedRoute,
     private serv: TopicService,
@@ -49,10 +51,13 @@ export class TopicComponent implements OnInit {
       this.loadItems();
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
-    })
+    });
   }
 
   private loadItems() {
@@ -60,10 +65,13 @@ export class TopicComponent implements OnInit {
       this.items = data;
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
-    })
+    });
   }
 
   onChanged() {
@@ -74,7 +82,15 @@ export class TopicComponent implements OnInit {
     this.serv.saveTopic(this.topic).subscribe((data: Topic) => {
       this.topic = data;
       this.isChanged = false;
-    })
+    },
+    (error: any) => {
+      let status = error.status;
+      if (status == 401) {
+        this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
+      }
+    });
   }
 
   loadTemplate(it: Topic) {
@@ -90,6 +106,14 @@ export class TopicComponent implements OnInit {
       this.serv.deleteItem(it.id).subscribe(data => {
         this.cancel();
         setTimeout(() => this.loadItems(), 2000);
+      },
+      (error: any) => {
+        let status = error.status;
+        if (status == 401) {
+          this.router.navigate(['auth']);
+        } else {
+          alert("Error: " + status);
+        }
       });
     }
   }
@@ -111,11 +135,20 @@ export class TopicComponent implements OnInit {
       this.editedItem.id = data.id;
       this.isNewRecord = false;
       this.editedItem = null;
+    },
+    (error: any) => {
+      let status = error.status;
+      if (status == 401) {
+        this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
+      }
     });
   }
 
   fileProgress(fileInput: any) {
     this.fileData = <File>fileInput.target.files[0];
+    this.fileChoice = this.fileData.name;
     this.preview();
   }
 
@@ -135,6 +168,7 @@ export class TopicComponent implements OnInit {
 
   onSubmit() {
     const formData = new FormData();
+    this.fileChoice = null;
       formData.append('file', this.fileData);
       this.serv.uploadFile(formData)
         .subscribe(res => {
@@ -142,6 +176,14 @@ export class TopicComponent implements OnInit {
           this.isChanged = true;
           this.previewUrl = null;
           this.isImage = false;
-        })
+        },
+        (error: any) => {
+          let status = error.status;
+          if (status == 401) {
+            this.router.navigate(['auth']);
+          } else {
+            alert("Error: " + status);
+          }
+        });
   }
 }

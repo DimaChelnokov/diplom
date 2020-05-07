@@ -48,8 +48,11 @@ export class SlideComponent implements OnInit {
       this.loadSlide();
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
     });
   }
@@ -59,8 +62,11 @@ export class SlideComponent implements OnInit {
       this.slide = data;
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
     });
   }
@@ -71,8 +77,11 @@ export class SlideComponent implements OnInit {
       this.loadItems();
     },
     (error: any) => {
-      if (error.status == 401) {
+      let status = error.status;
+      if (status == 401) {
         this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
       }
     });
   }
@@ -97,6 +106,14 @@ export class SlideComponent implements OnInit {
     }
     this.serv.setResults(this.items).subscribe((data: Result[]) => {
       this.loadResults();
+    },
+    (error: any) => {
+      let status = error.status;
+      if (status == 401) {
+        this.router.navigate(['auth']);
+      } else {
+        alert("Error: " + status);
+      }
     });
   }
 }

@@ -1,7 +1,7 @@
 {
    "type": "postgres",
-   "host": "192.168.101.197",
-   "port": 5433,
+   "host": "127.0.0.1",
+   "port": 5432,
    "username": "diplom",
    "password": "diplom",
    "database": "diplom",

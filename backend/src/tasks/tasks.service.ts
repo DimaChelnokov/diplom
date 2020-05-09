@@ -138,7 +138,7 @@ export class TasksService {
                 topic_id: x.topic_id,
                 item_id: 3,
                 txt: x.txt,
-                is_correct: x.is_correct
+                is_correct: x.correct == 0 ? false : true
             })
             .returning('*')
             .execute();

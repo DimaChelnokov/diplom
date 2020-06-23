@@ -8,6 +8,7 @@ import { Roles } from '../auth/roles.decorator';
 import { Request } from 'express';
 import { LogService } from '../log/log.service';
 import { AttachType } from '../interfaces/attach.interface';
+import { TokenGuard } from '../auth/token.guard';
 
 @ApiSecurity('bearer')
 @Controller('api/groups')
@@ -18,7 +19,7 @@ export class GroupsController {
         private readonly logService: LogService
     ) {}
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, TokenGuard)
     @Get()
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
@@ -33,7 +34,7 @@ export class GroupsController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Post()
     @ApiBody({ type: [GroupType] })
@@ -54,7 +55,7 @@ export class GroupsController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Post('group/:id')
     @ApiBody({ type: [GroupType] })
@@ -80,7 +81,7 @@ export class GroupsController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Delete(':id')
     @ApiOkResponse({ description: 'Successfully.'})
@@ -105,7 +106,7 @@ export class GroupsController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Get('attached/:id')
     @ApiOkResponse({ description: 'Successfully.'})
@@ -121,7 +122,7 @@ export class GroupsController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Post('attached')
     @ApiBody({ type: [AttachType] })
@@ -139,7 +140,7 @@ export class GroupsController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Delete('attached/:id')
     @ApiOkResponse({ description: 'Successfully.'})

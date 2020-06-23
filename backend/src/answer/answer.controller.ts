@@ -1,10 +1,11 @@
 import { Controller, UseGuards, Get, Res, Param, HttpStatus, Req, Post, Body } from '@nestjs/common';
-import { ApiSecurity, ApiOkResponse, ApiUnauthorizedResponse, ApiInternalServerErrorResponse, ApiBody, ApiNotFoundResponse } from '@nestjs/swagger';
+import { ApiSecurity, ApiOkResponse, ApiUnauthorizedResponse, ApiInternalServerErrorResponse, ApiBody, ApiNotFoundResponse, ApiForbiddenResponse } from '@nestjs/swagger';
 import { AnswerService } from './answer.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AnswerType } from '../interfaces/answer.interface';
 import { Request } from 'express';
 import { ResultType } from '../interfaces/result.interface';
+import { TokenGuard } from '../auth/token.guard';
 
 @ApiSecurity('bearer')
 @Controller('api/answers')
@@ -14,10 +15,11 @@ export class AnswerController {
         private readonly service: AnswerService
     ) {}
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, TokenGuard)
     @Get('current/:id')
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiForbiddenResponse({ description: 'Forbidden.'})
     @ApiNotFoundResponse({ description: 'Not Found.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findSlide(@Req() request: Request, @Res() res, @Param('id') id): Promise<ResultType> {
@@ -34,10 +36,11 @@ export class AnswerController {
         }
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, TokenGuard)
     @Get('student/:student/:id')
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiForbiddenResponse({ description: 'Forbidden.'})
     @ApiNotFoundResponse({ description: 'Not Found.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findSlideByUser(@Res() res, @Param('student') student, @Param('id') id): Promise<ResultType> {
@@ -53,11 +56,12 @@ export class AnswerController {
         }
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, TokenGuard)
     @Post('current')
     @ApiBody({ type: [ResultType] })
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiForbiddenResponse({ description: 'Forbidden.'})
     @ApiNotFoundResponse({ description: 'Not Found.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async update(@Req() request: Request, @Res() res, @Body() x: AnswerType[]): Promise<ResultType[]> {

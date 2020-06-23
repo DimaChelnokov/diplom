@@ -8,10 +8,11 @@ import { UsersService } from '../users/users.service';
 import { logProviders } from '../log/log.providers';
 import { LogService } from '../log/log.service';
 import { studentProviders } from '../users/students.provider';
+import { tokensProvider } from '../users/tokens.provider';
 
 @Module({
   imports: [DatabaseModule],
-  providers: [...gradeProviders, ...usersProviders, ...studentProviders, ...logProviders, GradesService, UsersService, LogService],
+  providers: [...gradeProviders, ...usersProviders, ...studentProviders, ...logProviders, ...tokensProvider, GradesService, UsersService, LogService],
   controllers: [GradesController]
 })
 export class GradesModule {}

@@ -6,6 +6,9 @@ import {MigrationInterface, QueryRunner} from "typeorm";
 export class Dictionaies1581581102768 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
+        await queryRunner.query(`insert into token_types(id, name) values(1, 'Access')`);
+        await queryRunner.query(`insert into token_types(id, name) values(2, 'Refresh')`);
+
         await queryRunner.query(`insert into event_types(id, name) values(1, 'Авторизация')`);
         await queryRunner.query(`insert into event_types(id, name) values(2, 'Создание')`);
         await queryRunner.query(`insert into event_types(id, name) values(3, 'Редактирование')`);
@@ -72,6 +75,7 @@ export class Dictionaies1581581102768 implements MigrationInterface {
         await queryRunner.query(`delete from task_types`);
         await queryRunner.query(`delete from object_types`);
         await queryRunner.query(`delete from event_types`);
+        await queryRunner.query(`delete from token_types`);
     }
 
 }

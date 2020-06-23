@@ -1,10 +1,12 @@
-import { Controller, UseGuards, Request, Post, HttpStatus, UseInterceptors, UploadedFiles, Res, Req } from '@nestjs/common';
+import { Controller, UseGuards, Request, Post, HttpStatus, UseInterceptors, UploadedFiles, Res, Req, Get } from '@nestjs/common';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { AuthService } from './auth/auth.service';
-import { ApiUnauthorizedResponse, ApiBody, ApiCreatedResponse, ApiSecurity, ApiOkResponse, ApiInternalServerErrorResponse } from '@nestjs/swagger';
+import { ApiUnauthorizedResponse, ApiBody, ApiCreatedResponse, ApiSecurity, ApiOkResponse, ApiInternalServerErrorResponse, ApiForbiddenResponse } from '@nestjs/swagger';
 import { User } from './interfaces/user.interface';
 import { LogService } from './log/log.service';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { TokenGuard } from './auth/token.guard';
 
 @ApiSecurity('basic')
 @Controller()
@@ -21,8 +23,20 @@ export class AppController {
   @ApiCreatedResponse({ description: 'Successfully.'})
   @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
   async login(@Request() req) {
-    const r = await this.authService.login(req.user);
+    const device: string = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const r = await this.authService.login(req.user, device);
     await this.logService.create(req.user.id, 1, 1, 'api/auth/login', req.user, HttpStatus.CREATED);
+    return r;
+  }
+
+  @UseGuards(JwtAuthGuard, TokenGuard)
+  @Get('api/auth/refresh')
+  @ApiCreatedResponse({ description: 'Successfully.'})
+  @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+  @ApiForbiddenResponse({ description: 'Forbidden.'})
+  async refresh(@Request() req) {
+    const device: string = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const r = await this.authService.login(req.user, device);
     return r;
   }
 

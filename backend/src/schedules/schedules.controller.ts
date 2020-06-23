@@ -9,6 +9,7 @@ import { Request } from 'express';
 import { SlideType } from '../interfaces/slide.interface';
 import { AnswerType } from '../interfaces/answer.interface';
 import { SolvedType } from '../interfaces/solved.interface';
+import { TokenGuard } from '../auth/token.guard';
 
 @ApiSecurity('bearer')
 @Controller('api/schedules')
@@ -18,7 +19,7 @@ export class SchedulesController {
         private readonly service: SchedulesService
     ) {}
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('user')
     @Get()
     @ApiOkResponse({ description: 'Successfully.'})
@@ -36,7 +37,7 @@ export class SchedulesController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Get('solved')
     @ApiOkResponse({ description: 'Successfully.'})
@@ -54,10 +55,11 @@ export class SchedulesController {
         }
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, TokenGuard)
     @Get(':id')
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiForbiddenResponse({ description: 'Forbidden.'})
     @ApiNotFoundResponse({ description: 'Not Found.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findSlide(@Req() request: Request, @Res() res, @Param('id') id): Promise<SlideType> {
@@ -74,10 +76,11 @@ export class SchedulesController {
         }
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, TokenGuard)
     @Get('slide/:id')
     @ApiOkResponse({ description: 'Successfully.'})
     @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
+    @ApiForbiddenResponse({ description: 'Forbidden.'})
     @ApiNotFoundResponse({ description: 'Not Found.'})
     @ApiInternalServerErrorResponse({ description: 'Internal Server error.'})
     async findAnswers(@Res() res, @Param('id') id): Promise<AnswerType[]> {

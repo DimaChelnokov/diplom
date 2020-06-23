@@ -10,6 +10,7 @@ import { TaskType } from '../interfaces/task.interface';
 import { TopicType } from '../interfaces/topic.interface';
 import { TopicDetailType } from '../interfaces/topicdetail.interface';
 import { Item } from '../interfaces/item.interface';
+import { TokenGuard } from '../auth/token.guard';
 
 @ApiSecurity('bearer')
 @Controller('api/tasks')
@@ -20,7 +21,7 @@ export class TasksController {
         private readonly logService: LogService
     ) {}
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Get()
     @ApiOkResponse({ description: 'Successfully.'})
@@ -37,7 +38,7 @@ export class TasksController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Get(':id')
     @ApiOkResponse({ description: 'Successfully.'})
@@ -59,7 +60,7 @@ export class TasksController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Post()
     @ApiBody({ type: [TaskType] })
@@ -77,7 +78,7 @@ export class TasksController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Post('task/:id')
     @ApiBody({ type: [TaskType] })
@@ -100,7 +101,7 @@ export class TasksController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Delete(':id')
     @ApiOkResponse({ description: 'Successfully.'})
@@ -122,7 +123,7 @@ export class TasksController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Get('topics/:id')
     @ApiOkResponse({ description: 'Successfully.'})
@@ -138,7 +139,7 @@ export class TasksController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Post('topics')
     @ApiBody({ type: [TopicType] })
@@ -156,7 +157,7 @@ export class TasksController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Delete('topics/:id')
     @ApiOkResponse({ description: 'Successfully.'})
@@ -172,7 +173,7 @@ export class TasksController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Get('topic/:id')
     @ApiOkResponse({ description: 'Successfully.'})
@@ -193,7 +194,7 @@ export class TasksController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Post('topic')
     @ApiBody({ type: [TopicDetailType] })
@@ -211,7 +212,7 @@ export class TasksController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Get('items/:id')
     @ApiOkResponse({ description: 'Successfully.'})
@@ -227,7 +228,7 @@ export class TasksController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Post('items')
     @ApiBody({ type: [Item] })
@@ -245,7 +246,7 @@ export class TasksController {
         }
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Delete('items/:id')
     @ApiOkResponse({ description: 'Successfully.'})

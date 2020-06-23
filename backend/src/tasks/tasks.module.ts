@@ -8,10 +8,11 @@ import { UsersService } from '../users/users.service';
 import { logProviders } from '../log/log.providers';
 import { LogService } from '../log/log.service';
 import { studentProviders } from '../users/students.provider';
+import { tokensProvider } from '../users/tokens.provider';
 
 @Module({
   imports: [DatabaseModule],
-  providers: [...taskProviders, ...usersProviders, ...studentProviders, ...logProviders, TasksService, UsersService, LogService],
+  providers: [...taskProviders, ...usersProviders, ...studentProviders, ...logProviders, ...tokensProvider, TasksService, UsersService, LogService],
   controllers: [TasksController]
 })
 export class TasksModule {}

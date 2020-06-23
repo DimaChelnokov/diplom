@@ -1,10 +1,11 @@
-import { Controller, Res, HttpStatus, UseGuards, Post, Body, Param } from '@nestjs/common';
+import { Controller, Res, HttpStatus, UseGuards, Post, Body } from '@nestjs/common';
 import { GradesService } from './grades.service';
-import { ApiOkResponse, ApiInternalServerErrorResponse, ApiUnauthorizedResponse, ApiSecurity, ApiBody, ApiNotFoundResponse, ApiForbiddenResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiOkResponse, ApiInternalServerErrorResponse, ApiUnauthorizedResponse, ApiSecurity, ApiBody, ApiForbiddenResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { TaskGrade } from '../interfaces/taskgrade.interface';
+import { TokenGuard } from '../auth/token.guard';
 
 @ApiSecurity('bearer')
 @Controller('api/grades')
@@ -14,7 +15,7 @@ export class GradesController {
         private readonly service: GradesService
     ) {}
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Post()
     @ApiBody({ type: [TaskGrade] })

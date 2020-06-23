@@ -6,10 +6,11 @@ import { usersProviders } from './users.providers';
 import { studentProviders } from './students.provider';
 import { logProviders } from '../log/log.providers';
 import { LogService } from '../log/log.service';
+import { tokensProvider } from './tokens.provider';
 
 @Module({
   imports: [DatabaseModule],
-  providers: [...usersProviders, ...studentProviders, ...logProviders, UsersService, LogService],
+  providers: [...usersProviders, ...studentProviders, ...logProviders, ...tokensProvider, UsersService, LogService],
   controllers: [UsersController],
   exports: [UsersService]
 })

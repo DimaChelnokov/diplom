@@ -5,6 +5,7 @@ import { UserLog } from '../interfaces/log.interface';
 import { LogService } from './log.service';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
+import { TokenGuard } from '../auth/token.guard';
 
 @ApiSecurity('bearer')
 @Controller('api/log')
@@ -12,7 +13,7 @@ export class LogController {
 
     constructor(private service: LogService) {}
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard, TokenGuard)
     @Roles('admin')
     @Get()
     @ApiOkResponse({ description: 'Successfully.'})

@@ -20,14 +20,14 @@ export class AuthService {
         return null;
     }
 
-    async login(user: any, device: string) {
-      const payload = { username: user.username, sub: user.id };
-      const u = await this.usersService.findOneById(user.id);
+    async login(id: number, name: string, device: string) {
+      const payload = { username: name, sub: id };
+      const u = await this.usersService.findOneById(id);
       const a = this.jwtService.sign(payload, { expiresIn: jwtConstants.access });
       const r = this.jwtService.sign(payload, { expiresIn: jwtConstants.refresh });
-      await this.usersService.clearTokens(user.id, device);
-      await this.usersService.addToken(user.id, device, 1, a);
-      await this.usersService.addToken(user.id, device, 2, r);
+      await this.usersService.clearTokens(id, device);
+      await this.usersService.addToken(id, device, 1, a);
+      await this.usersService.addToken(id, device, 2, r);
       return {
         access_token: a,
         refresh_token: r,

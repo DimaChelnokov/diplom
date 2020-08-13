@@ -41,7 +41,7 @@ export class TasksComponent implements OnInit {
     },
     (error: any) => {
       let status = error.status;
-      if (status == 401) {
+      if ([401, 403].includes(status)) {
         this.router.navigate(['auth']);
       } else {
         alert("Error: " + status);
@@ -55,7 +55,7 @@ export class TasksComponent implements OnInit {
     },
     (error: any) => {
       let status = error.status;
-      if (status == 401) {
+      if ([401, 403].includes(status)) {
         this.router.navigate(['auth']);
       } else {
         alert("Error: " + status);
@@ -99,7 +99,7 @@ export class TasksComponent implements OnInit {
       },
       (error: any) => {
         let status = error.status;
-        if (status == 401) {
+        if ([401, 403].includes(status)) {
           this.router.navigate(['auth']);
         } else {
           alert("Error: " + status);
@@ -115,7 +115,7 @@ export class TasksComponent implements OnInit {
         },
         (error: any) => {
           let status = error.status;
-          if (status == 401) {
+          if ([401, 403].includes(status)) {
             this.router.navigate(['auth']);
           } else {
             alert("Error: " + status);
@@ -133,7 +133,7 @@ export class TasksComponent implements OnInit {
       },
       (error: any) => {
         let status = error.status;
-        if (status == 401) {
+        if ([401, 403].includes(status)) {
           this.router.navigate(['auth']);
         } else {
           alert("Error: " + status);

@@ -24,7 +24,7 @@ export class AppController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized.'})
   async login(@Request() req) {
     const device: string = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    const r = await this.authService.login(req.user, device);
+    const r = await this.authService.login(req.user.id, req.user.username, device);
     await this.logService.create(req.user.id, 1, 1, 'api/auth/login', req.user, HttpStatus.CREATED);
     return r;
   }
@@ -36,7 +36,7 @@ export class AppController {
   @ApiForbiddenResponse({ description: 'Forbidden.'})
   async refresh(@Request() req) {
     const device: string = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    const r = await this.authService.login(req.user, device);
+    const r = await this.authService.login(req.user.userId, req.user.username, device);
     return r;
   }
 
